@@ -515,7 +515,7 @@ class LLMSpecOracle(SpecOracle):
 # Copilot Spec Oracle — uses copilot CLI to generate intent specs
 # ═══════════════════════════════════════════════════════════════════
 
-_SPEC_SYSTEM = """\
+_SPEC_SYSTEM_LEGACY = """\
 You are a formal specification generator for Python functions.
 Your job is to describe the INTENT of each function — what it SHOULD do,
 not merely restating what the code does.
@@ -530,24 +530,25 @@ For each function, output a JSON object with these keys:
     - "ensures": list of postconditions specific to this case
 
 Rules:
-1. Specs must be PYTHON BOOLEAN EXPRESSIONS, not English. E.g. "result >= 0", not "returns a non-negative number".
+1. Specs must be PYTHON BOOLEAN EXPRESSIONS, not English.
 2. Postconditions use the variable name "result" for the return value.
 3. Preconditions use the actual parameter names from the function signature.
-4. For mathematical functions, state mathematical properties (idempotence, commutativity, monotonicity, etc.)
-5. For data structure operations, state structural invariants (length preservation, containment, ordering, etc.)
+4. For mathematical functions, state mathematical properties.
+5. For data structure operations, state structural invariants.
 6. For predicates (is_*, has_*), ensure "isinstance(result, bool)".
 7. For constructors (__init__), state what attributes are set.
-8. Distinguish INTENT from IMPLEMENTATION: e.g. for sort(), the intent spec is
-   "all(result[i] <= result[i+1] for i in range(len(result)-1))" and
-   "set(result) == set(lst)", NOT the sorting algorithm's steps.
-9. Do NOT just restate the code. If a function says "return x + 1", saying
-   "result == x + 1" is an IMPLEMENTATION spec. The INTENT spec is the
-   mathematical property that justifies WHY x+1 is correct.
-10. For library functions (sympy, numpy, etc.), use domain knowledge about
-    what the function mathematically should do.
+8. Distinguish INTENT from IMPLEMENTATION.
+9. Do NOT just restate the code.
+10. For library functions, use domain knowledge.
 
 Output ONLY valid JSON. No markdown fences, no explanation.\
 """
+
+# Import C4-native prompt from the verifier module
+try:
+    from cctt.proof_theory.c4_llm_verifier import C4_SPEC_SYSTEM_PROMPT as _SPEC_SYSTEM
+except ImportError:
+    _SPEC_SYSTEM = _SPEC_SYSTEM_LEGACY
 
 
 def _sha(s: str) -> str:
@@ -708,23 +709,36 @@ class CopilotSpecOracle(SpecOracle):
         qualname: str = "",
         docstring: str = "",
     ) -> C4Spec:
-        """Generate a single spec via copilot CLI."""
+        """Generate a spec via copilot CLI and verify through C4.
+
+        1. Calls LLM with C4-native prompt (only C4 grammar allowed)
+        2. Validates every clause is in C4 language
+        3. Rejects non-C4 clauses (strips them from the spec)
+        4. Returns only C4-valid spec clauses
+        """
         key = self._cache_key(source, qualname or name)
         if key in self._cache:
             self._hit_count += 1
             return self._cache[key]
 
         self._call_count += 1
+
+        # Use C4-native prompt
+        try:
+            from cctt.proof_theory.c4_llm_verifier import (
+                build_c4_spec_prompt, validate_c4_clause,
+            )
+            user_prompt = build_c4_spec_prompt(source, name, params, docstring)
+        except ImportError:
+            user_prompt = (
+                f"Generate a formal spec for: {qualname or name}\n"
+                f"Parameters: {', '.join(params)}\n"
+                f"Source:\n```python\n{source.strip()[:3000]}\n```"
+            )
+
         prompt = f"""{_SPEC_SYSTEM}
 
-Function to specify:
-```python
-{source.strip()[:3000]}
-```
-
-Qualified name: {qualname or name}
-Parameter names: {', '.join(params)}
-{"Docstring: " + docstring[:500] if docstring else ""}
+{user_prompt}
 
 Output the JSON spec object:"""
 
@@ -734,12 +748,80 @@ Output the JSON spec object:"""
 
         parsed = self._parse_json_from_response(raw)
         if isinstance(parsed, dict):
-            spec = self._spec_from_dict(parsed)
+            spec = self._spec_from_dict_validated(parsed, params)
             if not spec.is_trivial:
                 self._cache[key] = spec
                 return spec
 
         return static_spec
+
+    def _spec_from_dict_validated(
+        self, d: Dict[str, Any], params: List[str],
+    ) -> C4Spec:
+        """Convert parsed JSON to C4Spec, validating each clause.
+
+        Non-C4 clauses are silently dropped; only valid C4 clauses
+        are included in the returned spec.
+        """
+        allowed_vars = set(params) | {'result', 'self'}
+
+        try:
+            from cctt.proof_theory.c4_llm_verifier import validate_c4_clause
+        except ImportError:
+            return self._spec_from_dict(d)
+
+        # Filter ensures to only C4-valid clauses
+        valid_requires = []
+        for clause in d.get("requires", []):
+            ok, _ = validate_c4_clause(clause, allowed_vars)
+            if ok:
+                valid_requires.append(clause)
+
+        valid_ensures = []
+        for clause in d.get("ensures", []):
+            ok, _ = validate_c4_clause(clause, allowed_vars)
+            if ok:
+                valid_ensures.append(clause)
+
+        # Filter fibers
+        valid_fibers = []
+        for fb in d.get("fibers", []):
+            if not isinstance(fb, dict):
+                continue
+            guard = fb.get("guard", "True")
+            ok_guard, _ = validate_c4_clause(guard, allowed_vars)
+            if not ok_guard:
+                continue
+            fiber_ensures = []
+            for clause in fb.get("ensures", []):
+                ok, _ = validate_c4_clause(clause, allowed_vars)
+                if ok:
+                    fiber_ensures.append(clause)
+            if fiber_ensures or ok_guard:
+                valid_fibers.append(FiberClause(
+                    name=fb.get("name", ""),
+                    guard=guard,
+                    ensures=fiber_ensures,
+                    returns_expr=fb.get("returns_expr"),
+                ))
+
+        # Validate returns_expr
+        returns_expr = d.get("returns_expr")
+        if returns_expr:
+            ok, _ = validate_c4_clause(
+                f"result == ({returns_expr})", allowed_vars)
+            if not ok:
+                returns_expr = None
+
+        spec = C4Spec(
+            requires=valid_requires,
+            ensures=valid_ensures,
+            returns_expr=returns_expr,
+            fibers=valid_fibers,
+            source=SpecSource.LLM,
+        )
+        spec.strength = spec.classify_strength()
+        return spec
 
     def generate_specs_batch(
         self,

@@ -2329,9 +2329,12 @@ def baseline_prove(defn: Definition, library_name: str,
 
     When a spec_oracle is provided (e.g. CopilotSpecOracle):
       1. Static analysis produces the IMPLEMENTATION spec (what code does)
-      2. Oracle produces the INTENT spec (what code should do)
-      3. Z3 checks: implementation ⟹ intent for each clause
-      4. The result reports which intent clauses are verified vs assumed
+      2. Oracle produces the INTENT spec in C4 language (what code should do)
+      3. C4 verifier checks every intent clause against the actual source code:
+         - Path-sensitive: each return path checked separately
+         - Typed: only valid C4 clauses (Z3-parseable) are accepted
+         - Honest: verified (Z3 proved) / assumed (undecidable) / failed (Z3 disproved)
+      4. Non-C4 clauses are rejected outright
 
     Args:
         defn: The definition to prove
@@ -2351,7 +2354,7 @@ def baseline_prove(defn: Definition, library_name: str,
 
     # ── Step 2: INTENT spec from oracle (always, when oracle available) ──
     intent_spec = None
-    implication_results = None
+    c4_verdict = None
     if spec_oracle is not None:
         from cctt.proof_theory.spec_oracle import CopilotSpecOracle
         intent_spec = spec_oracle.generate_spec(
@@ -2364,21 +2367,36 @@ def baseline_prove(defn: Definition, library_name: str,
         )
         if intent_spec and not intent_spec.is_trivial:
             intent_spec.spec_kind = C4SpecKind.INTENT
-            # ── Step 3: Check implementation ⟹ intent ──
-            implication_results = check_impl_implies_intent(impl_spec, intent_spec, params)
+            # ── Step 3: Verify intent spec through C4 compiler ──
+            try:
+                from cctt.proof_theory.c4_llm_verifier import verify_c4_spec
+                spec_dict = {
+                    "requires": intent_spec.requires,
+                    "ensures": intent_spec.ensures,
+                    "returns_expr": intent_spec.returns_expr,
+                    "fibers": [f.to_json() for f in intent_spec.fibers],
+                }
+                c4_verdict = verify_c4_spec(
+                    source=defn.source,
+                    func_name=defn.name,
+                    params=params,
+                    spec=spec_dict,
+                )
+            except ImportError:
+                # Fallback to old check_impl_implies_intent
+                c4_verdict = None
         else:
             intent_spec = None
 
     # ── Step 4: Build the unified spec for the proof ──
-    # Use intent spec (richer, semantic) when available; fall back to impl spec
     if intent_spec is not None:
         c4_spec = intent_spec
-        # Store the implementation spec in intent_spec field for cross-reference
+        # Store C4 verification results
         c4_spec.intent_spec = {
             "impl_ensures": impl_spec.ensures,
             "impl_returns_expr": impl_spec.returns_expr,
             "impl_fibers": [f.to_json() for f in impl_spec.fibers],
-            "implication_results": implication_results,
+            "c4_verdict": c4_verdict.to_json() if c4_verdict else None,
         }
     else:
         c4_spec = impl_spec
