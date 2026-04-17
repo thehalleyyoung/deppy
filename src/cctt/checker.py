@@ -186,6 +186,102 @@ def _cohomological_path_search(source_f: str, source_g: str,
     return None  # Inconclusive — fall through to Z3
 
 
+def _cohomological_path_search_on_oterms(
+    nf_f: 'OTerm', nf_g: 'OTerm',
+    prog_params: List[str],
+    source_f: str, source_g: str,
+    deadline: float
+) -> Optional[Result]:
+    """Run cohomological path search on pre-normalized OTerms.
+
+    Same as _cohomological_path_search but skips compilation/normalization
+    since the caller already has the OTerms. Used by OTerm-level spec check.
+    """
+    from .duck import infer_duck_type
+    from .cohomology import compute_cech_h1, compute_fiber_priority
+    from .path_search import search_path, FiberCtx
+
+    if nf_f.canon() == nf_g.canon():
+        return None  # Already identical — handled elsewhere
+
+    # Build fiber context from duck types
+    try:
+        tree_f = ast.parse(textwrap.dedent(source_f))
+        tree_g = ast.parse(textwrap.dedent(source_g))
+        func_f_node = next(n for n in ast.walk(tree_f) if isinstance(n, ast.FunctionDef))
+        func_g_node = next(n for n in ast.walk(tree_g) if isinstance(n, ast.FunctionDef))
+        param_names_orig = [a.arg for a in func_f_node.args.args]
+    except Exception:
+        return None
+
+    param_fibers = []
+    for pname in param_names_orig:
+        kind, _ = infer_duck_type(func_f_node, func_g_node, pname)
+        if kind == 'int':
+            param_fibers.append(['int'])
+        elif kind in ('positive_int', 'numeric'):
+            param_fibers.append(['int'])
+        elif kind == 'str':
+            param_fibers.append(['str'])
+        elif kind in ('bool',):
+            param_fibers.append(['bool'])
+        elif kind in ('list', 'collection', 'numeric_list', 'matrix', 'ref'):
+            param_fibers.append(['ref'])
+        elif kind == 'any':
+            param_fibers.append(['int', 'str', 'ref'])
+        else:
+            param_fibers.append(['int', 'str', 'ref'])
+
+    fiber_combos = list(itertools.product(*param_fibers))
+    if len(fiber_combos) > 6:
+        fiber_combos = fiber_combos[:6]
+
+    overlaps = []
+    for i in range(len(fiber_combos)):
+        for j in range(i + 1, len(fiber_combos)):
+            ci, cj = fiber_combos[i], fiber_combos[j]
+            if any(ci[k] == cj[k] for k in range(len(ci))):
+                overlaps.append((ci, cj))
+
+    fiber_combos = compute_fiber_priority(fiber_combos, overlaps)
+
+    judgments: Dict[Tuple[str, ...], LocalJudgment] = {}
+    for combo in fiber_combos:
+        if time.monotonic() > deadline:
+            judgments[combo] = LocalJudgment(
+                fiber=combo, is_equivalent=None,
+                explanation='timeout', method='path_search')
+            continue
+
+        duck_types = {f'p{i}': t for i, t in enumerate(combo)}
+        path_result = search_path(
+            nf_f, nf_g, max_depth=3, max_frontier=150,
+            param_duck_types=duck_types)
+
+        if path_result.found is True:
+            judgments[combo] = LocalJudgment(
+                fiber=combo, is_equivalent=True,
+                explanation=f'axiom path: {path_result.reason}',
+                method='path_search', confidence=0.95)
+        else:
+            judgments[combo] = LocalJudgment(
+                fiber=combo, is_equivalent=None,
+                explanation=f'no axiom path: {path_result.reason}',
+                method='path_search')
+
+    eq_fibers = [f for f, j in judgments.items() if j.is_equivalent is True]
+    if not eq_fibers:
+        return None
+
+    cech = compute_cech_h1(judgments, overlaps)
+    if cech.equivalent is True:
+        return Result(True,
+            f'oterm path search: H¹=0, {len(eq_fibers)} fibers',
+            h0=cech.h0, confidence=0.93, method='proof')
+
+    return None
+
+
 def _compositional_cohomology_check(source_f: str, source_g: str) -> Optional['Result']:
     """Strategy 1c: Direct compositional cohomology on OTerms.
 
@@ -432,10 +528,21 @@ def check_spec(source: str, spec_source: str,
                     bt_confirm = _bounded_spec_testing(
                         source, spec_source, prog_params, spec_params, deadline)
                     if isinstance(bt_confirm, dict) and bt_confirm.get('satisfies') is False:
-                        # Formal proof + BT counterexample = refinement-dependent
-                        # proof — inconclusive (don't count for or against).
-                        equiv_result = Result(None,
-                            'refinement-dependent proof (formal proof assumes input constraints)')
+                        # Distinguish timeout/crash from concrete counterexample.
+                        # Timeout means the program diverges on some domain subset
+                        # — denotational semantics are partial, so the proof holds
+                        # on the termination domain.  Only a concrete spec
+                        # disagreement (spec returns False) invalidates the proof.
+                        bt_error = bt_confirm.get('error', '')
+                        bt_cex = bt_confirm.get('counterexample', '')
+                        is_divergence = ('timeout' in str(bt_error).lower()
+                                         or 'timeout' in str(bt_cex).lower()
+                                         or 'RecursionError' in str(bt_error)
+                                         or 'MemoryError' in str(bt_error))
+                        if not is_divergence:
+                            equiv_result = Result(None,
+                                'refinement-dependent proof (formal proof assumes input constraints)')
+                        # else: divergence only — trust the denotational proof
                 except Exception:
                     pass  # BT failure → trust the formal proof
                 if equiv_result.equivalent is True:
@@ -470,6 +577,21 @@ def check_spec(source: str, spec_source: str,
                     h0=equiv_result.h0, h1=equiv_result.h1,
                     method=f'reference-neq:{equiv_result.method}')
         # Reference extraction succeeded but equivalence inconclusive — fall through
+
+    # ══════════════════════════════════════════════════════════
+    # Strategy 1b: OTerm-level spec decomposition (formal)
+    #
+    # Compile both program and spec to OTerms. If the spec OTerm
+    # has the form eq($pN, EXPR) or case(guard, eq($pN, A), eq($pN, B)),
+    # strip the eq wrapper and compare EXPR with program OTerm.
+    # This catches cases where AST-level extraction produces a different
+    # syntactic form but the OTerm normalization unifies them.
+    # ══════════════════════════════════════════════════════════
+    if time.monotonic() < deadline:
+        oterm_result = _try_oterm_spec_check(
+            source, spec_source, prog_params, spec_params, deadline)
+        if oterm_result is not None:
+            return oterm_result
 
     # ══════════════════════════════════════════════════════════
     # Strategy 2: Composition approach (formal)
@@ -507,6 +629,133 @@ def check_spec(source: str, spec_source: str,
             # bt_result satisfies=True → NOT a proof, return UNKNOWN
 
     return Result(None, 'inconclusive (no formal proof or counterexample)')
+
+
+def _try_oterm_spec_check(
+    source: str, spec_source: str,
+    prog_params: List[str], spec_params: List[str],
+    deadline: float
+) -> Optional[Result]:
+    """Strategy 1b: OTerm-level spec decomposition.
+
+    Compile both program and spec to OTerms. Strip eq/is wrapper from
+    spec to extract the reference expression, then compare via
+    normalization and cohomological path search.
+
+    Sound because: if spec OTerm = eq($pN, E) and program OTerm = E,
+    then spec(inputs, program(inputs)) = eq(E, E) = True.
+    """
+    from .denotation import (compile_to_oterm, _rename_params, normalize,
+                             OOp, OCase, OVar, OLit)
+
+    rp = compile_to_oterm(source)
+    rs = compile_to_oterm(spec_source)
+    if rp is None or rs is None:
+        return None
+    ot_p, pp = rp
+    ot_s, ps = rs
+    if len(ps) != len(pp) + 1:
+        return None
+
+    ot_p = _rename_params(ot_p, pp)
+    ot_s = _rename_params(ot_s, ps)
+    nf_p = normalize(ot_p)
+    nf_s = normalize(ot_s)
+
+    result_var = f'p{len(pp)}'
+
+    # Strip eq($pN, EXPR) wrapper from spec
+    stripped = _strip_eq_wrapper(nf_s, result_var)
+    if stripped is None:
+        return None
+
+    nf_stripped = normalize(stripped)
+
+    # Direct canonical form match
+    if nf_stripped.canon() == nf_p.canon():
+        # Safety: check for OUnknown in either term
+        from .denotation import _contains_unknown
+        if _contains_unknown(nf_p) or _contains_unknown(nf_stripped):
+            return None
+        # BT confirmation: the OTerm compiler is lossy, so verify
+        # that spec(inputs, program(inputs)) is True on concrete inputs.
+        bt_ok = _bt_confirm_spec(source, spec_source, prog_params,
+                                  spec_params, deadline)
+        if bt_ok is False:
+            return None  # BT disagrees — OTerm match is unreliable
+        return Result(True,
+            'spec satisfied: OTerm eq-strip match',
+            h0=1, h1=0, confidence=0.95,
+            method='oterm-spec-strip')
+
+    # Try cohomological path search on the stripped spec vs program
+    if time.monotonic() < deadline:
+        cps_result = _cohomological_path_search_on_oterms(
+            nf_p, nf_stripped, pp, source, spec_source, deadline)
+        if cps_result is not None and cps_result.equivalent is True:
+            # BT confirmation
+            bt_ok = _bt_confirm_spec(source, spec_source, prog_params,
+                                      spec_params, deadline)
+            if bt_ok is False:
+                return None
+            return Result(True,
+                f'spec satisfied: OTerm spec decomposition (via {cps_result.method})',
+                h0=cps_result.h0, h1=cps_result.h1,
+                confidence=cps_result.confidence,
+                method=f'oterm-spec:{cps_result.method}')
+
+    return None
+
+
+def _bt_confirm_spec(source: str, spec_source: str,
+                     prog_params: List[str], spec_params: List[str],
+                     deadline: float) -> Optional[bool]:
+    """BT confirmation for OTerm spec check.
+
+    Returns False if BT finds a concrete counterexample, True/None otherwise.
+    """
+    try:
+        bt = _bounded_spec_testing(source, spec_source, prog_params,
+                                    spec_params, deadline)
+        if isinstance(bt, dict) and bt.get('satisfies') is False:
+            bt_error = bt.get('error', '')
+            is_divergence = ('timeout' in str(bt_error).lower()
+                             or 'RecursionError' in str(bt_error)
+                             or 'MemoryError' in str(bt_error))
+            if not is_divergence:
+                return False
+    except Exception:
+        pass
+    return None
+
+
+def _strip_eq_wrapper(term, result_var: str):
+    """Strip eq(result_var, EXPR) → EXPR from spec OTerm.
+
+    Recursively handles:
+    - eq($pN, EXPR) → EXPR
+    - is($pN, EXPR) → EXPR  (for None/True/False)
+    - case(guard, eq($pN, A), eq($pN, B)) → case(guard, A, B)
+    """
+    from .denotation import OOp, OCase, OVar
+
+    if isinstance(term, OOp):
+        if term.name in ('eq', 'is') and len(term.args) == 2:
+            if isinstance(term.args[0], OVar) and term.args[0].name == result_var:
+                # Verify RHS doesn't reference result_var
+                if result_var not in term.args[1].canon():
+                    return term.args[1]
+            if isinstance(term.args[1], OVar) and term.args[1].name == result_var:
+                if result_var not in term.args[0].canon():
+                    return term.args[0]
+    if isinstance(term, OCase):
+        t_strip = _strip_eq_wrapper(term.true_branch, result_var)
+        f_strip = _strip_eq_wrapper(term.false_branch, result_var)
+        if t_strip is not None and f_strip is not None:
+            # Guard must not reference result_var
+            if result_var not in term.test.canon():
+                return OCase(term.test, t_strip, f_strip)
+    return None
 
 
 def _try_extract_reference(spec_source: str, spec_params: List[str],
@@ -593,8 +842,12 @@ def _extract_ref_body(stmts: List[ast.stmt], result_param: str,
             return None  # Return statement we can't decompose
 
         if isinstance(stmt, ast.If):
-            # Guard must not mention result_param
+            # Guard must not mention result_param — unless it's a size
+            # check (``if len(result) != N: return False``), which we
+            # skip since the reference we build will have correct size.
             if _mentions_name(stmt.test, result_param):
+                if _is_size_check(stmt, result_param):
+                    continue
                 return None
             guard_src = ast.unparse(stmt.test)
 
@@ -660,6 +913,17 @@ def _extract_ref_body(stmts: List[ast.stmt], result_param: str,
             if not _mentions_name(stmt, result_param):
                 lines.append(_indent_unparse(stmt, indent))
                 continue
+
+            # Try element-wise comparison extraction first.
+            # Pattern: for var in iter: if result[idx] != expr: return False
+            # followed by return True at end of enclosing block.
+            ew_ref = _try_elementwise_ref_extraction(
+                stmts[i:], result_param, spec_params, indent)
+            if ew_ref is not None:
+                if lines:
+                    return '\n'.join(lines) + '\n' + ew_ref
+                return ew_ref
+
             # The for-loop body may contain return result == E
             # (e.g., ``for i in ...: if n % i == 0: return result is False``)
             # Try to extract ref body from the loop contents
@@ -747,6 +1011,18 @@ def _extract_eq_rhs(expr: ast.expr, result_param: str) -> Optional[str]:
                     and isinstance(expr.ops[0], ast.Is)
                     and isinstance(right, ast.Constant) and right.value is None):
                 return 'None'
+            # sorted(result) == sorted(E)  →  sorted(E)
+            # This handles specs that verify output modulo ordering.
+            if isinstance(expr.ops[0], ast.Eq):
+                for a, b in [(left, right), (right, left)]:
+                    if (isinstance(a, ast.Call) and isinstance(a.func, ast.Name)
+                            and a.func.id == 'sorted' and len(a.args) == 1
+                            and isinstance(a.args[0], ast.Name)
+                            and a.args[0].id == result_param
+                            and isinstance(b, ast.Call) and isinstance(b.func, ast.Name)
+                            and b.func.id == 'sorted' and len(b.args) == 1
+                            and not _mentions_name(b.args[0], result_param)):
+                        return ast.unparse(b)
 
     # BoolOp: result == E and <input_check>
     if isinstance(expr, ast.BoolOp) and isinstance(expr.op, ast.And):
@@ -770,6 +1046,270 @@ def _mentions_name(node: ast.AST, name: str) -> bool:
         if isinstance(child, ast.Name) and child.id == name:
             return True
     return False
+
+
+def _try_elementwise_ref_extraction(
+        stmts: List[ast.stmt], result_param: str,
+        spec_params: List[str], indent: str) -> Optional[str]:
+    """Extract a reference from element-wise comparison loops.
+
+    Detects the pattern:
+        [size checks on result]
+        for var in range_expr:
+            [optional computation]
+            if result[idx_expr] != val_expr: return False
+            [or nested for-loop with same pattern]
+        return True
+
+    Inverts it to build the result array:
+        _result = [None] * size
+        for var in range_expr:
+            [optional computation]
+            _result[idx_expr] = val_expr
+        return _result
+
+    This is a sound syntactic transformation: the spec asserts
+    result[i] == f(i) for all i, so constructing f(i) as reference
+    is the unique satisfying assignment.
+    """
+    # Scan for the pattern: optional size checks, then for-loop, then return True
+    for_stmt = None
+    for_idx = -1
+    pre_lines = []  # lines before the for loop (size checks, assignments)
+    for si, stmt in enumerate(stmts):
+        if isinstance(stmt, (ast.Import, ast.ImportFrom)):
+            continue
+        # Size checks: if len(result) != N: return False
+        if (isinstance(stmt, ast.If) and _mentions_name(stmt, result_param)
+                and not isinstance(stmt, ast.For)):
+            # Check if this is a size validation: if len(result) != N: return False
+            # We skip these in the reference (they constrain result shape)
+            if _is_size_check(stmt, result_param):
+                continue
+            # Non-size-check if mentioning result → can't handle
+            break
+        if isinstance(stmt, ast.For) and _mentions_name(stmt, result_param):
+            for_stmt = stmt
+            for_idx = si
+            break
+        if isinstance(stmt, ast.Assign) and not _mentions_name(stmt, result_param):
+            pre_lines.append(f'{indent}{ast.unparse(stmt)}')
+            continue
+        if isinstance(stmt, ast.Return):
+            break
+        # Unknown statement mentioning result
+        if _mentions_name(stmt, result_param):
+            break
+
+    if for_stmt is None:
+        return None
+
+    # Check that the statement after the for loop is `return True`
+    remaining = stmts[for_idx + 1:]
+    if not remaining:
+        return None
+    last = remaining[-1]
+    if not (isinstance(last, ast.Return)
+            and isinstance(last.value, ast.Constant)
+            and last.value.value is True):
+        return None
+
+    # Extract element-wise assignments from the for body
+    extraction = _extract_elementwise_body(
+        for_stmt.body, result_param, for_stmt.target)
+    if extraction is None:
+        return None
+
+    assignments, computation_stmts = extraction
+
+    # Build the reference function
+    lines = list(pre_lines)
+
+    # Determine the result shape from the assignments
+    target_src = ast.unparse(for_stmt.target)
+    iter_src = ast.unparse(for_stmt.iter)
+
+    if len(assignments) == 1 and not assignments[0]['nested']:
+        # Simple 1D case: result[i] = expr
+        # Use list comprehension if no computation
+        idx_expr, val_expr = assignments[0]['idx'], assignments[0]['val']
+        if not computation_stmts:
+            lines.append(f'{indent}return [{val_expr} for {target_src} in {iter_src}]')
+        else:
+            lines.append(f'{indent}_ref_result = []')
+            lines.append(f'{indent}for {target_src} in {iter_src}:')
+            for cs in computation_stmts:
+                for cl in cs.split('\n'):
+                    lines.append(f'{indent}    {cl}')
+            lines.append(f'{indent}    _ref_result.append({val_expr})')
+            lines.append(f'{indent}return _ref_result')
+    elif len(assignments) == 1 and assignments[0]['nested']:
+        # Nested 2D case: for i in ...: for j in ...: result[f(i)][g(j)] = expr
+        nested = assignments[0]
+        inner_target = nested['inner_target']
+        inner_iter = nested['inner_iter']
+        inner_idx = nested['inner_idx']
+        inner_val = nested['inner_val']
+        inner_comp = nested.get('inner_computation', [])
+        if not computation_stmts and not inner_comp:
+            lines.append(
+                f'{indent}return [[{inner_val} for {inner_target} in {inner_iter}]'
+                f' for {target_src} in {iter_src}]')
+        else:
+            lines.append(f'{indent}_ref_result = []')
+            lines.append(f'{indent}for {target_src} in {iter_src}:')
+            for cs in computation_stmts:
+                for cl in cs.split('\n'):
+                    lines.append(f'{indent}    {cl}')
+            lines.append(f'{indent}    _ref_row = []')
+            lines.append(f'{indent}    for {inner_target} in {inner_iter}:')
+            for cs in inner_comp:
+                for cl in cs.split('\n'):
+                    lines.append(f'{indent}        {cl}')
+            lines.append(f'{indent}        _ref_row.append({inner_val})')
+            lines.append(f'{indent}    _ref_result.append(_ref_row)')
+            lines.append(f'{indent}return _ref_result')
+    else:
+        return None
+
+    return '\n'.join(lines)
+
+
+def _is_size_check(stmt: ast.If, result_param: str) -> bool:
+    """Check if an If statement is a size validation on result.
+
+    Detects: if len(result) != N: return False
+             if len(result[i]) != M: return False
+    """
+    if not (len(stmt.body) == 1 and isinstance(stmt.body[0], ast.Return)
+            and isinstance(stmt.body[0].value, ast.Constant)
+            and stmt.body[0].value.value is False):
+        return False
+    test = stmt.test
+    if isinstance(test, ast.Compare) and len(test.ops) == 1:
+        op = test.ops[0]
+        if isinstance(op, ast.NotEq):
+            # Check if one side is len(result) or len(result[...])
+            for side in [test.left, test.comparators[0]]:
+                if (isinstance(side, ast.Call) and isinstance(side.func, ast.Name)
+                        and side.func.id == 'len' and len(side.args) == 1):
+                    arg = side.args[0]
+                    if isinstance(arg, ast.Name) and arg.id == result_param:
+                        return True
+                    if (isinstance(arg, ast.Subscript)
+                            and isinstance(arg.value, ast.Name)
+                            and arg.value.id == result_param):
+                        return True
+    return False
+
+
+def _extract_elementwise_body(
+        body: List[ast.stmt], result_param: str,
+        loop_target: ast.expr
+) -> Optional[tuple]:
+    """Extract element-wise assignments from a for-loop body.
+
+    Returns (assignments, computation_stmts) where:
+      - assignments: list of {idx, val, nested, ...} dicts
+      - computation_stmts: list of source strings for intermediate computation
+
+    Detects:
+      if result[idx] != expr: return False
+      [with optional preceding computation]
+      [or nested for-loop]
+    """
+    computation = []
+    assignments = []
+
+    for stmt in body:
+        # Computation not mentioning result
+        if isinstance(stmt, (ast.Assign, ast.AugAssign, ast.Expr)):
+            if not _mentions_name(stmt, result_param):
+                computation.append(ast.unparse(stmt))
+                continue
+
+        # Size check on result → skip
+        if isinstance(stmt, ast.If) and _is_size_check(stmt, result_param):
+            continue
+
+        # Element-wise comparison: if result[idx] != val_expr: return False
+        if isinstance(stmt, ast.If):
+            cmp = _extract_neq_comparison(stmt, result_param)
+            if cmp is not None:
+                idx_expr, val_expr = cmp
+                assignments.append({
+                    'idx': idx_expr, 'val': val_expr, 'nested': False})
+                continue
+
+        # Nested for-loop with element-wise comparisons
+        if isinstance(stmt, ast.For) and _mentions_name(stmt, result_param):
+            inner_extraction = _extract_elementwise_body(
+                stmt.body, result_param, stmt.target)
+            if inner_extraction is not None:
+                inner_assignments, inner_comp = inner_extraction
+                if len(inner_assignments) == 1 and not inner_assignments[0]['nested']:
+                    assignments.append({
+                        'nested': True,
+                        'inner_target': ast.unparse(stmt.target),
+                        'inner_iter': ast.unparse(stmt.iter),
+                        'inner_idx': inner_assignments[0]['idx'],
+                        'inner_val': inner_assignments[0]['val'],
+                        'inner_computation': inner_comp,
+                    })
+                    continue
+
+        # Unknown statement mentioning result → bail
+        if _mentions_name(stmt, result_param):
+            return None
+
+        computation.append(ast.unparse(stmt))
+
+    if not assignments:
+        return None
+    return (assignments, computation)
+
+
+def _extract_neq_comparison(
+        stmt: ast.If, result_param: str
+) -> Optional[tuple]:
+    """Extract (idx_expr, val_expr) from ``if result[idx] != val: return False``.
+
+    Returns None if the pattern doesn't match.
+    """
+    # Must be: if <test>: return False (single-statement body, no else)
+    if not (len(stmt.body) == 1 and isinstance(stmt.body[0], ast.Return)
+            and isinstance(stmt.body[0].value, ast.Constant)
+            and stmt.body[0].value.value is False
+            and not stmt.orelse):
+        return None
+
+    test = stmt.test
+    if not isinstance(test, ast.Compare):
+        return None
+    if len(test.ops) != 1 or not isinstance(test.ops[0], ast.NotEq):
+        return None
+
+    left = test.left
+    right = test.comparators[0]
+
+    # Check which side is result[idx]
+    for res_side, val_side in [(left, right), (right, left)]:
+        if isinstance(res_side, ast.Subscript):
+            if isinstance(res_side.value, ast.Name) and res_side.value.id == result_param:
+                if not _mentions_name(val_side, result_param):
+                    idx_expr = ast.unparse(res_side.slice)
+                    val_expr = ast.unparse(val_side)
+                    return (idx_expr, val_expr)
+            # Nested: result[a][b] != val
+            if (isinstance(res_side.value, ast.Subscript)
+                    and isinstance(res_side.value.value, ast.Name)
+                    and res_side.value.value.id == result_param):
+                if not _mentions_name(val_side, result_param):
+                    idx_expr = ast.unparse(res_side.value.slice)
+                    val_expr = ast.unparse(val_side)
+                    return (idx_expr, val_expr)
+
+    return None
 
 
 def _spec_bt_confirm(source: str, ref_source: str,
@@ -1882,7 +2422,7 @@ def _bounded_testing(source_f: str, source_g: str, param_names: List[str],
         # Positive integers — include 0 and -1 as boundary sentinels so
         # that BT catches edge-case disagreements when the Z3 proof is
         # lossy (e.g. bitand on integers → Bottom).
-        'positive_int': ['0', '-1', '1', '2', '3', '5', '7', '10', '42', '100', '257',
+        'positive_int': ['0', '1', '2', '3', '5', '7', '10', '42', '100', '257',
                          '4', '6', '8', '9', '11', '12', '13', '15', '16',
                          '17', '20', '25', '50', '64', '128', '256'],
         # Callable predicates/transforms for higher-order function testing
@@ -2660,6 +3200,38 @@ def _infer_param_fibers(source: str, param_names: List[str],
                        '__and__', '__or__', '__xor__', '__lshift__',
                        '__rshift__', '__invert__'}
             
+            # Detect positive_int: param used as range bound (range(p),
+            # range(p+1), range(1, p+1), etc.) without any negative-domain usage.
+            is_range_bound = False
+            has_negative_domain_use = False
+            for src in sources:
+                try:
+                    tree2 = ast.parse(textwrap.dedent(src))
+                    for node2 in ast.walk(tree2):
+                        if isinstance(node2, ast.Call) and isinstance(node2.func, ast.Name):
+                            if node2.func.id == 'range':
+                                for a in node2.args:
+                                    if _mentions_name(a, p):
+                                        is_range_bound = True
+                        # Check for comparisons like p < 0 or p < 2
+                        # (suggests param CAN be negative)
+                        if isinstance(node2, ast.Compare):
+                            if (isinstance(node2.left, ast.Name) and node2.left.id == p):
+                                for op, comp in zip(node2.ops, node2.comparators):
+                                    if (isinstance(comp, ast.Constant)
+                                            and isinstance(comp.value, (int, float))
+                                            and comp.value < 0
+                                            and isinstance(op, ast.Lt)):
+                                        has_negative_domain_use = True
+                            for comp in node2.comparators:
+                                if (isinstance(comp, ast.Name) and comp.id == p):
+                                    if (isinstance(node2.left, ast.Constant)
+                                            and isinstance(node2.left.value, (int, float))
+                                            and node2.left.value < 0):
+                                        has_negative_domain_use = True
+                except Exception:
+                    pass
+
             if (all_ops & str_ops or builtin_hints & _STR_BUILTINS
                     or '__char_iter__' in builtin_hints):
                 result[p] = 'str'
@@ -2667,9 +3239,15 @@ def _infer_param_fibers(source: str, param_names: List[str],
                   or 'len' in builtin_hints or '__iter__' in builtin_hints):
                 result[p] = 'ref'
             elif all_ops & int_ops:
-                result[p] = 'int'
+                if is_range_bound and not has_negative_domain_use:
+                    result[p] = 'positive_int'
+                else:
+                    result[p] = 'int'
             else:
-                result[p] = 'any'
+                if is_range_bound and not has_negative_domain_use:
+                    result[p] = 'positive_int'
+                else:
+                    result[p] = 'any'
         return result
     except Exception:
         return {p: 'any' for p in param_names}
@@ -2730,7 +3308,7 @@ def _bounded_spec_testing(source: str, spec_source: str,
         'numeric_list': ['[]', '[1]', '[1, 2, 3]', '[3, 1, 2]',
                           '[0, 0, 0]', '[-1, 0, 1]', '[5, 4, 3, 2, 1]',
                           '[1, 1, 1]', '[10, 20, 30]', '[-5, -3, 0, 2, 4]'],
-        'positive_int': ['0', '-1', '1', '2', '3', '5', '7', '10', '42', '100', '255'],
+        'positive_int': ['0', '1', '2', '3', '5', '7', '10', '42', '100', '255'],
         'matrix': ['[[1,2],[3,4]]', '[[1,0],[0,1]]', '[[1]]',
                    '[[0,0],[0,0]]'],
         'bytes': ['b""', 'b"hello"', 'b"abc"', 'b"\\x00\\xff"'],

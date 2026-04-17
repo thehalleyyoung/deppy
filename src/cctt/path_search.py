@@ -880,9 +880,15 @@ def _identify_spec(term: OTerm) -> Optional[Tuple[str, Tuple[OTerm, ...]]]:
     """
     # ── General fold patterns ──
     # fold[op](init, collection) is fully determined by (op, init, collection)
+    # When op is a named operation, use it as the spec key.
+    # When op is a hash (opaque body), use the body_fn for structural comparison.
     if isinstance(term, OFold):
-        # Normalize related op names to canonical form
         canon_op = _canonical_fold_op(term.op_name)
+        if canon_op.isalpha():
+            return ('fold', (OLit(canon_op), term.init, term.collection))
+        # Hash-keyed fold: use body_fn for structural identity if available
+        if term.body_fn is not None:
+            return ('fold_body', (term.body_fn, term.init, term.collection))
         return ('fold', (OLit(canon_op), term.init, term.collection))
 
     # ── Map/filter patterns ──
@@ -956,6 +962,113 @@ def _canonical_fold_op(op_name: str) -> str:
 
 
 # ═══════════════════════════════════════════════════════════
+# Guard Peeling (Case Congruence)
+# ═══════════════════════════════════════════════════════════
+
+def _guard_peel_search(nf_f: OTerm, nf_g: OTerm,
+                       ctx: FiberCtx,
+                       param_duck_types: Optional[Dict[str, str]] = None,
+                       depth: int = 0) -> Optional[PathResult]:
+    """Peel shared case guards and recurse on differing branches.
+
+    Sound by the congruence rule for case:
+      case(G, A, B) ≡ case(G, A, C)  iff  B ≡ C
+      case(G, A, B) ≡ case(G, C, B)  iff  A ≡ C
+
+    Peeling is iterated: case(G1, X, case(G2, Y, Z)) vs
+    case(G1, X, case(G2, Y, W)) peels twice.  Max depth prevents
+    unbounded recursion.
+    """
+    if depth > 5:
+        return None
+    if not isinstance(nf_f, OCase) or not isinstance(nf_g, OCase):
+        return None
+
+    # Check if guards match
+    if nf_f.test.canon() != nf_g.test.canon():
+        return None
+
+    true_match = nf_f.true_branch.canon() == nf_g.true_branch.canon()
+    false_match = nf_f.false_branch.canon() == nf_g.false_branch.canon()
+
+    if true_match and false_match:
+        return PathResult(found=True, path=[], reason='refl (guard-peeled)')
+
+    if true_match:
+        # Recurse on false branches
+        inner_f = nf_f.false_branch
+        inner_g = nf_g.false_branch
+    elif false_match:
+        # Recurse on true branches
+        inner_f = nf_f.true_branch
+        inner_g = nf_g.true_branch
+    else:
+        # Neither branch matches — try peeling on both independently
+        # case(G, A1, B1) vs case(G, A2, B2): need A1≡A2 AND B1≡B2
+        true_result = _guard_peel_search(
+            nf_f.true_branch, nf_g.true_branch, ctx, param_duck_types, depth + 1)
+        if true_result is not None and true_result.found:
+            false_result = _guard_peel_search(
+                nf_f.false_branch, nf_g.false_branch, ctx, param_duck_types, depth + 1)
+            if false_result is not None and false_result.found:
+                return PathResult(
+                    found=True,
+                    path=true_result.path + false_result.path,
+                    reason=f'guard congruence: both branches proved')
+        return None
+
+    # Try to prove inner equivalence via the full pipeline (minus guard peeling)
+    # First check refl
+    if inner_f.canon() == inner_g.canon():
+        return PathResult(
+            found=True,
+            path=[PathStep('guard_peel', 'case_branch',
+                          nf_f.canon()[:40], nf_g.canon()[:40])],
+            reason='guard peeled → refl')
+
+    # Recursive guard peeling on the inner terms
+    inner_peel = _guard_peel_search(inner_f, inner_g, ctx, param_duck_types, depth + 1)
+    if inner_peel is not None and inner_peel.found:
+        return PathResult(
+            found=True,
+            path=[PathStep('guard_peel', 'case_branch',
+                          nf_f.canon()[:40], nf_g.canon()[:40])] + inner_peel.path,
+            reason=f'guard peeled → {inner_peel.reason}')
+
+    # Try HIT on inner terms
+    hit = hit_path_equiv(inner_f, inner_g, ctx)
+    if hit is True:
+        return PathResult(
+            found=True,
+            path=[PathStep('guard_peel+HIT', 'case_branch',
+                          nf_f.canon()[:40], nf_g.canon()[:40])],
+            reason='guard peeled → HIT path induction')
+
+    # Try spec identification on inner terms
+    spec_f = _identify_spec(inner_f)
+    spec_g = _identify_spec(inner_g)
+    if spec_f is not None and spec_g is not None:
+        if spec_f[0] == spec_g[0] and len(spec_f[1]) == len(spec_g[1]):
+            if all(a.canon() == b.canon() for a, b in zip(spec_f[1], spec_g[1])):
+                return PathResult(
+                    found=True,
+                    path=[PathStep('guard_peel+D20', 'case_branch',
+                                  nf_f.canon()[:40], nf_g.canon()[:40])],
+                    reason=f'guard peeled → same spec: {spec_f[0]}')
+
+    # Try cohomological fiber search on inner terms
+    cohom = _cohomological_fiber_search(inner_f, inner_g, ctx)
+    if cohom is not None and cohom.found:
+        return PathResult(
+            found=True,
+            path=[PathStep('guard_peel+cohom', 'case_branch',
+                          nf_f.canon()[:40], nf_g.canon()[:40])] + cohom.path,
+            reason=f'guard peeled → {cohom.reason}')
+
+    return None
+
+
+# ═══════════════════════════════════════════════════════════
 # The Path Search Algorithm
 # ═══════════════════════════════════════════════════════════
 
@@ -991,6 +1104,14 @@ def search_path(nf_f: OTerm, nf_g: OTerm,
         return PathResult(found=True,
                          path=[PathStep('HIT_structural', 'root', cf, cg)],
                          reason='HIT path induction')
+
+    # ── Phase 1.5: Guard peeling (case congruence) ──
+    # If both terms are case(G, A, B) vs case(G, A, C) with shared guard G
+    # and one matching branch, recurse on the differing branch.
+    # Sound by the congruence rule: case(G, A, -) is a functor.
+    guard_peel = _guard_peel_search(nf_f, nf_g, ctx, param_duck_types)
+    if guard_peel is not None:
+        return guard_peel
 
     # ── Phase 2: D20 spec identification (Yoneda) ──
     spec_f = _identify_spec(nf_f)
@@ -1454,6 +1575,34 @@ def _guards_complementary(g1: OTerm, g2: OTerm) -> bool:
                     and g1.args[1].canon() == g2.args[0].canon()):
                 return True
 
+    # DeMorgan complement: and(A1,A2) vs or(B1,B2) where each Ai↔Bi
+    # are complementary.  By De Morgan: ¬(A1 ∧ A2) ≡ ¬A1 ∨ ¬A2.
+    if isinstance(g1, OOp) and isinstance(g2, OOp):
+        if {g1.name, g2.name} == {'and', 'or'}:
+            if len(g1.args) == 2 and len(g2.args) == 2:
+                # Try both orderings of args
+                if (_guards_complementary(g1.args[0], g2.args[0]) and
+                        _guards_complementary(g1.args[1], g2.args[1])):
+                    return True
+                if (_guards_complementary(g1.args[0], g2.args[1]) and
+                        _guards_complementary(g1.args[1], g2.args[0])):
+                    return True
+
+    # Variable truthiness: X is complement of eq(X, 0/None/False/'')
+    # In Python, bool(x) is True iff x is not a falsy value.
+    # So `case(x, ...)` and `case(eq(x,0), ...)` have complementary guards.
+    _FALSY = (0, None, False, '', [])
+    if isinstance(g1, OVar) and isinstance(g2, OOp):
+        if g2.name == 'eq' and len(g2.args) == 2:
+            if isinstance(g2.args[1], OLit) and g2.args[1].value in _FALSY:
+                if g1.canon() == g2.args[0].canon():
+                    return True
+    if isinstance(g2, OVar) and isinstance(g1, OOp):
+        if g1.name == 'eq' and len(g1.args) == 2:
+            if isinstance(g1.args[1], OLit) and g1.args[1].value in _FALSY:
+                if g2.canon() == g1.args[0].canon():
+                    return True
+
     return False
 
 
@@ -1826,6 +1975,17 @@ def _hit_path_core(a: OTerm, b: OTerm, ctx: FiberCtx,
         if _fix_fold_equiv(b, a, ctx, depth, memo):
             return True
 
+    # ── D1b: Linear recursion ↔ fold (catamorphism principle) ──
+    # case(guard, op(x, fix(...)), base) ≡ fold[op](base, range(...))
+    if isinstance(a, OCase) and isinstance(b, OFold):
+        lr = _try_linear_rec_fold_equiv(a, b, ctx, depth, memo)
+        if lr is True:
+            return True
+    if isinstance(b, OCase) and isinstance(a, OFold):
+        lr = _try_linear_rec_fold_equiv(b, a, ctx, depth, memo)
+        if lr is True:
+            return True
+
     # ── Quotient congruence (NOT cross-type — Q[perm] ≠ sorted) ──
     # Q[perm](x) represents "x up to permutation" (e.g. dict.keys()
     # which is insertion-order-dependent). sorted(x) is a specific
@@ -2105,6 +2265,38 @@ def _hit_path_core(a: OTerm, b: OTerm, ctx: FiberCtx,
         if isinstance(a.body, OCase):
             if hit_path_equiv(b.init, a.body.false_branch, ctx, depth+1, memo) is True:
                 return True
+
+    # ── min/max ↔ case(lt/gt) ──
+    # min(a, b) ≡ case(lt(a, b), a, b) ≡ case(lte(a, b), a, b)
+    # max(a, b) ≡ case(lt(a, b), b, a) ≡ case(lte(a, b), b, a)
+    if isinstance(a, OOp) and a.name == 'min' and len(a.args) == 2 and isinstance(b, OCase):
+        if isinstance(b.test, OOp) and b.test.name in ('lt', 'lte') and len(b.test.args) == 2:
+            if (hit_path_equiv(a.args[0], b.test.args[0], ctx, depth+1, memo) is True and
+                hit_path_equiv(a.args[1], b.test.args[1], ctx, depth+1, memo) is True):
+                if (hit_path_equiv(a.args[0], b.true_branch, ctx, depth+1, memo) is True and
+                    hit_path_equiv(a.args[1], b.false_branch, ctx, depth+1, memo) is True):
+                    return True
+    if isinstance(b, OOp) and b.name == 'min' and len(b.args) == 2 and isinstance(a, OCase):
+        if isinstance(a.test, OOp) and a.test.name in ('lt', 'lte') and len(a.test.args) == 2:
+            if (hit_path_equiv(b.args[0], a.test.args[0], ctx, depth+1, memo) is True and
+                hit_path_equiv(b.args[1], a.test.args[1], ctx, depth+1, memo) is True):
+                if (hit_path_equiv(b.args[0], a.true_branch, ctx, depth+1, memo) is True and
+                    hit_path_equiv(b.args[1], a.false_branch, ctx, depth+1, memo) is True):
+                    return True
+    if isinstance(a, OOp) and a.name == 'max' and len(a.args) == 2 and isinstance(b, OCase):
+        if isinstance(b.test, OOp) and b.test.name in ('lt', 'lte') and len(b.test.args) == 2:
+            if (hit_path_equiv(a.args[0], b.test.args[0], ctx, depth+1, memo) is True and
+                hit_path_equiv(a.args[1], b.test.args[1], ctx, depth+1, memo) is True):
+                if (hit_path_equiv(a.args[1], b.true_branch, ctx, depth+1, memo) is True and
+                    hit_path_equiv(a.args[0], b.false_branch, ctx, depth+1, memo) is True):
+                    return True
+    if isinstance(b, OOp) and b.name == 'max' and len(b.args) == 2 and isinstance(a, OCase):
+        if isinstance(a.test, OOp) and a.test.name in ('lt', 'lte') and len(a.test.args) == 2:
+            if (hit_path_equiv(b.args[0], a.test.args[0], ctx, depth+1, memo) is True and
+                hit_path_equiv(b.args[1], a.test.args[1], ctx, depth+1, memo) is True):
+                if (hit_path_equiv(b.args[1], a.true_branch, ctx, depth+1, memo) is True and
+                    hit_path_equiv(b.args[0], a.false_branch, ctx, depth+1, memo) is True):
+                    return True
 
     # ── Zip/index iteration equivalence ──
     # map(λ(a,b) body, zip(xs, ys)) ≡ map(λ(i) body[a→xs[i],b→ys[i]], range(len(xs)))
@@ -2548,6 +2740,270 @@ def _fix_fold_equiv(fix: OFix, fold: OFold, ctx: FiberCtx,
                 spec_fix[0] == spec_fold[0]):
             return True
 
+    return False
+
+
+def _try_linear_rec_fold_equiv(
+    case_term: OCase, fold: OFold, ctx: FiberCtx,
+    depth: int, memo: Dict
+) -> Optional[bool]:
+    """Prove linear recursion ≡ fold equivalence.
+
+    Pattern: case(guard(x, K), op(x, fix[h]([sub(x, 1)])), base)
+      ≡ fold[op](base, range(K+1, x+1))  [for commutative+associative op]
+
+    This is the catamorphism principle: a linear recursion over natural
+    numbers is equivalent to a fold over the corresponding range when
+    the combining operation is commutative and associative.
+
+    Sound because: f(n) = n ⊕ f(n-1), f(K) = base
+    unrolls to: n ⊕ (n-1) ⊕ ... ⊕ (K+1) ⊕ base
+    = fold[⊕](base, [K+1, ..., n])  (by commutativity+associativity)
+    = fold[⊕](base, range(K+1, n+1))
+    """
+    if not isinstance(case_term, OCase):
+        return None
+    if not isinstance(fold, OFold):
+        return None
+
+    # Extract the linear recursion pattern from the case
+    rec_info = _extract_linear_recursion(case_term)
+    if rec_info is None:
+        return None
+
+    op_name, param, step, base, guard_bound, fix_name = rec_info
+
+    # Check: is the fold using the same operation?
+    _OP_ALIASES = {
+        'add': {'add', 'iadd'}, 'iadd': {'add', 'iadd'},
+        'mult': {'mult', 'imult', 'mul', 'imul'},
+        'imult': {'mult', 'imult', 'mul', 'imul'},
+        'mul': {'mult', 'imult', 'mul', 'imul'},
+        'imul': {'mult', 'imult', 'mul', 'imul'},
+    }
+    fold_op = fold.op_name
+    op_aliases = _OP_ALIASES.get(op_name, {op_name})
+    if fold_op not in op_aliases:
+        return None
+
+    # Check: is the operation commutative AND associative?
+    _COMM_ASSOC_OPS = {'add', 'iadd', 'mult', 'imult', 'mul', 'imul',
+                       'and', 'or', 'bitand', 'bitor', 'bitxor',
+                       'min', 'max', 'gcd'}
+    if op_name not in _COMM_ASSOC_OPS:
+        return None
+
+    # Check: do bases match?
+    if hit_path_equiv(base, fold.init, ctx, depth+1, memo) is not True:
+        return None
+
+    # Check: does the fold's collection cover the same range?
+    # The recursion covers: param, param-step, ..., guard_bound+1
+    # which as a range is: range(guard_bound+1, param+1) (for step=1)
+    # The fold covers: fold.collection (often range(param+1) or range(N))
+    #
+    # For commutative ops with identity base, including extra identity
+    # elements doesn't change the result. E.g., fold[add](0, range(n+1))
+    # includes 0, but adding 0 is identity.
+    fold_coll = fold.collection
+
+    if isinstance(fold_coll, OOp) and fold_coll.name == 'range':
+        if len(fold_coll.args) == 1:
+            # range(N) = range(0, N)
+            fold_upper = fold_coll.args[0]
+            fold_lower = OLit(0)
+        elif len(fold_coll.args) >= 2:
+            fold_lower = fold_coll.args[0]
+            fold_upper = fold_coll.args[1]
+        else:
+            return None
+
+        # Expected: range(guard_bound+1, param+1) for step=1
+        expected_upper = OOp('add', (param, OLit(1)))
+
+        # Check upper bound match
+        if hit_path_equiv(fold_upper, expected_upper, ctx, depth+1, memo) is not True:
+            # Maybe fold_upper = param+1 expressed differently
+            return None
+
+        # Check lower bound:
+        # If fold starts at 0 and guard_bound is 0, the extra 0 is the identity
+        # element for add (0 + x = x) or mult has identity 1
+        _IDENTITY = {'add': 0, 'iadd': 0, 'mult': 1, 'imult': 1,
+                     'mul': 1, 'imul': 1, 'and': True, 'or': False,
+                     'bitand': -1, 'bitor': 0, 'bitxor': 0,
+                     'min': float('inf'), 'max': float('-inf'),
+                     'gcd': 0}
+        identity = _IDENTITY.get(op_name)
+
+        # The recursion starts at guard_bound+1 (after the guard fails)
+        # If fold_lower <= guard_bound+1, the extra elements must all be
+        # identity elements, which range elements 0..guard_bound are
+        # IF the identity of the op equals those range elements.
+        # For add with identity 0: range(0, n+1) = [0,1,...,n]
+        #   The extra element 0 IS the identity, so fold matches.
+        # For mult with identity 1: range(1, n+1) = [1,2,...,n]
+        #   If fold starts at 0: range(0, n+1) = [0,1,...,n]
+        #   But 0 is NOT the identity for mult, so this would be wrong!
+        #   However, mult(0, x) = 0, not x. So this doesn't help.
+        #   But the recursion for factorial is f(n) = n * f(n-1), f(1) = 1
+        #   So guard_bound = 1, and fold should be range(2, n+1) or range(1, n+1)
+        #   range(1, n+1) includes 1 which is the identity for mult. OK.
+
+        if isinstance(fold_lower, OLit) and isinstance(fold_lower.value, (int, float)):
+            lower_val = fold_lower.value
+            if isinstance(guard_bound, OLit) and isinstance(guard_bound.value, (int, float)):
+                gb_val = guard_bound.value
+                # All extra elements in [lower_val, gb_val] must be identity for op
+                if identity is not None:
+                    extra_ok = True
+                    for v in range(int(lower_val), int(gb_val) + 1):
+                        if v != identity:
+                            extra_ok = False
+                            break
+                    if extra_ok:
+                        return True
+                # Exact match: fold_lower == guard_bound + 1
+                if lower_val == gb_val + 1:
+                    return True
+            elif hit_path_equiv(fold_lower, OOp('add', (guard_bound, OLit(1))), ctx, depth+1, memo) is True:
+                return True
+            # For identity-matching: if lower_val is 0 and op is add,
+            # range starts at 0 which is identity for add
+            if identity is not None and lower_val == identity:
+                return True
+
+    return None
+
+
+def _extract_linear_recursion(case_term: OCase):
+    """Extract linear recursion info from case(guard, op(x, fix), base).
+
+    Returns (op_name, param, step, base, guard_bound, fix_name) or None.
+
+    The pattern is:
+      case(lt(K, x), op(x, fix[h]([sub(x, step)])), base)
+    or equivalently:
+      case(lt(x, K+1), base, op(x, fix[h]([sub(x, step)])))
+    """
+    test = case_term.test
+    true_br = case_term.true_branch
+    false_br = case_term.false_branch
+
+    # Determine which branch is the recursive case and which is the base
+    rec_branch = base_branch = None
+    if _contains_fix(true_br) and not _contains_fix(false_br):
+        rec_branch, base_branch = true_br, false_br
+    elif _contains_fix(false_br) and not _contains_fix(true_br):
+        rec_branch, base_branch = false_br, true_br
+    else:
+        return None
+
+    # Extract the binary operation and fix call from the recursive branch
+    if not isinstance(rec_branch, OOp) or len(rec_branch.args) != 2:
+        return None
+
+    op_name = rec_branch.name
+    arg0, arg1 = rec_branch.args
+
+    # Find which arg is the fix call and which is the parameter
+    fix_node = param_node = None
+    if isinstance(arg1, OFix):
+        fix_node, param_node = arg1, arg0
+    elif isinstance(arg0, OFix):
+        fix_node, param_node = arg0, arg1
+    else:
+        return None
+
+    if not isinstance(param_node, OVar):
+        return None
+
+    param = param_node
+
+    # Check the fix call argument: should be sub(param, step)
+    if not isinstance(fix_node.body, OSeq) or len(fix_node.body.elements) != 1:
+        return None
+    call_arg = fix_node.body.elements[0]
+    if not isinstance(call_arg, OOp) or call_arg.name != 'sub' or len(call_arg.args) != 2:
+        return None
+    if call_arg.args[0].canon() != param.canon():
+        return None
+    if not isinstance(call_arg.args[1], OLit):
+        return None
+    step = call_arg.args[1].value
+    if not isinstance(step, int) or step <= 0:
+        return None
+
+    # Extract the guard bound from the test
+    # Pattern: lt(K, param) → guard_bound = K (base when param ≤ K)
+    # Pattern: lt(param, K+1) with base in false_br → need to flip
+    guard_bound = _extract_guard_bound(test, param, rec_branch is true_br)
+    if guard_bound is None:
+        return None
+
+    return (op_name, param, step, base_branch, guard_bound, fix_node.name)
+
+
+def _extract_guard_bound(test: OTerm, param: OVar, rec_is_true: bool) -> Optional[OTerm]:
+    """Extract the guard bound K from a comparison test.
+
+    If rec_is_true: the guard must be satisfied for recursion to continue.
+      lt(K, param): recursion when param > K, base when param ≤ K → bound = K
+      gt(param, K): same as lt(K, param) → bound = K
+    If rec_is_false: the guard must FAIL for recursion.
+      lt(param, K+1) with base in true → rec in false: weird, skip.
+    """
+    if not isinstance(test, OOp) or len(test.args) != 2:
+        return None
+
+    a0, a1 = test.args
+
+    if rec_is_true:
+        # Guard true → recurse. Guard: lt(K, param) or gt(param, K)
+        if test.name == 'lt' and a1.canon() == param.canon():
+            return a0  # bound = K
+        if test.name == 'gt' and a0.canon() == param.canon():
+            return a1  # bound = K
+        if test.name == 'lte' and a1.canon() == param.canon():
+            # lte(K, param): recurse when param >= K → bound = K-1
+            return OOp('sub', (a0, OLit(1)))
+        if test.name == 'gte' and a0.canon() == param.canon():
+            return OOp('sub', (a1, OLit(1)))
+    else:
+        # Guard false → recurse. Guard: lt(param, K) → rec when param >= K
+        # This is the "else" branch recursion: guard true = base case
+        if test.name == 'lt' and a0.canon() == param.canon():
+            # lt(param, K): base when param < K, rec when param >= K
+            # bound = K - 1
+            return OOp('sub', (a1, OLit(1)))
+        if test.name == 'gt' and a1.canon() == param.canon():
+            return OOp('sub', (a0, OLit(1)))
+        if test.name == 'lte' and a0.canon() == param.canon():
+            # lte(param, K): base when param <= K, rec when param > K
+            return a1  # bound = K
+        if test.name == 'gte' and a1.canon() == param.canon():
+            return a0
+
+    return None
+
+
+def _contains_fix(term: OTerm) -> bool:
+    """Check if a term contains any OFix node."""
+    if isinstance(term, OFix):
+        return True
+    for attr in ['test', 'true_branch', 'false_branch', 'init',
+                 'collection', 'body', 'inner', 'default']:
+        child = getattr(term, attr, None)
+        if child is not None and _contains_fix(child):
+            return True
+    if hasattr(term, 'args'):
+        for a in term.args:
+            if _contains_fix(a):
+                return True
+    if hasattr(term, 'elements'):
+        for e in term.elements:
+            if _contains_fix(e):
+                return True
     return False
 
 

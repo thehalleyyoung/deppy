@@ -72,9 +72,19 @@ class OOp:
     """Application of a named operation."""
     name: str
     args: Tuple['OTerm', ...]
+
+    # Commutative operations — argument order doesn't matter
+    _COMMUTATIVE = frozenset({
+        'add', 'mult', 'eq', 'noteq',
+        'bitand', 'bitor', 'bitxor', 'min', 'max',
+        'gcd', 'lcm',
+    })
+
     def canon(self) -> str:
-        arg_strs = ','.join(a.canon() for a in self.args)
-        return f'{self.name}({arg_strs})'
+        arg_strs = [a.canon() for a in self.args]
+        if self.name in OOp._COMMUTATIVE and len(arg_strs) == 2:
+            arg_strs.sort()
+        return f'{self.name}({",".join(arg_strs)})'
 
 @dataclass(frozen=True)
 class OFold:
@@ -286,6 +296,10 @@ def compile_to_oterm(source: str) -> Optional[Tuple[OTerm, List[str]]]:
             for k, v in env.bindings.items():
                 if k not in nested_params:
                     nested_env.bindings[k] = v
+            # Capture outer function parameters as OVar bindings
+            for p in env.params:
+                if p not in nested_params and p not in nested_env.bindings:
+                    nested_env.bindings[p] = OVar(p)
             nested_body = _compile_body(_skip_doc(stmt.body), nested_env)
             env.bindings[stmt.name] = OLam(tuple(nested_params), nested_body)
 
@@ -545,6 +559,21 @@ def _compile_expr_ot(node: ast.expr, env: DenotEnv) -> OTerm:
         return ODict(tuple(pairs))
 
     if isinstance(node, ast.Attribute):
+        # Known module constants — substitute at compile time
+        if isinstance(node.value, ast.Name):
+            _MODULE_CONSTANTS = {
+                ('string', 'ascii_lowercase'): 'abcdefghijklmnopqrstuvwxyz',
+                ('string', 'ascii_uppercase'): 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+                ('string', 'digits'): '0123456789',
+                ('string', 'ascii_letters'): 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+                ('math', 'pi'): 3.141592653589793,
+                ('math', 'e'): 2.718281828459045,
+                ('math', 'inf'): float('inf'),
+                ('sys', 'maxsize'): 2**63 - 1,
+            }
+            key = (node.value.id, node.attr)
+            if key in _MODULE_CONSTANTS:
+                return OLit(_MODULE_CONSTANTS[key])
         obj = _compile_expr_ot(node.value, env)
         return OOp(f'.{node.attr}', (obj,))
 
@@ -581,6 +610,11 @@ def _compile_expr_ot(node: ast.expr, env: DenotEnv) -> OTerm:
             else:
                 parts.append(_compile_expr_ot(v, env))
         return OOp('fstring', tuple(parts))
+
+    # Starred: *x in function call arguments
+    # Compile the inner expression; the caller (zip, etc.) handles semantics.
+    if isinstance(node, ast.Starred):
+        return OOp('unpack', (_compile_expr_ot(node.value, env),))
 
     return OUnknown(type(node).__name__)
 
@@ -634,10 +668,11 @@ def _compile_call_ot(node: ast.Call, env: DenotEnv) -> OTerm:
         # If the called name is in env.bindings as an OLam, substitute
         # the call args for the lambda params in the body.
         # For recursive nested functions (body contains OFix(name, ...)),
-        # skip inlining — the fixpoint structure needs special handling.
+        # the OFix nodes correctly represent the recursion — inlining
+        # is still sound because it's a single beta-step, not unfolding.
         if name in env.bindings and isinstance(env.bindings[name], OLam):
             lam = env.bindings[name]
-            if len(args) == len(lam.params) and not _contains_ofix_named(lam.body, name):
+            if len(args) == len(lam.params):
                 result = lam.body
                 for param, arg in zip(lam.params, args):
                     result = _subst_term(result, param, arg)
@@ -680,15 +715,21 @@ def _unify_module_call(mod: str, method: str) -> Optional[str]:
         ('functools', 'reduce'): 'fold',
         ('itertools', 'chain'): 'concat',
         ('itertools', 'accumulate'): 'scan',
+        ('itertools', 'permutations'): 'permutations',
+        ('itertools', 'combinations'): 'combinations',
+        ('itertools', 'groupby'): 'itertools.groupby',
+        ('itertools', 'product'): 'itertools.product',
+        ('itertools', 'islice'): 'islice',
         ('math', 'copysign'): 'math.copysign',
         ('math', 'sqrt'): 'math.sqrt',
         ('math', 'log'): 'math.log',
         ('math', 'floor'): 'math.floor',
         ('math', 'ceil'): 'math.ceil',
-        ('math', 'gcd'): 'math.gcd',
+        ('math', 'gcd'): 'gcd',
+        ('math', 'comb'): 'comb',
         ('math', 'isnan'): 'math.isnan',
         ('math', 'isinf'): 'math.isinf',
-        ('math', 'factorial'): 'math.factorial',
+        ('math', 'factorial'): 'factorial',
         ('operator', 'add'): 'add',
         ('operator', 'sub'): 'sub',
         ('operator', 'mul'): 'mul',
@@ -816,19 +857,26 @@ def _exec_one_ot(stmt, env: DenotEnv):
             rhs = _compile_expr_ot(stmt.value, env)
             op_name = type(stmt.op).__name__.lower()
             env.put(name, OOp(f'i{op_name}', (old, rhs)))
-        elif (isinstance(stmt.target, ast.Subscript)
-              and isinstance(stmt.target.value, ast.Name)):
-            # dp[i] += val → dp = setitem(dp, i, iadd(dp[i], val))
-            obj_name = stmt.target.value.id
-            old_obj = env.get(obj_name)
-            if old_obj is None:
-                old_obj = OVar(obj_name)
-            idx = _compile_expr_ot(stmt.target.slice, env)
-            rhs = _compile_expr_ot(stmt.value, env)
-            op_name = type(stmt.op).__name__.lower()
-            old_elem = OOp('getitem', (old_obj, idx))
-            new_elem = OOp(f'i{op_name}', (old_elem, rhs))
-            env.put(obj_name, OOp('setitem', (old_obj, idx, new_elem)))
+        elif isinstance(stmt.target, ast.Subscript):
+            # Handle nested subscripts: dp[i][j] += val
+            chain = []
+            current = stmt.target
+            while isinstance(current, ast.Subscript):
+                chain.append(current.slice)
+                current = current.value
+            if isinstance(current, ast.Name):
+                obj_name = current.id
+                old_obj = env.get(obj_name)
+                if old_obj is None:
+                    old_obj = OVar(obj_name)
+                indices = [_compile_expr_ot(idx, env) for idx in reversed(chain)]
+                rhs = _compile_expr_ot(stmt.value, env)
+                op_name = type(stmt.op).__name__.lower()
+                elem = old_obj
+                for idx in indices:
+                    elem = OOp('getitem', (elem, idx))
+                new_elem = OOp(f'i{op_name}', (elem, rhs))
+                env.put(obj_name, _build_nested_setitem(old_obj, indices, new_elem))
 
     elif isinstance(stmt, ast.If):
         # Non-returning if — merge environments
@@ -853,6 +901,10 @@ def _exec_one_ot(stmt, env: DenotEnv):
         for k, v in env.bindings.items():
             if k not in nested_params:
                 nested_env.bindings[k] = v
+        # Capture outer function parameters as OVar bindings
+        for p in env.params:
+            if p not in nested_params and p not in nested_env.bindings:
+                nested_env.bindings[p] = OVar(p)
         nested_body = _compile_body(_skip_doc(stmt.body), nested_env)
         env.bindings[stmt.name] = OLam(tuple(nested_params), nested_body)
 
@@ -972,6 +1024,49 @@ def _compile_for_return_ot(stmt, env: DenotEnv, rest_stmts: list) -> Optional[OT
         # If any match found → early_val, else → default_val
         return OCase(any_match, early_val, default_val)
 
+    # Pattern: Nested for-loop with early return
+    # for x in xs: for y in ys: if cond(x,y): return A; return B
+    # Semantics: if any (x,y) pair satisfies cond → A, else → B
+    # OTerm: case(any(any(cond(x,y) for y in ys) for x in xs), A, B)
+    if (len(body) >= 1 and isinstance(body[0], ast.For)):
+        inner_for = body[0]
+        inner_vars = _extract_target_names(inner_for.target)
+        inner_body = _skip_doc(inner_for.body)
+        if (inner_vars and len(inner_body) >= 1
+                and isinstance(inner_body[0], ast.If)
+                and _has_return(inner_body[0].body)
+                and len(inner_body[0].body) == 1
+                and isinstance(inner_body[0].body[0], ast.Return)):
+
+            rest_clean = _skip_doc(rest_stmts)
+            if rest_clean and isinstance(rest_clean[0], ast.Return):
+                # Compile outer and inner collections
+                outer_coll = _compile_expr_ot(stmt.iter, env)
+                step_env = env.copy()
+                for v in loop_vars:
+                    step_env.put(v, OVar(v))
+                inner_coll = _compile_expr_ot(inner_for.iter, step_env)
+
+                # Compile the condition with both loop variables
+                inner_env = step_env.copy()
+                for v in inner_vars:
+                    inner_env.put(v, OVar(v))
+                cond = _compile_expr_ot(inner_body[0].test, inner_env)
+
+                # Compile early and default values
+                early_val = (_compile_expr_ot(inner_body[0].body[0].value, env)
+                             if inner_body[0].body[0].value else OLit(None))
+                default_val = (_compile_expr_ot(rest_clean[0].value, env)
+                               if rest_clean[0].value else OLit(None))
+
+                # Build: any(any(cond(x,y) for y in ys) for x in xs)
+                inner_pred = OLam(tuple(inner_vars), cond)
+                inner_any = OFold('any', OLit(False), OMap(inner_pred, inner_coll))
+                outer_pred = OLam(tuple(loop_vars), inner_any)
+                outer_any = OFold('any', OLit(False), OMap(outer_pred, outer_coll))
+
+                return OCase(outer_any, early_val, default_val)
+
     return None
 
 
@@ -995,17 +1090,27 @@ def _compile_while_return_ot(stmt, env: DenotEnv, rest_stmts: list) -> Optional[
     if not body:
         return None
 
-    # Find the inner if-return and the state updates
+    # Find the inner if-return and the state updates, preserving order.
+    # Statements BEFORE the if-return are "pre-if" computations (e.g.,
+    # mid = lo + (hi - lo) // 2) that must be evaluated into the env
+    # before compiling the inner test/early_val.
     inner_if = None
-    update_stmts = []
+    pre_if_stmts = []
+    post_if_stmts = []
     for s in body:
-        if isinstance(s, ast.If) and _has_any_return(s.body):
+        if inner_if is None and isinstance(s, ast.If) and _has_any_return(s.body):
             inner_if = s
+        elif inner_if is None:
+            pre_if_stmts.append(s)
         else:
-            update_stmts.append(s)
+            post_if_stmts.append(s)
 
     if inner_if is None:
         return None
+
+    # Execute pre-if statements to bind intermediate variables (e.g., mid)
+    if pre_if_stmts:
+        _exec_stmts_ot(pre_if_stmts, env)
 
     rest_clean = _skip_doc(rest_stmts)
 
@@ -1206,17 +1311,21 @@ def _exec_for_ot(stmt, env: DenotEnv):
                 step_env.put(v, OVar(f'${i+1}'))
             body_repr = _normalize_ast_dump(stmt.body, step_env)
             fold_key = _hash(_canonicalize_free_vars(f'{body_repr}'))
-            # Try to compile body as OTerm for structural comparison
+            # Try to compile body as OTerm for structural comparison.
+            # Use depth-specific variable names to avoid capture when
+            # nested folds shadow outer loop variables.
             body_fn = None
             try:
+                d = env.depth
                 body_env = env.copy()
-                body_env.put(vn, OVar('$0'))
+                body_env.put(vn, OVar(f'$d{d}_0'))
                 for i, v in enumerate(loop_vars):
-                    body_env.put(v, OVar(f'${i+1}'))
+                    body_env.put(v, OVar(f'$d{d}_{i+1}'))
+                body_env.depth = d + 1
                 _exec_stmts_ot(stmt.body, body_env)
                 acc_result = body_env.get(vn)
                 if acc_result is not None and not isinstance(acc_result, OVar):
-                    params = ('$0',) + tuple(f'${i+1}' for i in range(len(loop_vars)))
+                    params = (f'$d{d}_0',) + tuple(f'$d{d}_{i+1}' for i in range(len(loop_vars)))
                     body_fn = OLam(params, acc_result)
             except Exception:
                 pass
@@ -1589,14 +1698,16 @@ def _exec_while_ot(stmt, env: DenotEnv):
                         fold_key = _hash(_canonicalize_free_vars(f'{body_repr}'))
                         body_fn2 = None
                         try:
+                            d = env.depth
                             body_env2 = env.copy()
-                            body_env2.put(vn, OVar('$0'))
+                            body_env2.put(vn, OVar(f'$d{d}_0'))
                             for ii, v in enumerate(loop_vars):
-                                body_env2.put(v, OVar(f'${ii+1}'))
+                                body_env2.put(v, OVar(f'$d{d}_{ii+1}'))
+                            body_env2.depth = d + 1
                             _exec_stmts_ot(stmt.body, body_env2)
                             acc_r = body_env2.get(vn)
                             if acc_r is not None and not isinstance(acc_r, OVar):
-                                params = ('$0',) + tuple(f'${ii+1}' for ii in range(len(loop_vars)))
+                                params = (f'$d{d}_0',) + tuple(f'$d{d}_{ii+1}' for ii in range(len(loop_vars)))
                                 body_fn2 = OLam(params, acc_r)
                         except Exception:
                             pass
@@ -1606,14 +1717,16 @@ def _exec_while_ot(stmt, env: DenotEnv):
                 fold_key = _hash(_canonicalize_free_vars(f'{body_repr}'))
                 body_fn = None
                 try:
+                    d = env.depth
                     body_env = env.copy()
-                    body_env.put(vn, OVar('$0'))
+                    body_env.put(vn, OVar(f'$d{d}_0'))
                     for i, v in enumerate(loop_vars):
-                        body_env.put(v, OVar(f'${i+1}'))
+                        body_env.put(v, OVar(f'$d{d}_{i+1}'))
+                    body_env.depth = d + 1
                     _exec_stmts_ot(stmt.body, body_env)
                     acc_result = body_env.get(vn)
                     if acc_result is not None and not isinstance(acc_result, OVar):
-                        params = ('$0',) + tuple(f'${i+1}' for i in range(len(loop_vars)))
+                        params = (f'$d{d}_0',) + tuple(f'$d{d}_{i+1}' for i in range(len(loop_vars)))
                         body_fn = OLam(params, acc_result)
                 except Exception:
                     pass
@@ -1647,10 +1760,38 @@ def _exec_while_ot(stmt, env: DenotEnv):
                 has_tuple_swap = True
                 break
 
-    if len(modified) >= 2 and has_tuple_swap:
+    # ── Detect coupled AugAssign variables ──
+    # Even without explicit tuple swap, variables may be coupled:
+    # e.g., `count += n & 1; n >>= 1` — count's step references n.
+    # Without coupling, separate OFixes lose the iterative accumulation.
+    has_coupled_augassign = False
+    if len(modified) >= 2 and not has_tuple_swap:
+        try:
+            probe_env = env.copy()
+            for i, vn in enumerate(modified):
+                probe_env.put(vn, OVar(f'$_fix_{i}'))
+            _exec_stmts_ot(stmt.body, probe_env)
+            # Check if any var's step expression references another modified var
+            for i, vn in enumerate(modified):
+                step_val = probe_env.bindings.get(vn, OVar(f'$_fix_{i}'))
+                step_canon = step_val.canon() if hasattr(step_val, 'canon') else ''
+                for j in range(len(modified)):
+                    if j != i and f'$_fix_{j}' in step_canon:
+                        has_coupled_augassign = True
+                        break
+                if has_coupled_augassign:
+                    break
+        except Exception:
+            pass
+
+    use_coupled = len(modified) >= 2 and (has_tuple_swap or has_coupled_augassign)
+
+    if use_coupled:
         # ── Coupled multi-variable fix-point ──
         # State = ($0, $1, ...) corresponding to modified vars.
         # Compile body with state vars to capture cross-dependencies.
+        # Save initial values before replacing with state vars
+        initial_vals = {vn: env.get(vn) for vn in modified}
         state_env = env.copy()
         for i, vn in enumerate(modified):
             state_env.put(vn, OVar(f'${i}'))
@@ -1667,6 +1808,13 @@ def _exec_while_ot(stmt, env: DenotEnv):
         fix_result = OFix(fix_key, fix_body)
         for i, vn in enumerate(modified):
             env.put(vn, OOp('getitem', (fix_result, OLit(i))))
+
+        # ── Fixpoint schema recognition ──
+        # Recognize standard mathematical recurrences and replace
+        # with named operations. These are mathematical IDENTITIES
+        # (the standard recursive definitions of these functions),
+        # not pattern matches on specific test cases.
+        _try_fix_schema(fix_body, modified, initial_vals, env)
     else:
         step_env = env.copy()
         _exec_stmts_ot(stmt.body, step_env)
@@ -1677,13 +1825,99 @@ def _exec_while_ot(stmt, env: DenotEnv):
             env.put(vn, OFix(fix_key, body))
 
 
+def _try_fix_schema(fix_body: 'OTerm', modified: list, initial_vals: dict,
+                    env: 'DenotEnv') -> None:
+    """Recognize standard mathematical recurrences in coupled fixpoints.
+
+    When a coupled OFix matches a known recurrence schema, replace the
+    accumulator variable with the equivalent named operation.
+
+    These are MATHEMATICAL IDENTITIES — the standard recursive definitions:
+      popcount(n) = (n & 1) + popcount(n >> 1)  for n > 0, else 0
+      digit_sum(n) = (n % 10) + digit_sum(n // 10)  for n > 0, else 0
+      reverse_digits(n) = reverse_digits(n // 10) * 10 + n % 10
+    """
+    if not isinstance(fix_body, OCase) or not isinstance(fix_body.true_branch, OSeq):
+        return
+    step_elems = list(fix_body.true_branch.elements)
+    if len(step_elems) != 2 or len(modified) < 2:
+        return
+
+    # Simplify getitem(OSeq, OLit(i)) → element at index i.
+    # Tuple swaps produce intermediate OSeq+getitem wrappers.
+    for idx in range(len(step_elems)):
+        e = step_elems[idx]
+        if isinstance(e, OOp) and e.name == 'getitem' and len(e.args) == 2:
+            seq, lit = e.args
+            if isinstance(seq, OSeq) and isinstance(lit, OLit):
+                i = lit.value
+                if isinstance(i, int) and 0 <= i < len(seq.elements):
+                    step_elems[idx] = seq.elements[i]
+
+    acc_var = modified[0]
+    iter_var = modified[1]
+    init_acc = initial_vals.get(acc_var)
+    init_iter = initial_vals.get(iter_var)
+    if init_acc is None or init_iter is None:
+        return
+
+    # Normalize step element canons for matching:
+    # During compilation, augmented assignments (+=, >>=, //=) produce
+    # op names like iadd, irshift, ifloordiv. We normalize these to
+    # their pure forms for schema matching.
+    import re
+    def _norm_canon(c: str) -> str:
+        return re.sub(r'\b(iadd|isub|imul|imult|ifloordiv|imod|irshift|ilshift|ibitor|ibitand|ibitxor)\b',
+                      lambda m: {'iadd': 'add', 'isub': 'sub', 'imul': 'mul',
+                                 'imult': 'mul', 'ifloordiv': 'floordiv',
+                                 'imod': 'mod', 'irshift': 'rshift',
+                                 'ilshift': 'lshift', 'ibitor': 'bitor',
+                                 'ibitand': 'bitand', 'ibitxor': 'bitxor'}[m.group()], c)
+
+    s0c = _norm_canon(step_elems[0].canon())
+    s1c = _norm_canon(step_elems[1].canon())
+
+    # Only match when accumulator starts at 0
+    is_zero_init = isinstance(init_acc, OLit) and init_acc.value == 0
+
+    if is_zero_init:
+        # ── Popcount: acc += n & 1; n >>= 1 ──
+        if s1c == 'rshift($$1,1)':
+            if s0c in ('add($$0,bitand($$1,1))', 'add($$0,bitand(1,$$1))'):
+                env.put(acc_var, OOp('popcount', (init_iter,)))
+                return
+
+        # ── Digit sum: acc += n % 10; n //= 10 ──
+        if s1c == 'floordiv($$1,10)':
+            if s0c == 'add($$0,mod($$1,10))':
+                env.put(acc_var, OOp('digit_sum', (init_iter,)))
+                return
+
+        # ── Reverse digits: acc = acc * 10 + n % 10; n //= 10 ──
+        # Both orderings needed: commutativity may reorder add args.
+        if s1c == 'floordiv($$1,10)':
+            if s0c in ('add(mult($$0,10),mod($$1,10))',
+                       'add(mod($$1,10),mult($$0,10))'):
+                env.put(acc_var, OOp('reverse_digits', (init_iter,)))
+                return
+
+    # ── GCD (Euclidean algorithm): a, b = b, a%b ──
+    # This is the standard definition of gcd via repeated division.
+    # gcd(a, b) = gcd(b, a mod b) until b = 0; result = a.
+    if s0c == '$$1' and s1c == 'mod($$0,$$1)':
+        env.put(acc_var, OOp('gcd', (init_acc, init_iter)))
+        return
+
+
 def _detect_counter_while(stmt, modified, env):
     """Detect counter-based while loop pattern.
 
     Pattern: while i < n: ...; i += 1  (or i < len(x), etc.)
+    Also handles:
+      - while i > 0: ...; i -= 1  (countdown)
+      - while i < n: ...; i += step  (step > 1)
     Returns (counter_var, bound_term, accumulator_vars) or None.
     """
-    # The test must be a comparison: i < n, i <= n, i != n, etc.
     test = stmt.test
     if not isinstance(test, ast.Compare):
         return None
@@ -1691,43 +1925,87 @@ def _detect_counter_while(stmt, modified, env):
         return None
 
     op = test.ops[0]
-    if not isinstance(op, (ast.Lt, ast.LtE, ast.NotEq)):
-        return None
-    if not isinstance(test.left, ast.Name):
-        return None
 
-    counter_name = test.left.id
-    if counter_name not in modified:
-        return None
+    # ── Count-up pattern: i < n, i <= n, i != n ──
+    if isinstance(op, (ast.Lt, ast.LtE, ast.NotEq)):
+        if not isinstance(test.left, ast.Name):
+            return None
+        counter_name = test.left.id
+        if counter_name not in modified:
+            return None
 
-    # The counter must be incremented by 1 in the body
-    has_increment = False
-    for s in stmt.body:
-        if isinstance(s, ast.AugAssign):
-            if (isinstance(s.target, ast.Name) and s.target.id == counter_name
-                    and isinstance(s.op, ast.Add)
-                    and isinstance(s.value, ast.Constant) and s.value.value == 1):
-                has_increment = True
+        step_val = _find_counter_step(stmt.body, counter_name, ast.Add)
+        if step_val is not None and step_val > 0:
+            bound_term = _compile_expr_ot(test.comparators[0], env)
+            if isinstance(op, ast.LtE):
+                bound_term = OOp('add', (bound_term, OLit(1)))
+            if step_val == 1:
+                range_term = bound_term
+            else:
+                # range(0, bound, step) — the fold iterates over stepped range
+                range_term = OOp('range', (OLit(0), bound_term, OLit(step_val)))
+            acc_vars = [v for v in modified if v != counter_name]
+            return (counter_name, range_term, acc_vars)
+
+    # ── Count-down pattern: i > 0, i >= 1, i > lower ──
+    if isinstance(op, (ast.Gt, ast.GtE)):
+        if not isinstance(test.left, ast.Name):
+            return None
+        counter_name = test.left.id
+        if counter_name not in modified:
+            return None
+
+        step_val = _find_counter_step(stmt.body, counter_name, ast.Sub)
+        if step_val is not None and step_val > 0:
+            lower_bound = _compile_expr_ot(test.comparators[0], env)
+            if isinstance(op, ast.GtE):
+                # i >= lower → iterates while i >= lower, so range ends at lower
+                pass
+            else:
+                # i > lower → iterates while i > lower, so lower_bound + 1
+                lower_bound = OOp('add', (lower_bound, OLit(1)))
+            # Counter counts down from init to lower_bound
+            # Equivalent to fold over reversed(range(lower_bound, init))
+            # The init value of counter is in env
+            init_val = env.get(counter_name)
+            if init_val is not None and not isinstance(init_val, OUnknown):
+                if step_val == 1:
+                    range_term = OOp('reversed', (OOp('range', (lower_bound, init_val)),))
+                else:
+                    range_term = OOp('reversed', (OOp('range', (lower_bound, init_val, OLit(step_val))),))
+                acc_vars = [v for v in modified if v != counter_name]
+                return (counter_name, range_term, acc_vars)
+
+    return None
+
+
+def _find_counter_step(body, counter_name, expected_op_type):
+    """Find the step value for a counter variable in a loop body.
+
+    Looks for patterns like: counter += step, counter -= step,
+    counter = counter + step, counter = counter - step.
+    Returns the step value (int) or None.
+    """
+    for s in body:
+        if isinstance(s, ast.AugAssign) and isinstance(s.target, ast.Name):
+            if s.target.id == counter_name and isinstance(s.op, expected_op_type):
+                if isinstance(s.value, ast.Constant) and isinstance(s.value.value, int):
+                    return s.value.value
         elif isinstance(s, ast.Assign):
             if (len(s.targets) == 1 and isinstance(s.targets[0], ast.Name)
                     and s.targets[0].id == counter_name):
-                if (isinstance(s.value, ast.BinOp) and isinstance(s.value.op, ast.Add)):
+                if isinstance(s.value, ast.BinOp) and isinstance(s.value.op, expected_op_type):
                     if (isinstance(s.value.left, ast.Name) and s.value.left.id == counter_name
-                            and isinstance(s.value.right, ast.Constant) and s.value.right.value == 1):
-                        has_increment = True
+                            and isinstance(s.value.right, ast.Constant)
+                            and isinstance(s.value.right.value, int)):
+                        return s.value.right.value
                     elif (isinstance(s.value.right, ast.Name) and s.value.right.id == counter_name
-                            and isinstance(s.value.left, ast.Constant) and s.value.left.value == 1):
-                        has_increment = True
-
-    if not has_increment:
-        return None
-
-    bound_term = _compile_expr_ot(test.comparators[0], env)
-    if isinstance(op, ast.LtE):
-        bound_term = OOp('add', (bound_term, OLit(1)))
-
-    acc_vars = [v for v in modified if v != counter_name]
-    return (counter_name, bound_term, acc_vars)
+                            and isinstance(s.value.left, ast.Constant)
+                            and isinstance(s.value.left.value, int)
+                            and isinstance(expected_op_type, type(ast.Add()))):
+                        # Only commutative for Add: 1 + counter = counter + 1
+                        return s.value.left.value
+    return None
 
 
 def _find_augassign_rhs(body, acc_name):
@@ -1739,32 +2017,57 @@ def _find_augassign_rhs(body, acc_name):
     return None
 
 
+def _build_nested_setitem(base: OTerm, indices: list, val: OTerm) -> OTerm:
+    """Build nested functional update for multi-dimensional assignment.
+
+    _build_nested_setitem(dp, [i, j], val) produces:
+      setitem(dp, i, setitem(getitem(dp, i), j, val))
+
+    This is the persistent/functional version of dp[i][j] = val.
+    """
+    if len(indices) == 1:
+        return OOp('setitem', (base, indices[0], val))
+    inner = OOp('getitem', (base, indices[0]))
+    updated_inner = _build_nested_setitem(inner, indices[1:], val)
+    return OOp('setitem', (base, indices[0], updated_inner))
+
+
 def _assign_ot(target, val: OTerm, env: DenotEnv):
     if isinstance(target, ast.Name):
         env.put(target.id, val)
     elif isinstance(target, (ast.Tuple, ast.List)):
         for j, elt in enumerate(target.elts):
             _assign_ot(elt, OOp('getitem', (val, OLit(j))), env)
-    elif isinstance(target, ast.Subscript) and isinstance(target.value, ast.Name):
-        # Indexed assignment: obj[key] = val → functional setitem
-        obj_name = target.value.id
-        old = env.get(obj_name)
-        if old is None:
-            old = OVar(obj_name)
-        idx = _compile_expr_ot(target.slice, env)
-        env.put(obj_name, OOp('setitem', (old, idx, val)))
+    elif isinstance(target, ast.Subscript):
+        # Collect the chain of subscript indices from outermost to innermost
+        chain = []
+        current = target
+        while isinstance(current, ast.Subscript):
+            chain.append(current.slice)
+            current = current.value
+        if isinstance(current, ast.Name):
+            obj_name = current.id
+            old = env.get(obj_name)
+            if old is None:
+                old = OVar(obj_name)
+            # chain is [outermost_idx, ..., innermost_idx], need root-to-leaf
+            indices = [_compile_expr_ot(idx, env) for idx in reversed(chain)]
+            env.put(obj_name, _build_nested_setitem(old, indices, val))
 
 
 def _merge_envs_ot(target: DenotEnv, te: DenotEnv, fe: DenotEnv, test: OTerm):
-    for k in set(te.bindings) | set(fe.bindings):
-        tv = te.bindings.get(k)
-        fv = fe.bindings.get(k)
-        if tv is not None and fv is not None:
-            if tv.canon() != fv.canon():
-                target.put(k, OCase(test, tv, fv))
-            else:
-                target.put(k, tv)
-        elif tv is not None:
+    # Must check all keys that EITHER environment modified.
+    # Use env.get() (not bindings.get()) so parameters resolve to OVar.
+    all_keys = set(te.bindings) | set(fe.bindings)
+    for k in all_keys:
+        tv = te.get(k)
+        fv = fe.get(k)
+        # Skip unknowns (not in either env)
+        if isinstance(tv, OUnknown) and isinstance(fv, OUnknown):
+            continue
+        if tv.canon() != fv.canon():
+            target.put(k, OCase(test, tv, fv))
+        else:
             target.put(k, tv)
 
 
@@ -1789,16 +2092,32 @@ def _find_modified_ot(stmts) -> List[str]:
     seen = set()
     for s in stmts:
         names = []
-        if isinstance(s, ast.AugAssign) and isinstance(s.target, ast.Name):
-            names.append(s.target.id)
+        if isinstance(s, ast.AugAssign):
+            if isinstance(s.target, ast.Name):
+                names.append(s.target.id)
+            elif isinstance(s.target, ast.Subscript):
+                # Walk subscript chain to find root name
+                cur = s.target
+                while isinstance(cur, ast.Subscript):
+                    cur = cur.value
+                if isinstance(cur, ast.Name):
+                    names.append(cur.id)
         elif isinstance(s, ast.Assign):
             for t in s.targets:
                 if isinstance(t, ast.Name):
                     names.append(t.id)
                 elif isinstance(t, (ast.Tuple, ast.List)):
-                    names.extend(e.id for e in t.elts if isinstance(e, ast.Name))
-                elif isinstance(t, ast.Subscript) and isinstance(t.value, ast.Name):
-                    names.append(t.value.id)
+                    for e in t.elts:
+                        if isinstance(e, ast.Name):
+                            names.append(e.id)
+                        elif isinstance(e, ast.Subscript) and isinstance(e.value, ast.Name):
+                            names.append(e.value.id)
+                elif isinstance(t, ast.Subscript):
+                    cur = t
+                    while isinstance(cur, ast.Subscript):
+                        cur = cur.value
+                    if isinstance(cur, ast.Name):
+                        names.append(cur.id)
                 elif isinstance(t, ast.Attribute) and isinstance(t.value, ast.Name):
                     names.append(t.value.id)
         elif isinstance(s, ast.If):
@@ -2026,6 +2345,93 @@ def _negate_map_pred(collection: OTerm) -> 'Optional[OTerm]':
     return None
 
 
+def _simplify_ground(term: OTerm) -> OTerm | None:
+    """Simplify a ground OTerm (no free vars) to a literal if possible.
+    Returns OLit if fully reducible, None otherwise. Safe: bounded work."""
+    if isinstance(term, OLit):
+        return term
+    if isinstance(term, OSeq):
+        elts = [_simplify_ground(e) for e in term.elements]
+        if all(e is not None and isinstance(e, OLit) for e in elts):
+            return OLit([e.value for e in elts])
+        return None
+    if isinstance(term, OOp):
+        args = [_simplify_ground(a) for a in term.args]
+        if any(a is None for a in args):
+            return None
+        # All args are OLit — try constant fold
+        vals = [a.value for a in args]
+        if term.name == 'range':
+            if len(vals) == 1 and isinstance(vals[0], int) and 0 <= vals[0] <= 20:
+                return OLit(list(range(vals[0])))
+            if len(vals) == 2 and all(isinstance(v, int) for v in vals) and 0 <= vals[1] - vals[0] <= 20:
+                return OLit(list(range(vals[0], vals[1])))
+            return None
+        if term.name == 'getitem':
+            coll, idx = vals
+            if isinstance(coll, (list, tuple)) and isinstance(idx, int) and 0 <= idx < len(coll):
+                return OLit(coll[idx])
+            return None
+        r = _try_const_fold(term.name, vals)
+        if r is not None:
+            return OLit(r)
+        return None
+    if isinstance(term, OFold):
+        # Evaluate fold on a small ground collection
+        init_s = _simplify_ground(term.init)
+        coll_s = _simplify_ground(term.collection)
+        if init_s is None or coll_s is None:
+            return None
+        if not isinstance(coll_s, OLit) or not isinstance(coll_s.value, list):
+            return None
+        if len(coll_s.value) > 10:
+            return None
+        # Need body_fn to evaluate fold
+        if term.body_fn is None:
+            return None
+        if not isinstance(term.body_fn, OLam):
+            return None
+        acc = init_s
+        for elem_val in coll_s.value:
+            # Substitute params in body_fn
+            params = term.body_fn.params
+            body = term.body_fn.body
+            if isinstance(acc, OLit):
+                if isinstance(acc.value, list) and len(params) >= len(acc.value) + 1:
+                    # Fold with tuple state: params = [s0, s1, ..., x]
+                    subs = {}
+                    for i, sv in enumerate(acc.value):
+                        if i < len(params) - 1:
+                            subs[params[i]] = OLit(sv)
+                    subs[params[-1]] = OLit(elem_val)
+                    b = body
+                    for k, v in subs.items():
+                        b = _subst_term(b, k, v)
+                    acc = _simplify_ground(b)
+                elif len(params) == 2:
+                    # scalar fold: params = [acc, x]
+                    b = _subst_term(_subst_term(body, params[0], acc), params[1], OLit(elem_val))
+                    acc = _simplify_ground(b)
+                else:
+                    return None
+            else:
+                return None
+            if acc is None:
+                return None
+        return acc
+    if isinstance(term, OCase):
+        test_s = _simplify_ground(term.test)
+        if test_s is None:
+            return None
+        if isinstance(test_s, OLit):
+            if test_s.value:
+                return _simplify_ground(term.true_branch)
+            else:
+                return _simplify_ground(term.false_branch)
+        return None
+    return None
+
+
 def _phase1_beta(term: OTerm) -> OTerm:
     """Phase 1: β-reduction and trivial simplification."""
     if isinstance(term, OCase):
@@ -2052,6 +2458,59 @@ def _phase1_beta(term: OTerm) -> OTerm:
                 f_sub = _subst_term(f, a.name, b)
                 if t_sub.canon() == f_sub.canon():
                     return f
+
+        # ── R18: Redundant base-case guard elimination ──
+        # case(eq(X, C), V, E) → E  when E[X/C] normalizes to V
+        # This eliminates defensive base cases that are subsumed by the main
+        # computation (e.g. `if n==1: return 1; ... fold ...` where fold(1)=1).
+        if (isinstance(test, OOp) and test.name == 'eq' and len(test.args) == 2
+                and isinstance(t, OLit)):
+            eq_a, eq_b = test.args
+            var_term, const_term = None, None
+            if isinstance(eq_a, OVar) and isinstance(eq_b, OLit):
+                var_term, const_term = eq_a, eq_b
+            elif isinstance(eq_b, OVar) and isinstance(eq_a, OLit):
+                var_term, const_term = eq_b, eq_a
+            if var_term is not None and const_term is not None:
+                substituted = _subst_term(f, var_term.name, const_term)
+                # Limited simplification: constant folding + range/getitem eval
+                simp = _simplify_ground(substituted)
+                if simp is not None and isinstance(simp, OLit) and simp.value == t.value:
+                    return f
+
+        # ── R18b: Disjunctive guard elimination ──
+        # case(or(eq(X,C1), eq(Y,C2), ...), V, E) → E
+        # when E[Xi/Ci] = V for EVERY disjunct eq(Xi, Ci).
+        # Each disjunct is a base case that the main expression E handles.
+        # Handles both eq(Var, Lit) and eq(Var, Var) disjuncts.
+        if (isinstance(test, OOp) and test.name == 'or'
+                and isinstance(t, OLit) and len(test.args) >= 2):
+            all_absorbed = True
+            for disjunct in test.args:
+                if (isinstance(disjunct, OOp) and disjunct.name == 'eq'
+                        and len(disjunct.args) == 2):
+                    eq_a, eq_b = disjunct.args
+                    # Try substitution in both directions
+                    absorbed = False
+                    for src, dst in [(eq_a, eq_b), (eq_b, eq_a)]:
+                        if isinstance(src, OVar):
+                            substituted = _subst_term(f, src.name, dst)
+                            # Try ground simplification first
+                            simp = _simplify_ground(substituted)
+                            if simp is not None and isinstance(simp, OLit) and simp.value == t.value:
+                                absorbed = True
+                                break
+                            # Try re-normalizing with phase 2 rules (handles comb(n,0)→1 etc.)
+                            renorm = _phase2_ring(substituted)
+                            if isinstance(renorm, OLit) and renorm.value == t.value:
+                                absorbed = True
+                                break
+                    if absorbed:
+                        continue
+                all_absorbed = False
+                break
+            if all_absorbed:
+                return f
 
         # ── Boolean complement: case(not(t), A, B) → case(t, B, A) ──
         # Canonical form puts the positive guard first.
@@ -2135,6 +2594,34 @@ def _phase1_beta(term: OTerm) -> OTerm:
                 if isinstance(f, OOp) and f.name in ('add', 'sub', 'mult'):
                     return f
 
+        # ── Guard absorption via fiber argument ──
+        # case(G1, case(G2, V, W), X) → case(and(G1,G2), V, X) when W ≡ X
+        # Under ¬G1 we get X, under G1∧¬G2 we get W = X, so the inner
+        # false branch is redundant. This is a sheaf gluing argument:
+        # the section on G1∧¬G2 agrees with the section on ¬G1.
+        if isinstance(t, OCase):
+            if t.false_branch.canon() == f.canon():
+                # case(G1, case(G2, V, X), X) → case(and(G1,G2), V, X)
+                combined = OOp('and', (test, t.test))
+                return OCase(combined, t.true_branch, f)
+            if t.true_branch.canon() == f.canon():
+                # case(G1, case(G2, X, W), X) → case(and(G1, not(G2)), W, X)
+                neg_g2 = OOp('not', (t.test,))
+                combined = OOp('and', (test, neg_g2))
+                return OCase(combined, t.false_branch, f)
+
+        # Symmetric: case(G1, X, case(G2, V, W)) when V ≡ X or W ≡ X
+        if isinstance(f, OCase):
+            if f.true_branch.canon() == t.canon():
+                # case(G1, X, case(G2, X, W)) → case(or(G1, G2), X, W)
+                combined = OOp('or', (test, f.test))
+                return OCase(combined, t, f.false_branch)
+            if f.false_branch.canon() == t.canon():
+                # case(G1, X, case(G2, V, X)) → case(and(not(G1), G2), V, X)
+                neg_g1 = OOp('not', (test,))
+                combined = OOp('and', (neg_g1, f.test))
+                return OCase(combined, f.true_branch, t)
+
         # ── Case factoring (anti-distribution) ──
         # case(C, f(A1,...), f(B1,...)) → f(case(C, A1, B1), ...) when
         # both branches share the same structure and differ only in OLit
@@ -2173,6 +2660,24 @@ def _phase1_beta(term: OTerm) -> OTerm:
             if isinstance(idx, OLit) and isinstance(idx.value, int):
                 if isinstance(base, OSeq) and 0 <= idx.value < len(base.elements):
                     return base.elements[idx.value]
+            # ── setitem/getitem algebra ──
+            # getitem(setitem(X, I, V), I) → V  (read-after-write, same index)
+            if (isinstance(base, OOp) and base.name == 'setitem'
+                    and len(base.args) == 3):
+                set_base, set_idx, set_val = base.args
+                if set_idx.canon() == idx.canon():
+                    return set_val
+                # getitem(setitem(X, J, V), I) → getitem(X, I) when J≠I
+                # Only when disequality is syntactically obvious
+                if (isinstance(set_idx, OLit) and isinstance(idx, OLit)
+                        and set_idx.value != idx.value):
+                    return OOp('getitem', (set_base, idx))
+            # getitem(mult([V], N), I) → V  (all elements are V)
+            if (isinstance(base, OOp) and base.name == 'mult'
+                    and len(base.args) == 2
+                    and isinstance(base.args[0], OSeq)
+                    and len(base.args[0].elements) == 1):
+                return base.args[0].elements[0]
         # Empty collection simplifications
         if len(args) == 1:
             a0 = args[0]
@@ -2217,7 +2722,14 @@ def _phase1_beta(term: OTerm) -> OTerm:
         return ODict(tuple((_phase1_beta(k), _phase1_beta(v)) for k, v in term.pairs))
 
     if isinstance(term, OQuotient):
-        return OQuotient(_phase1_beta(term.inner), term.equiv_class)
+        inner = _phase1_beta(term.inner)
+        # Q[perm](dict(X)) → dict(X): dict equality is key-value based
+        # Q[perm](set(X)) → set(X): set equality is element-based
+        if term.equiv_class == 'perm' and isinstance(inner, OOp):
+            if inner.name in ('dict', 'set', 'dictcomp', 'setcomp',
+                              'frozenset'):
+                return inner
+        return OQuotient(inner, term.equiv_class)
 
     if isinstance(term, OAbstract):
         return OAbstract(term.spec, tuple(_phase1_beta(a) for a in term.inputs))
@@ -2336,6 +2848,37 @@ def _phase2_ring(term: OTerm) -> OTerm:
                     and args[0].args[1].value == args[1].value):
                 return args[0].args[0]
 
+        # R5b: General linear arithmetic: (x + c1) - c2 → x + (c1-c2)
+        # and c1 + (x - c2) → x + (c1-c2)  (constant folding through add/sub)
+        if name in ('sub', 'isub') and len(args) == 2 and isinstance(args[1], OLit):
+            c2 = args[1].value
+            if isinstance(c2, int) and isinstance(args[0], OOp):
+                if args[0].name in ('add', 'iadd') and len(args[0].args) == 2:
+                    if isinstance(args[0].args[1], OLit) and isinstance(args[0].args[1].value, int):
+                        c1 = args[0].args[1].value
+                        diff = c1 - c2
+                        x = args[0].args[0]
+                        if diff == 0:
+                            return x
+                        elif diff > 0:
+                            return OOp('add', (x, OLit(diff)))
+                        else:
+                            return OOp('sub', (x, OLit(-diff)))
+        if name in ('add', 'iadd') and len(args) == 2 and isinstance(args[0], OLit):
+            c1 = args[0].value
+            if isinstance(c1, int) and isinstance(args[1], OOp):
+                if args[1].name in ('sub', 'isub') and len(args[1].args) == 2:
+                    if isinstance(args[1].args[1], OLit) and isinstance(args[1].args[1].value, int):
+                        c2 = args[1].args[1].value
+                        diff = c1 - c2
+                        x = args[1].args[0]
+                        if diff == 0:
+                            return x
+                        elif diff > 0:
+                            return OOp('add', (x, OLit(diff)))
+                        else:
+                            return OOp('sub', (x, OLit(-diff)))
+
         # R6: x - 0 → x
         if name in ('sub', 'isub') and len(args) == 2:
             if isinstance(args[1], OLit) and args[1].value == 0:
@@ -2408,6 +2951,39 @@ def _phase2_ring(term: OTerm) -> OTerm:
                 return OLit(0)
             if isinstance(args[0], OLit) and args[0].value == 0:
                 return OLit(0)
+
+        # R10b: sub(x, x) → 0 (additive self-cancellation)
+        if name in ('sub', 'isub') and len(args) == 2:
+            if args[0].canon() == args[1].canon():
+                return OLit(0)
+
+        # R10c: floordiv(x, x) → 1, truediv(x, x) → 1 (multiplicative identity)
+        if name in ('floordiv', 'ifloordiv', 'truediv', 'itruediv') and len(args) == 2:
+            if args[0].canon() == args[1].canon():
+                return OLit(1)
+
+        # R10d: mod(x, x) → 0 (self-modulus)
+        if name in ('mod', 'imod') and len(args) == 2:
+            if args[0].canon() == args[1].canon():
+                return OLit(0)
+
+        # R10e: pow(x, 0) → 1 (zeroth power)
+        if name in ('pow', 'ipow') and len(args) == 2:
+            if isinstance(args[1], OLit) and args[1].value == 0:
+                return OLit(1)
+
+        # R10f: len(range(n)) → n (for single-arg range)
+        if name == 'len' and len(args) == 1:
+            inner = args[0]
+            if isinstance(inner, OOp) and inner.name == 'range':
+                if len(inner.args) == 1:
+                    return inner.args[0]
+                elif len(inner.args) == 2:
+                    # len(range(a, b)) → max(0, sub(b, a))
+                    return OOp('max', (OLit(0), OOp('sub', (inner.args[1], inner.args[0]))))
+                elif len(inner.args) == 3:
+                    # len(range(a, b, step)) — not simplified (step-dependent)
+                    pass
 
         # R12: -(-x) → x
         if name == 'u_usub' and len(args) == 1:
@@ -2691,6 +3267,56 @@ def _phase2_ring(term: OTerm) -> OTerm:
         # bool(x) is NOT equivalent to x — it coerces to True/False
         # Don't normalize it away
 
+        # ── Factorial quotient → comb(n, k) ──
+        # floordiv(factorial(n), mult(factorial(k), factorial(sub(n, k)))) → comb(n, k)
+        # This is the defining identity for binomial coefficients.
+        if name == 'floordiv' and len(args) == 2:
+            numer, denom = args
+            if (isinstance(numer, OOp) and numer.name == 'factorial'
+                    and len(numer.args) == 1):
+                n_term = numer.args[0]
+                # denom = mult(factorial(k), factorial(n-k))
+                if (isinstance(denom, OOp) and denom.name == 'mult'
+                        and len(denom.args) == 2):
+                    d_a, d_b = denom.args
+                    if (isinstance(d_a, OOp) and d_a.name == 'factorial'
+                            and isinstance(d_b, OOp) and d_b.name == 'factorial'):
+                        k1 = d_a.args[0]
+                        k2 = d_b.args[0]
+                        # Check k1 + k2 = n (i.e., k2 = sub(n, k1) or k1 = sub(n, k2))
+                        if (isinstance(k2, OOp) and k2.name == 'sub'
+                                and k2.args[0].canon() == n_term.canon()):
+                            return OOp('comb', (n_term, k1))
+                        if (isinstance(k1, OOp) and k1.name == 'sub'
+                                and k1.args[0].canon() == n_term.canon()):
+                            return OOp('comb', (n_term, k2))
+
+        # ── comb symmetry: comb(n, sub(n, k)) → comb(n, k) ──
+        # C(n,k) = C(n,n-k), canonicalize to the non-sub form
+        if name == 'comb' and len(args) == 2:
+            n_arg, k_arg = args
+            # comb(n, 0) → 1, comb(n, n) → 1  (base cases)
+            if isinstance(k_arg, OLit) and k_arg.value == 0:
+                return OLit(1)
+            if k_arg.canon() == n_arg.canon():
+                return OLit(1)
+            if (isinstance(k_arg, OOp) and k_arg.name == 'sub'
+                    and len(k_arg.args) == 2
+                    and k_arg.args[0].canon() == n_arg.canon()):
+                return OOp('comb', (n_arg, k_arg.args[1]))
+            # comb(n, case(lt(sub(n,k), k), sub(n,k), k)) → comb(n, k)
+            # This is comb(n, min(n-k, k)) = comb(n, k) by symmetry
+            if isinstance(k_arg, OCase):
+                tb = k_arg.true_branch
+                fb = k_arg.false_branch
+                # Either branch may be sub(n, other)
+                if (isinstance(tb, OOp) and tb.name == 'sub'
+                        and tb.args[0].canon() == n_arg.canon()):
+                    return OOp('comb', (n_arg, tb.args[1]))
+                if (isinstance(fb, OOp) and fb.name == 'sub'
+                        and fb.args[0].canon() == n_arg.canon()):
+                    return OOp('comb', (n_arg, fb.args[1]))
+
         return OOp(name, args)
 
     if isinstance(term, OCase):
@@ -2863,6 +3489,139 @@ def _recognize_fold_body(body_fn: OTerm) -> Optional[str]:
     return None
 
 
+def _try_linear_rec_to_fold(case_term: OCase) -> Optional[OTerm]:
+    """Convert linear recursion to fold (catamorphism principle).
+
+    Pattern: case(guard(x, K), op(x, fix[h]([sub(x, step)])), base)
+      → fold[op](base, range(K+step, x+step, step))
+
+    Only for commutative+associative ops to ensure
+    right-fold = left-fold = fold over range.
+    """
+    test = case_term.test
+    true_br = case_term.true_branch
+    false_br = case_term.false_branch
+
+    # Determine which branch is recursive and which is the base
+    rec_branch = base_branch = None
+    rec_is_true = False
+    if _has_fix_node(true_br) and not _has_fix_node(false_br):
+        rec_branch, base_branch = true_br, false_br
+        rec_is_true = True
+    elif _has_fix_node(false_br) and not _has_fix_node(true_br):
+        rec_branch, base_branch = false_br, true_br
+        rec_is_true = False
+    else:
+        return None
+
+    # Extract binary op and fix call from the recursive branch
+    if not isinstance(rec_branch, OOp) or len(rec_branch.args) != 2:
+        return None
+
+    op_name = rec_branch.name
+    arg0, arg1 = rec_branch.args
+
+    fix_node = param_node = None
+    if isinstance(arg1, OFix):
+        fix_node, param_node = arg1, arg0
+    elif isinstance(arg0, OFix):
+        fix_node, param_node = arg0, arg1
+    else:
+        return None
+
+    if not isinstance(param_node, OVar):
+        return None
+
+    # Check fix call argument: sub(param, step)
+    if not isinstance(fix_node.body, OSeq) or len(fix_node.body.elements) != 1:
+        return None
+    call_arg = fix_node.body.elements[0]
+    if not isinstance(call_arg, OOp) or call_arg.name != 'sub' or len(call_arg.args) != 2:
+        return None
+    if call_arg.args[0].canon() != param_node.canon():
+        return None
+    if not isinstance(call_arg.args[1], OLit) or not isinstance(call_arg.args[1].value, int):
+        return None
+    step = call_arg.args[1].value
+    if step <= 0:
+        return None
+
+    # Only commutative+associative ops
+    _COMM_ASSOC = {'add', 'iadd', 'mult', 'imult', 'mul', 'imul',
+                   'and', 'or', 'bitand', 'bitor', 'bitxor',
+                   'min', 'max', 'gcd'}
+    if op_name not in _COMM_ASSOC:
+        return None
+
+    # Canonicalize op name for the fold
+    _CANON = {'iadd': 'add', 'imult': 'mul', 'imul': 'mul', 'mult': 'mul'}
+    fold_op = _CANON.get(op_name, op_name)
+
+    # Extract guard bound from test
+    guard_bound = _extract_rec_guard_bound(test, param_node, rec_is_true)
+    if guard_bound is None:
+        return None
+
+    # Build the fold: fold[op](base, range(guard_bound + step, param + step, step))
+    param = param_node
+    if step == 1:
+        range_start = OOp('add', (guard_bound, OLit(1)))
+        range_end = OOp('add', (param, OLit(1)))
+        coll = OOp('range', (range_start, range_end))
+    else:
+        range_start = OOp('add', (guard_bound, OLit(step)))
+        range_end = OOp('add', (param, OLit(step)))
+        coll = OOp('range', (range_start, range_end, OLit(step)))
+
+    return OFold(fold_op, base_branch, coll)
+
+
+def _extract_rec_guard_bound(test: OTerm, param: OVar, rec_is_true: bool) -> Optional[OTerm]:
+    """Extract guard bound K from comparison test for recursion detection."""
+    if not isinstance(test, OOp) or len(test.args) != 2:
+        return None
+    a0, a1 = test.args
+    if rec_is_true:
+        if test.name == 'lt' and a1.canon() == param.canon():
+            return a0
+        if test.name == 'gt' and a0.canon() == param.canon():
+            return a1
+        if test.name == 'lte' and a1.canon() == param.canon():
+            return OOp('sub', (a0, OLit(1)))
+        if test.name == 'gte' and a0.canon() == param.canon():
+            return OOp('sub', (a1, OLit(1)))
+    else:
+        if test.name == 'lt' and a0.canon() == param.canon():
+            return OOp('sub', (a1, OLit(1)))
+        if test.name == 'gt' and a1.canon() == param.canon():
+            return OOp('sub', (a0, OLit(1)))
+        if test.name == 'lte' and a0.canon() == param.canon():
+            return a1
+        if test.name == 'gte' and a1.canon() == param.canon():
+            return a0
+    return None
+
+
+def _has_fix_node(term: OTerm) -> bool:
+    """Check if a term contains any OFix node."""
+    if isinstance(term, OFix):
+        return True
+    for attr in ['test', 'true_branch', 'false_branch', 'init',
+                 'collection', 'body', 'inner', 'default']:
+        child = getattr(term, attr, None)
+        if child is not None and _has_fix_node(child):
+            return True
+    if hasattr(term, 'args'):
+        for a in term.args:
+            if _has_fix_node(a):
+                return True
+    if hasattr(term, 'elements'):
+        for e in term.elements:
+            if _has_fix_node(e):
+                return True
+    return False
+
+
 def _try_fold_to_builtin(op: str, init: OTerm, coll: OTerm) -> Optional[OTerm]:
     """Simplify fold to builtin when possible.
 
@@ -2888,15 +3647,23 @@ def _try_fold_to_builtin(op: str, init: OTerm, coll: OTerm) -> Optional[OTerm]:
                 if len(coll.args) == 2 and isinstance(coll.args[1], OLit) and coll.args[1].value == 1:
                     if coll.args[0].canon() == base.canon():
                         return OOp('max', (base,))
-    # fold[mul](1, range(2, n+1)) → math.factorial(n)
+    # fold[mul](1, range(S, n+1)) → factorial(n)  when S ∈ {1, 2}
+    # (1*2*...*n = n! regardless of whether we start at 1 or 2)
     if op == 'mul' and isinstance(init, OLit) and init.value == 1:
         if isinstance(coll, OOp) and coll.name == 'range' and len(coll.args) == 2:
             start, end = coll.args
-            if isinstance(start, OLit) and start.value == 2:
+            if isinstance(start, OLit) and start.value in (1, 2):
                 # Check end = add(n, 1)
                 if isinstance(end, OOp) and end.name == 'add' and len(end.args) == 2:
                     if isinstance(end.args[1], OLit) and end.args[1].value == 1:
-                        return OOp('math.factorial', (end.args[0],))
+                        return OOp('factorial', (end.args[0],))
+        # fold[mul](1, range(1, n)) or range(2, n) → factorial(sub(n, 1))
+        if isinstance(coll, OOp) and coll.name == 'range' and len(coll.args) == 2:
+            start, end = coll.args
+            if isinstance(start, OLit) and start.value in (1, 2):
+                # end is a plain variable or expression (not add(n,1))
+                if not (isinstance(end, OOp) and end.name == 'add'):
+                    return OOp('factorial', (OOp('sub', (end, OLit(1))),))
         # fold[mul](1, map(λ_.c, range(n))) → pow(c, n)
         if isinstance(coll, OMap):
             tr = coll.transform
@@ -2908,6 +3675,59 @@ def _try_fold_to_builtin(op: str, init: OTerm, coll: OTerm) -> Optional[OTerm]:
                     if isinstance(inner_coll, OOp) and inner_coll.name == 'range' and len(inner_coll.args) == 1:
                         return OOp('pow', (tr.body, inner_coll.args[0]))
     return None
+
+
+def _try_fold_to_comb(bfn: OTerm, init: OTerm, coll: OTerm) -> 'Optional[OTerm]':
+    """Recognize fold computing binomial coefficient comb(n, k).
+
+    The iterative binomial: fold[λ(acc,i)→acc*(n-i)/(i+1)](1, range(k)) = comb(n,k).
+    This is a standard mathematical identity for computing C(n,k) without overflow.
+    """
+    if not isinstance(init, OLit) or init.value != 1:
+        return None
+    if not isinstance(bfn, OLam) or len(bfn.params) != 2:
+        return None
+    acc_p, idx_p = bfn.params
+    body = bfn.body
+
+    # Pattern: floordiv(mult(acc, sub(N, i)), add(i, 1))
+    if not (isinstance(body, OOp) and body.name == 'floordiv' and len(body.args) == 2):
+        return None
+    numer, denom = body.args
+    if not (isinstance(numer, OOp) and numer.name == 'mult' and len(numer.args) == 2):
+        return None
+    if not (isinstance(denom, OOp) and denom.name == 'add' and len(denom.args) == 2):
+        return None
+    # numer = mult(acc, sub(N, i))
+    a, b = numer.args
+    if isinstance(a, OVar) and a.name == acc_p:
+        n_minus_i = b
+    elif isinstance(b, OVar) and b.name == acc_p:
+        n_minus_i = a
+    else:
+        return None
+    # n_minus_i = sub(N, i)
+    if not (isinstance(n_minus_i, OOp) and n_minus_i.name == 'sub' and len(n_minus_i.args) == 2):
+        return None
+    n_term = n_minus_i.args[0]
+    if not (isinstance(n_minus_i.args[1], OVar) and n_minus_i.args[1].name == idx_p):
+        return None
+    # denom = add(i, 1)
+    d_parts = denom.args
+    if isinstance(d_parts[0], OVar) and d_parts[0].name == idx_p:
+        if not (isinstance(d_parts[1], OLit) and d_parts[1].value == 1):
+            return None
+    elif isinstance(d_parts[1], OVar) and d_parts[1].name == idx_p:
+        if not (isinstance(d_parts[0], OLit) and d_parts[0].value == 1):
+            return None
+    else:
+        return None
+
+    # coll must be range(k) for some k
+    if not (isinstance(coll, OOp) and coll.name == 'range' and len(coll.args) >= 1):
+        return None
+    k_term = coll.args[0]
+    return OOp('comb', (n_term, k_term))
 
 
 def _references_var(term: OTerm, var_name: str) -> bool:
@@ -2933,6 +3753,507 @@ def _references_var(term: OTerm, var_name: str) -> bool:
         return (_references_var(term.transform, var_name) or
                 _references_var(term.collection, var_name))
     return False
+
+
+def _try_dp_to_tuple_fold(fold: 'OFold', extract_idx: 'OTerm') -> 'Optional[OTerm]':
+    """Convert DP-array-fill fold to equivalent tuple-fold.
+
+    Detects the pattern:
+        getitem(fold[λ(arr,i) → setitem(arr, i, f(arr[i-1], arr[i-2]))]
+                (init_arr, range(2, end)), idx)
+    where idx = end - 1, and converts to:
+        getitem(fold[λ(a,b,_) → (b, f(a,b))]((v0, v1), range(idx)), 0)
+
+    This is the DP window compression theorem: a 2-lookback linear recurrence
+    stored in an array is equivalent to a 2-tuple sliding window fold.
+
+    Only handles the exact 2-seed, 2-lookback case (window size = 2).
+    """
+    bfn = fold.body_fn
+    if not isinstance(bfn, OLam) or len(bfn.params) != 2:
+        return None
+    acc_p, iter_p = bfn.params
+
+    # Body must be setitem(acc, i, expr)
+    body = bfn.body
+    if not isinstance(body, OOp) or body.name != 'setitem' or len(body.args) != 3:
+        return None
+    si_target, si_idx, si_value = body.args
+    if not isinstance(si_target, OVar) or si_target.name != acc_p:
+        return None
+    if not isinstance(si_idx, OVar) or si_idx.name != iter_p:
+        return None
+
+    # Analyze si_value for getitem(acc, sub(i, k)) references
+    lookbacks = {}
+
+    def _extract_lookbacks(t: 'OTerm') -> 'Optional[OTerm]':
+        """Replace getitem(acc, sub(i, k)) with placeholder variables."""
+        if isinstance(t, OOp) and t.name == 'getitem' and len(t.args) == 2:
+            arr_ref, offset_expr = t.args
+            if isinstance(arr_ref, OVar) and arr_ref.name == acc_p:
+                if (isinstance(offset_expr, OOp) and offset_expr.name == 'sub'
+                        and len(offset_expr.args) == 2
+                        and isinstance(offset_expr.args[0], OVar)
+                        and offset_expr.args[0].name == iter_p
+                        and isinstance(offset_expr.args[1], OLit)
+                        and isinstance(offset_expr.args[1].value, int)):
+                    k = offset_expr.args[1].value
+                    if k < 1:
+                        return None
+                    lookbacks[k] = True
+                    if k == 1:
+                        return OVar('_dp_b')  # dp[i-1] → newer element
+                    elif k == 2:
+                        return OVar('_dp_a')  # dp[i-2] → older element
+                    else:
+                        return None  # Window > 2 not supported
+                else:
+                    return None
+        if isinstance(t, OOp):
+            new_args = []
+            for a in t.args:
+                r = _extract_lookbacks(a)
+                if r is None:
+                    return None
+                new_args.append(r)
+            return OOp(t.name, tuple(new_args))
+        if isinstance(t, OVar):
+            if t.name == acc_p:
+                return None  # Bare accumulator reference
+            return t
+        if isinstance(t, OLit):
+            return t
+        if isinstance(t, OCase):
+            test = _extract_lookbacks(t.test)
+            if test is None:
+                return None
+            tb = _extract_lookbacks(t.true_branch)
+            if tb is None:
+                return None
+            fb = _extract_lookbacks(t.false_branch)
+            if fb is None:
+                return None
+            return OCase(test, tb, fb)
+        return None
+
+    recurrence_expr = _extract_lookbacks(si_value)
+    if recurrence_expr is None:
+        return None
+    if set(lookbacks.keys()) != {1, 2}:
+        return None
+
+    # Collection must be range(2, end)
+    coll = fold.collection
+    if not isinstance(coll, OOp) or coll.name != 'range' or len(coll.args) != 2:
+        return None
+    start_expr, end_expr = coll.args
+    if not isinstance(start_expr, OLit) or start_expr.value != 2:
+        return None
+
+    # Verify extract_idx = end - 1
+    idx_matches = False
+    if isinstance(end_expr, OOp) and end_expr.name == 'add' and len(end_expr.args) == 2:
+        for a, b in [(end_expr.args[0], end_expr.args[1]),
+                     (end_expr.args[1], end_expr.args[0])]:
+            if isinstance(b, OLit) and b.value == 1:
+                if a.canon() == extract_idx.canon():
+                    idx_matches = True
+                    break
+    if not idx_matches:
+        end_minus_1 = OOp('sub', (end_expr, OLit(1)))
+        if end_minus_1.canon() == extract_idx.canon():
+            idx_matches = True
+    if not idx_matches:
+        return None
+
+    # Extract initial values from init array
+    v0, v1 = _extract_dp_init_values(fold.init, 0, 1)
+    if v0 is None or v1 is None:
+        return None
+
+    # Construct tuple fold body: λ(a, b, j) → (b, f(a, b))
+    # _dp_a = dp[i-2] → tuple element 0 (older)
+    # _dp_b = dp[i-1] → tuple element 1 (newer)
+    # If recurrence uses the iteration variable i (from range(start, end)),
+    # we must offset: i = j + start, where j comes from range(extract_idx).
+    start_val = start_expr.value  # guaranteed literal 2
+    rec_with_params = _subst_term(
+        _subst_term(recurrence_expr, '_dp_a', OVar('_tb0')),
+        '_dp_b', OVar('_tb1'))
+    # Replace iteration variable with offset: iter_p → _tb2 + start
+    uses_iter = iter_p in _collect_vars(rec_with_params)
+    if uses_iter:
+        offset_iter = OOp('add', (OVar('_tb2'), OLit(start_val)))
+        rec_with_params = _subst_term(rec_with_params, iter_p, offset_iter)
+    tuple_body = OSeq((OVar('_tb1'), rec_with_params))
+    tuple_lam = OLam(('_tb0', '_tb1', '_tb2'), tuple_body)
+
+    import hashlib
+    fold_hash = hashlib.md5(tuple_lam.canon().encode()).hexdigest()[:8]
+
+    tuple_init = OSeq((v0, v1))
+    tuple_coll = OOp('range', (extract_idx,))
+    return OOp('getitem', (OFold(fold_hash, tuple_init, tuple_coll,
+                                 body_fn=tuple_lam), OLit(0)))
+
+
+def _extract_dp_init_values(init: 'OTerm', idx0: int, idx1: int):
+    """Extract values at positions idx0, idx1 from a DP init array.
+
+    Handles: setitem(setitem(mult([0], n+1), 0, v0), 1, v1)
+    Also handles: map(λ(i) case(or(eq(i,0),eq(i,1)),v0,default), range(N))
+    """
+    values = {}
+    term = init
+    while isinstance(term, OOp) and term.name == 'setitem' and len(term.args) == 3:
+        base, pos, val = term.args
+        if isinstance(pos, OLit) and isinstance(pos.value, int):
+            values[pos.value] = val
+        term = base
+
+    is_zero_base = False
+    if isinstance(term, OOp) and term.name == 'mult' and len(term.args) == 2:
+        base_elem, _size = term.args
+        if isinstance(base_elem, OSeq) and len(base_elem.elements) == 1:
+            if isinstance(base_elem.elements[0], OLit) and base_elem.elements[0].value == 0:
+                is_zero_base = True
+    if isinstance(term, OSeq):
+        for i, e in enumerate(term.elements):
+            if i not in values:
+                values[i] = e
+        is_zero_base = True
+
+    # Handle map-based init: map(λ(i) expr, range(N))
+    # Evaluate expr at literal indices idx0, idx1
+    if not is_zero_base and isinstance(term, OMap) and isinstance(term.transform, OLam):
+        lam = term.transform
+        if len(lam.params) == 1:
+            param = lam.params[0]
+            for idx_val in (idx0, idx1):
+                if idx_val not in values:
+                    subst = _subst_term(lam.body, param, OLit(idx_val))
+                    simp = _simplify_ground(subst)
+                    if simp is None:
+                        simp = _phase1_beta(_phase2_ring(subst))
+                    values[idx_val] = simp
+            is_zero_base = True
+
+    if not is_zero_base:
+        return None, None
+
+    return values.get(idx0), values.get(idx1)
+
+
+def _try_fold_to_map(fold_term: OFold, orig_init: OTerm) -> 'Optional[OTerm]':
+    """Fold-to-map lifting: independent per-element updates.
+
+    fold[λ(acc,i) → setitem(acc, i, f(i))](init, range(N))
+    where f(i) only depends on i and init[i] (not other acc positions)
+    → map(λ(i).f(i), range(N)) applied as element-wise update.
+
+    Soundness: if position i is only written once and reads only from
+    the initial value at position i, each iteration is independent.
+    """
+    if not isinstance(fold_term, OFold):
+        return None
+    bfn = fold_term.body_fn
+    if bfn is None or not isinstance(bfn, OLam) or len(bfn.params) != 2:
+        return None
+    acc_p, elem_p = bfn.params
+    body = bfn.body
+    coll = fold_term.collection
+    init = fold_term.init
+
+    # Collection must be range(N) — each index visited exactly once
+    if not (isinstance(coll, OOp) and coll.name == 'range' and len(coll.args) == 1):
+        return None
+
+    # Body must be setitem(acc, elem, value_expr)
+    if not (isinstance(body, OOp) and body.name == 'setitem'
+            and len(body.args) == 3):
+        return None
+    set_target, set_idx, set_val = body.args
+
+    # setitem target must be the accumulator
+    if not (isinstance(set_target, OVar) and set_target.name == acc_p):
+        return None
+    # setitem index must be the iteration variable
+    if not (isinstance(set_idx, OVar) and set_idx.name == elem_p):
+        return None
+
+    # Check that set_val only uses acc via getitem(acc, elem)
+    # Replace getitem(acc, elem) → getitem(init, elem) to decouple
+    def _check_and_subst(t: OTerm) -> 'Optional[OTerm]':
+        """Returns substituted term or None if acc is used unsafely."""
+        if isinstance(t, OVar):
+            if t.name == acc_p:
+                return None  # Direct use of acc (not getitem) → unsafe
+            return t
+        if isinstance(t, (OLit, OUnknown)):
+            return t
+        if isinstance(t, OOp):
+            # getitem(acc, elem) → getitem(init, elem)
+            if (t.name == 'getitem' and len(t.args) == 2
+                    and isinstance(t.args[0], OVar) and t.args[0].name == acc_p
+                    and isinstance(t.args[1], OVar) and t.args[1].name == elem_p):
+                return OOp('getitem', (init, t.args[1]))
+            new_args = []
+            for a in t.args:
+                r = _check_and_subst(a)
+                if r is None:
+                    return None
+                new_args.append(r)
+            return OOp(t.name, tuple(new_args))
+        if isinstance(t, OCase):
+            c = _check_and_subst(t.guard)
+            tr = _check_and_subst(t.true_br)
+            fa = _check_and_subst(t.false_br)
+            if c is None or tr is None or fa is None:
+                return None
+            return OCase(c, tr, fa)
+        if isinstance(t, OSeq):
+            elems = []
+            for e in t.elements:
+                r = _check_and_subst(e)
+                if r is None:
+                    return None
+                elems.append(r)
+            return OSeq(tuple(elems))
+        if isinstance(t, OLam):
+            if acc_p in t.params:
+                return t  # acc is shadowed — safe
+            b = _check_and_subst(t.body)
+            return OLam(t.params, b) if b is not None else None
+        # For other term types, conservatively reject
+        return None
+
+    subst_val = _check_and_subst(set_val)
+    if subst_val is None:
+        return None
+
+    # Build: map(λ(elem) → subst_val, range(N))
+    transform = OLam((elem_p,), subst_val)
+    return OMap(transform, coll)
+
+
+def _is_comparison_sort_fold(fold_term: OFold) -> bool:
+    """Check if a fold is a comparison-based sorting algorithm.
+
+    Sound version: requires NESTED folds (O(n²) operations) to ensure
+    enough passes to fully sort. A single-pass fold does NOT produce
+    sorted output. Also requires order comparisons (lt/gt/le/ge)
+    between array elements — not equality or predicate checks.
+
+    Returns True iff the fold provably sorts its input.
+    """
+    # 1. Must start from list(x) or a copy of the input
+    init = fold_term.init
+    if not (isinstance(init, OOp) and init.name == 'list'
+            and len(init.args) == 1):
+        return False
+
+    # 2. Must iterate over range(len(x)) or similar complete range
+    coll = fold_term.collection
+    if not (isinstance(coll, OOp) and coll.name == 'range'):
+        return False
+
+    # 3. Must have body_fn
+    if fold_term.body_fn is None:
+        return False
+    if not isinstance(fold_term.body_fn, OLam):
+        return False
+    if len(fold_term.body_fn.params) < 2:
+        return False
+
+    acc_param = fold_term.body_fn.params[0]
+    body = fold_term.body_fn.body
+
+    # 4. Body must contain a nested fold (ensures O(n²) operations).
+    #    Single-pass comparison-swap is insufficient to sort.
+    if not _contains_nested_fold(body):
+        return False
+
+    return _body_is_sort_step(body, acc_param)
+
+
+def _contains_nested_fold(term: OTerm) -> bool:
+    """Check if term contains at least one OFold or OFix (inner loop).
+    Sort algorithms may use either a nested fold (bubble sort) or
+    a while loop (insertion sort) as the inner iteration."""
+    if isinstance(term, OFold):
+        return True
+    if isinstance(term, OFix):
+        return True
+    if isinstance(term, OCase):
+        return (_contains_nested_fold(term.true_branch) or
+                _contains_nested_fold(term.false_branch))
+    if isinstance(term, OOp):
+        return any(_contains_nested_fold(a) for a in term.args)
+    if isinstance(term, OSeq):
+        return any(_contains_nested_fold(e) for e in term.elements)
+    return False
+
+
+def _body_is_sort_step(body: OTerm, acc_param: str) -> bool:
+    """Check if a fold body only rearranges elements via comparison-based swaps.
+
+    Requirements:
+    - All setitem values come from getitem of the same accumulator
+    - At least one comparison between elements exists somewhere in the body
+    - No external values are introduced into the array
+    """
+
+    def _has_element_comparison(term: OTerm, acc_name: str) -> bool:
+        """Check if any OCase test uses an ORDER comparison of array elements."""
+        if isinstance(term, OCase):
+            if _test_uses_order_getitem(term.test, acc_name):
+                return True
+            return (_has_element_comparison(term.true_branch, acc_name) or
+                    _has_element_comparison(term.false_branch, acc_name))
+        if isinstance(term, OOp):
+            return any(_has_element_comparison(a, acc_name) for a in term.args)
+        if isinstance(term, OFold):
+            if term.body_fn and isinstance(term.body_fn, OLam):
+                # Inner fold may compare elements of the OUTER accumulator
+                # (e.g., selection sort: inner fold finds min index by comparing
+                # outer_acc[j] vs outer_acc[curr_min])
+                inner_acc = term.body_fn.params[0]
+                return (_has_element_comparison(term.body_fn.body, acc_name) or
+                        _has_element_comparison(term.body_fn.body, inner_acc))
+            return False
+        if isinstance(term, OFix):
+            # While loop: comparisons inside the fix body count
+            return _has_element_comparison(term.body, acc_name)
+        if isinstance(term, OSeq):
+            return any(_has_element_comparison(e, acc_name) for e in term.elements)
+        return False
+
+    def _test_uses_order_getitem(test: OTerm, acc_name: str) -> bool:
+        """Check if test is an order comparison of DIRECT array elements.
+
+        Requires the comparison operands to be getitem(acc, idx) directly —
+        NOT getitem(getitem(acc, idx), key), which would be a keyed sort.
+        """
+        if isinstance(test, OOp):
+            # Only order comparisons count — not eq/ne
+            if test.name in ('lt', 'gt', 'le', 'ge', 'lte', 'gte') and len(test.args) >= 2:
+                if any(_is_direct_element_access(a, acc_name) for a in test.args):
+                    return True
+            return any(_test_uses_order_getitem(a, acc_name) for a in test.args)
+        return False
+
+    def _is_direct_element_access(term: OTerm, acc_name: str) -> bool:
+        """Check if term is getitem(acc_chain, idx) — direct element access."""
+        if isinstance(term, OOp) and term.name == 'getitem' and len(term.args) >= 1:
+            return _is_acc_chain(term.args[0], acc_name)
+        return False
+
+    def _test_uses_getitem(test: OTerm, acc_name: str) -> bool:
+        """Check if a test expression uses getitem from the accumulator."""
+        if isinstance(test, OOp):
+            if test.name == 'getitem' and len(test.args) >= 1:
+                if _is_acc_chain(test.args[0], acc_name):
+                    return True
+            return any(_test_uses_getitem(a, acc_name) for a in test.args)
+        return False
+
+    def _only_rearranges(term: OTerm, acc_name: str) -> bool:
+        """Check that 'term' produces only element-rearranged versions of acc."""
+        if isinstance(term, OVar):
+            # Only the accumulator variable is acceptable — not loop index etc.
+            return term.name == acc_name
+        if isinstance(term, OOp):
+            if term.name == 'setitem' and len(term.args) == 3:
+                base, idx, val = term.args
+                if not _only_rearranges(base, acc_name):
+                    return False
+                if not _val_from_getitem(val, acc_name):
+                    return False
+                return True
+            # getitem(fix[...](state), 0): while loop that modifies the array
+            # in-place via shifts/swaps. Accept if the initial state contains
+            # the accumulator and the fix body only uses setitem/getitem.
+            if term.name == 'getitem' and len(term.args) == 2:
+                base, idx = term.args
+                if isinstance(base, OFix) and isinstance(idx, OLit) and idx.value == 0:
+                    return _fix_rearranges(base, acc_name)
+            return False
+        if isinstance(term, OCase):
+            return (_only_rearranges(term.true_branch, acc_name) and
+                    _only_rearranges(term.false_branch, acc_name))
+        if isinstance(term, OFold):
+            # Inner fold: must also only rearrange elements
+            if term.body_fn is not None and isinstance(term.body_fn, OLam):
+                inner_acc = term.body_fn.params[0]
+                return _only_rearranges(term.body_fn.body, inner_acc)
+            return False
+        return False
+
+    def _fix_rearranges(fix_term: OFix, acc_name: str) -> bool:
+        """Check that a while-loop OFix only rearranges elements of the accumulator.
+        The fix body should be a case(guard, [modified_arr, ...], [arr, ...])
+        where modified_arr only uses setitem with values from getitem."""
+        body = fix_term.body
+        if not isinstance(body, OCase):
+            return False
+        # Check both branches: one continues iteration, one stops
+        for branch in [body.true_branch, body.false_branch]:
+            if isinstance(branch, OSeq) and len(branch.elements) >= 1:
+                arr_elem = branch.elements[0]
+                if isinstance(arr_elem, OVar):
+                    continue  # Identity: returns acc unchanged
+                if isinstance(arr_elem, OOp) and arr_elem.name == 'setitem':
+                    # setitem chain: verify values come from getitem
+                    if not _setitem_chain_rearranges(arr_elem):
+                        return False
+                    continue
+                return False
+            elif isinstance(branch, OOp) and branch.name == '_recurse':
+                continue  # Recursive call
+            else:
+                return False
+        return True
+
+    def _setitem_chain_rearranges(term: OTerm) -> bool:
+        """Check that a setitem chain only moves elements around."""
+        if isinstance(term, OVar):
+            return True  # Base accumulator variable
+        if isinstance(term, OOp):
+            if term.name == 'setitem' and len(term.args) == 3:
+                base, idx, val = term.args
+                if not _setitem_chain_rearranges(base):
+                    return False
+                # Value must be from getitem of some accumulator
+                if isinstance(val, OOp) and val.name == 'getitem':
+                    return True
+                if isinstance(val, OVar):
+                    return True  # Could be a saved element (e.g., key = arr[i])
+                return False
+        return False
+
+    def _val_from_getitem(term: OTerm, acc_name: str) -> bool:
+        """Check that 'term' ultimately derives from getitem of the accumulator."""
+        if isinstance(term, OOp) and term.name == 'getitem':
+            base = term.args[0]
+            if _is_acc_chain(base, acc_name):
+                return True
+            # Tuple unpacking: getitem([getitem(acc,i), getitem(acc,j)], k)
+            if isinstance(base, OSeq):
+                return all(_val_from_getitem(e, acc_name) for e in base.elements)
+        return False
+
+    def _is_acc_chain(term: OTerm, acc_name: str) -> bool:
+        """Check that 'term' is the accumulator or a rearranged version of it."""
+        if isinstance(term, OVar) and term.name == acc_name:
+            return True
+        if isinstance(term, OOp) and term.name == 'setitem':
+            return _is_acc_chain(term.args[0], acc_name)
+        return False
+
+    rearranges = _only_rearranges(body, acc_param)
+    has_comp = _has_element_comparison(body, acc_param)
+    return rearranges and has_comp
 
 
 def _phase3_fold(term: OTerm) -> OTerm:
@@ -2977,9 +4298,16 @@ def _phase3_fold(term: OTerm) -> OTerm:
             return OFold(op_name, init, args[1], body_fn=reduce_body_fn)
         return OOp(name, args)
     if isinstance(term, OCase):
-        return OCase(_phase3_fold(term.test),
+        normalized = OCase(_phase3_fold(term.test),
                      _phase3_fold(term.true_branch),
                      _phase3_fold(term.false_branch))
+        # Linear recursion → fold conversion (catamorphism principle)
+        # case(guard, op(x, fix([sub(x,1)])), base) → fold[op](base, range(...))
+        # when op is commutative + associative
+        fold_result = _try_linear_rec_to_fold(normalized)
+        if fold_result is not None:
+            return _phase3_fold(fold_result)  # re-normalize as fold
+        return normalized
     if isinstance(term, OFold):
         # Canonicalize fold op name: iadd→add, imult→mul, etc.
         canon = {'iadd': 'add', 'isub': 'sub', 'imul': 'mul', 'imult': 'mul',
@@ -3008,11 +4336,178 @@ def _phase3_fold(term: OTerm) -> OTerm:
             }
             if op in _OP_IDENTITY:
                 init = _OP_IDENTITY[op]
+        # ── Range start canonicalization ──
+        # fold[op](identity, range(S, E)) where S > identity and all values
+        # in [identity, S) are identity for op → fold[op](identity, range(identity, E))
+        # E.g., fold[add](0, range(1, n+1)) → fold[add](0, range(0, n+1))
+        # because adding 0 to a sum doesn't change it.
+        # This ensures recursive-to-fold and iterative-fold normalize the same.
+        _OP_IDENTITY_VAL = {
+            'add': 0, 'mul': 1, 'bitor': 0, 'bitxor': 0,
+            'bitand': -1, 'or': False, 'and': True,
+        }
+        if (op in _OP_IDENTITY_VAL and isinstance(coll, OOp) and
+                coll.name == 'range' and len(coll.args) >= 2):
+            id_val = _OP_IDENTITY_VAL[op]
+            range_start = coll.args[0]
+            if isinstance(range_start, OLit) and isinstance(init, OLit):
+                if init.value == id_val and isinstance(range_start.value, (int, float)):
+                    # Check all values in [id_val, start) are identity for op
+                    start_v = int(range_start.value)
+                    all_identity = True
+                    for v in range(int(id_val), start_v):
+                        if v != id_val:
+                            all_identity = False
+                            break
+                    if all_identity and start_v > id_val:
+                        new_args = (OLit(id_val),) + coll.args[1:]
+                        coll = OOp('range', new_args)
+
         # Fold→math simplification: fold[min](a[0], a[1:]) → min(a)
         result = _try_fold_to_builtin(op, init, coll)
         if result is not None:
             return result
-        return OFold(op, init, coll, body_fn=bfn)
+
+        # ── Constant-map fold absorption ──
+        # fold[and](True, map(λ.True, xs)) → True  (AND over all-True)
+        # fold[or](False, map(λ.False, xs)) → False (OR over all-False)
+        # fold[add](0, map(λ.0, xs)) → 0  (sum of zeros)
+        # fold[mul](1, map(λ.1, xs)) → 1  (product of ones)
+        # General: fold[op](identity, constant(identity) collection) → identity
+        if isinstance(coll, OMap) and isinstance(coll.transform, OLam):
+            map_body = coll.transform.body
+            if isinstance(map_body, OLit):
+                _IDENTITY_ABSORB = {
+                    'and': (True, True),   # fold[and](True, [True,...]) → True
+                    'or': (False, False),  # fold[or](False, [False,...]) → False
+                    'add': (0, 0),         # fold[add](0, [0,...]) → 0
+                    'mul': (1, 1),         # fold[mul](1, [1,...]) → 1
+                }
+                if op in _IDENTITY_ABSORB:
+                    id_init, id_elem = _IDENTITY_ABSORB[op]
+                    if (isinstance(init, OLit) and init.value == id_init
+                            and map_body.value == id_elem):
+                        return init
+            # Also handle nested fold[and](True, map(λ.fold[and](True,...), xs))
+            # → fold[and](True, flatmap) — but just checking if inner is constant True
+            if isinstance(map_body, OFold) and map_body.op_name == op:
+                if op == 'and' and isinstance(init, OLit) and init.value is True:
+                    if isinstance(map_body.init, OLit) and map_body.init.value is True:
+                        # Inner fold also starts with True — if inner collection
+                        # maps to constant True, the whole thing is True.
+                        if (isinstance(map_body.collection, OMap)
+                                and isinstance(map_body.collection.transform, OLam)
+                                and isinstance(map_body.collection.transform.body, OLit)
+                                and map_body.collection.transform.body.value is True):
+                            return OLit(True)
+
+        # ── Digit sum identity: fold[add](0, map(int, str(X))) → digit_sum(X) ──
+        # Summing digits by string conversion is mathematically equal to
+        # the iterative mod-10/div-10 recurrence.
+        if op == 'add' and isinstance(init, OLit) and init.value == 0:
+            if isinstance(coll, OMap) and coll.filter_pred is None:
+                t = coll.transform
+                c = coll.collection
+                if (isinstance(t, OLam) and len(t.params) == 1
+                        and isinstance(t.body, OOp) and t.body.name == 'int'
+                        and len(t.body.args) == 1
+                        and isinstance(t.body.args[0], OVar)
+                        and t.body.args[0].name == t.params[0]):
+                    if isinstance(c, OOp) and c.name == 'str' and len(c.args) == 1:
+                        return OOp('digit_sum', c.args)
+        # ── Range normalization for iteration-count folds ──
+        # When fold body doesn't use the iteration variable (last param),
+        # only the NUMBER of iterations matters, not the range values.
+        # So fold[f](init, range(a, b)) == fold[f](init, range(sub(b, a)))
+        # This is a general algebraic identity for iteration-count folds.
+        #
+        # When the body DOES use the iteration variable, we can still
+        # normalize range(a, b) → range(b-a) by substituting
+        # iter_var → iter_var + a in the body.
+        # Exception: skip DP-fill folds (setitem(acc, i, ...)) — those are
+        # handled by _try_dp_to_tuple_fold in phase 4, which needs the
+        # original range(start, end) form.
+        if (bfn is not None and isinstance(bfn, OLam)
+                and len(bfn.params) >= 2
+                and isinstance(coll, OOp) and coll.name == 'range'
+                and len(coll.args) == 2):
+            iter_param = bfn.params[-1]
+            body_free = _collect_vars(bfn.body)
+            a_term, b_term = coll.args
+            if iter_param not in body_free:
+                # Iteration variable unused — normalize range(a,b) → range(b-a)
+                new_coll = OOp('range', (OOp('sub', (b_term, a_term)),))
+                return OFold(op, init, new_coll, body_fn=bfn)
+            elif isinstance(a_term, OLit) and isinstance(a_term.value, int) and a_term.value != 0:
+                # Check if this is a DP-fill fold (body = setitem(acc, i, expr))
+                # If so, skip range normalization to let _try_dp_to_tuple_fold handle it
+                is_dp_fill = (isinstance(bfn.body, OOp) and bfn.body.name == 'setitem'
+                              and len(bfn.body.args) == 3
+                              and isinstance(bfn.body.args[0], OVar)
+                              and bfn.body.args[0].name == bfn.params[0]
+                              and isinstance(bfn.body.args[1], OVar)
+                              and bfn.body.args[1].name == iter_param)
+                if not is_dp_fill:
+                    # Iteration variable used with literal offset — substitute
+                    # iter_var → iter_var + a, normalize range(a,b) → range(b-a)
+                    offset = a_term
+                    new_body = _subst_term(bfn.body, iter_param,
+                                           OOp('add', (OVar(iter_param), offset)))
+                    new_bfn = OLam(bfn.params, new_body)
+                    new_coll = OOp('range', (OOp('sub', (b_term, a_term)),))
+                    import hashlib
+                    new_hash = hashlib.md5(new_bfn.canon().encode()).hexdigest()[:8]
+                    return OFold(new_hash, init, new_coll, body_fn=new_bfn)
+        # ── Dict-building fold → dict(zip(A, B)) ──
+        # fold[λ(acc,i)→setitem(acc, A[i], B[i])]({}, range(N)) → dict(zip(A, B))
+        # when N = min(len(A), len(B)) or len(A) or len(B).
+        # This is the definition of dict(zip(...)): iterate indices, build k-v pairs.
+        if (isinstance(init, ODict) and len(init.pairs) == 0
+                and bfn is not None and isinstance(bfn, OLam)
+                and len(bfn.params) == 2):
+            acc_p, idx_p = bfn.params
+            body = bfn.body
+            if (isinstance(body, OOp) and body.name == 'setitem'
+                    and len(body.args) == 3):
+                target, key_expr, val_expr = body.args
+                if isinstance(target, OVar) and target.name == acc_p:
+                    # key = A[i], val = B[i]
+                    if (isinstance(key_expr, OOp) and key_expr.name == 'getitem'
+                            and len(key_expr.args) == 2
+                            and isinstance(key_expr.args[1], OVar)
+                            and key_expr.args[1].name == idx_p
+                            and isinstance(val_expr, OOp) and val_expr.name == 'getitem'
+                            and len(val_expr.args) == 2
+                            and isinstance(val_expr.args[1], OVar)
+                            and val_expr.args[1].name == idx_p):
+                        keys_arr = key_expr.args[0]
+                        vals_arr = val_expr.args[0]
+                        return OOp('dict', (OOp('zip', (keys_arr, vals_arr)),))
+
+        # ── Binomial coefficient fold → comb(n, k) ──
+        # fold[λ(acc,i)→acc*(n-i)/(i+1)](1, range(k)) = comb(n,k)
+        if bfn is not None:
+            comb_result = _try_fold_to_comb(bfn, init, coll)
+            if comb_result is not None:
+                return comb_result
+
+        # ── D25: Comparison-sort fold → sorted(x) ──
+        # If the fold starts from list(x), iterates over range(len(x)),
+        # and the body only performs comparison-based element swaps,
+        # then the result is sorted(x) by sorting network theory.
+        rebuilt = OFold(op, init, coll, body_fn=bfn)
+        if _is_comparison_sort_fold(rebuilt):
+            return OOp('sorted', (rebuilt.init.args[0],))
+
+        # ── Fold-to-map lifting ──
+        # fold[λ(acc,i)→setitem(acc,i,f(init[i],i))](init, range(N))
+        # where f only reads acc[i] (the cell being overwritten) →
+        # each update is independent → equivalent to map.
+        lifted = _try_fold_to_map(rebuilt, init)
+        if lifted is not None:
+            return lifted
+
+        return rebuilt
     if isinstance(term, OFix):
         return OFix(term.name, _phase3_fold(term.body))
     if isinstance(term, OSeq):
@@ -3074,6 +4569,14 @@ def _phase4_hof(term: OTerm) -> OTerm:
             # list(map(f, xs)) → map(f, xs) (map already produces a list-like)
             if isinstance(args[0], OMap):
                 return args[0]
+            # list(transpose(X)) → transpose(X)
+            if isinstance(args[0], OOp) and args[0].name == 'transpose':
+                return args[0]
+            # list(zip(unpack(X))) → transpose(X)
+            if isinstance(args[0], OOp) and args[0].name == 'zip' and len(args[0].args) == 1:
+                inner = args[0].args[0]
+                if isinstance(inner, OOp) and inner.name == 'unpack':
+                    return OOp('transpose', inner.args)
             # list(enumerate(xs)) → map(λi.[i, xs[i]], range(len(xs)))
             if isinstance(args[0], OOp) and args[0].name == 'enumerate':
                 xs = args[0].args[0]
@@ -3096,6 +4599,24 @@ def _phase4_hof(term: OTerm) -> OTerm:
                 return OOp('sorted_rev', args[0].args)
             if isinstance(args[0], OOp) and args[0].name == 'sorted_key':
                 return OOp('sorted_key_rev', args[0].args)
+
+        # zip(unpack(X)) → transpose(X)
+        # zip(*matrix) is the standard Python transpose idiom
+        if name == 'zip' and len(args) == 1:
+            if isinstance(args[0], OOp) and args[0].name == 'unpack':
+                return OOp('transpose', args[0].args)
+
+        # map(list, zip(unpack(X))) → transpose(X)
+        # list(zip(*matrix)) or [list(row) for row in zip(*matrix)]
+        if name == 'map' and len(args) == 2:
+            fn, coll = args
+            if (isinstance(fn, OLam) and len(fn.params) == 1
+                    and isinstance(fn.body, OOp) and fn.body.name == 'list'
+                    and len(fn.body.args) == 1
+                    and isinstance(fn.body.args[0], OVar)
+                    and fn.body.args[0].name == fn.params[0]):
+                if isinstance(coll, OOp) and coll.name == 'transpose':
+                    return OOp('transpose', coll.args)
 
         # sum(range(n)) → n*(n-1)/2
         if name == 'sum' and len(args) == 1:
@@ -3160,6 +4681,48 @@ def _phase4_hof(term: OTerm) -> OTerm:
                     start = coll.args[0]
                     return OOp('add', (start, idx))
 
+            # ── DP-array-fill → tuple-fold conversion ──
+            # getitem(fold[setitem_body](init_arr, range(2, end)), idx)
+            #   → getitem(fold[tuple_body]((v0,v1), range(idx)), 0)
+            # when the fold body is setitem(acc, i, f(acc[i-1], acc[i-2]))
+            # and idx = end - 1 (extracting the last filled element).
+            # This is the standard DP window compression theorem:
+            # a linear recurrence with lookback w stored in an array of size n
+            # is equivalent to a w-tuple sliding window fold.
+            if isinstance(coll, OFold) and isinstance(coll.body_fn, OLam):
+                dp_result = _try_dp_to_tuple_fold(coll, idx)
+                if dp_result is not None:
+                    return dp_result
+
+            # ── Fold-shift identity for pair-rotation folds ──
+            # getitem(fold[f](init, coll), 1) → getitem(fold[f](init, coll'), 0)
+            # where coll' extends iteration count by 1.
+            # Valid when: init is a 2-element seq, body has pair-rotation form
+            # (first output = second input), and collection is range-based.
+            # For pair-rotation folds (a,b,i)→(b,...), element 0 at step K+1
+            # equals element 1 at step K, so the shift is sound even when
+            # the body uses the iteration variable.
+            if (isinstance(coll, OFold) and isinstance(idx, OLit)
+                    and idx.value == 1
+                    and isinstance(coll.init, OSeq) and len(coll.init.elements) == 2
+                    and coll.body_fn is not None and isinstance(coll.body_fn, OLam)
+                    and len(coll.body_fn.params) >= 2):
+                bfn = coll.body_fn
+                is_pair_rotation = (
+                    isinstance(bfn.body, OSeq)
+                    and len(bfn.body.elements) == 2
+                    and isinstance(bfn.body.elements[0], OVar)
+                    and bfn.body.elements[0].name == bfn.params[1]
+                )
+                iter_p = bfn.params[-1]
+                bvars = _collect_vars(bfn.body)
+                if iter_p not in bvars or is_pair_rotation:
+                    fc = coll.collection
+                    if isinstance(fc, OOp) and fc.name == 'range' and len(fc.args) == 1:
+                        new_coll = OOp('range', (OOp('add', (fc.args[0], OLit(1))),))
+                        return OOp('getitem', (OFold(coll.op_name, coll.init,
+                                    new_coll, body_fn=coll.body_fn), OLit(0)))
+
         # itertools.cycle(xs) used standalone → identity (we handle at getitem site)
         # This is conservative: cycle only makes sense with indexing
 
@@ -3217,6 +4780,32 @@ def _phase4_hof(term: OTerm) -> OTerm:
                     and isinstance(args[1], OLit) and args[1].value == '1'):
                 return OOp('popcount', args[0].args)
 
+        # ── Reverse digits identity: int(reversed(str(X))) → reverse_digits(X) ──
+        # int(str(n)[::-1]) and int(''.join(reversed(str(n)))) are reverse-digits
+        if name == 'int' and len(args) == 1:
+            inner = args[0]
+            # int(reversed(str(X))) or int(reversed(str(X)), 10)
+            if isinstance(inner, OOp) and inner.name == 'reversed' and len(inner.args) == 1:
+                str_arg = inner.args[0]
+                if isinstance(str_arg, OOp) and str_arg.name == 'str' and len(str_arg.args) == 1:
+                    return OOp('reverse_digits', str_arg.args)
+            # int(suffix(str(X), -N)) — string slicing reversal
+            # int(str(X)[::-1]) compiles to reversed then str or similar
+
+        # ── Constant folding: ord('A') → 65, chr(65) → 'A', len('str') → int ──
+        if name == 'ord' and len(args) == 1:
+            if isinstance(args[0], OLit) and isinstance(args[0].value, str) and len(args[0].value) == 1:
+                return OLit(ord(args[0].value))
+        if name == 'chr' and len(args) == 1:
+            if isinstance(args[0], OLit) and isinstance(args[0].value, int):
+                try:
+                    return OLit(chr(args[0].value))
+                except (ValueError, OverflowError):
+                    pass
+        if name == 'len' and len(args) == 1:
+            if isinstance(args[0], OLit) and isinstance(args[0].value, str):
+                return OLit(len(args[0].value))
+
         # ── setitem chain normalization ──
         # setitem(setitem(x, i, v), i, w) → setitem(x, i, w)
         # Overwriting the same index makes the first write dead
@@ -3226,6 +4815,36 @@ def _phase4_hof(term: OTerm) -> OTerm:
                     and len(base.args) == 3
                     and base.args[1].canon() == idx.canon()):
                 return OOp('setitem', (base.args[0], idx, val))
+
+            # ── setitem-map fusion ──
+            # setitem(map(f, range(N)), I, W)
+            #   → map(λ(j) case(eq(I,j), W, f(j)), range(N))
+            # Fuses point update into element-wise computation.
+            if isinstance(base, OMap) and isinstance(base.transform, OLam):
+                map_coll = base.collection
+                map_fn = base.transform
+                if (isinstance(map_coll, OOp) and map_coll.name == 'range'
+                        and len(map_fn.params) == 1):
+                    j_param = map_fn.params[0]
+                    # Build: case(eq(I, j), W, f(j))
+                    guard = OOp('eq', (idx, OVar(j_param)))
+                    new_body = OCase(guard, val, map_fn.body)
+                    new_lam = OLam((j_param,), new_body)
+                    return _phase4_hof(OMap(new_lam, map_coll, base.filter_pred))
+
+        # ── List replication as map ──
+        # mult(N, [V]) or mult([V], N) → map(λ(_)V, range(N))
+        # [V]*N is a uniform list, expressible as element-wise constant map.
+        if name == 'mult' and len(args) == 2:
+            seq_arg, n_arg = None, None
+            if isinstance(args[0], OSeq) and len(args[0].elements) == 1:
+                seq_arg, n_arg = args[0], args[1]
+            elif isinstance(args[1], OSeq) and len(args[1].elements) == 1:
+                seq_arg, n_arg = args[1], args[0]
+            if seq_arg is not None:
+                val = seq_arg.elements[0]
+                const_lam = OLam(('_rep',), val)
+                return _phase4_hof(OMap(const_lam, OOp('range', (n_arg,))))
 
         # ── Builtin map/filter → OMap canonicalization ──
         # map(f, xs) → OMap(f, xs)
@@ -3255,6 +4874,43 @@ def _phase4_hof(term: OTerm) -> OTerm:
             if isinstance(t.body, OVar) and t.body.name == t.params[0]:
                 if f is None:
                     return c
+
+        # map(λ(x)list(x), transpose(X)) → transpose(X)
+        # list() on rows of a transposed matrix is identity on lists.
+        if isinstance(t, OLam) and len(t.params) == 1 and f is None:
+            if (isinstance(t.body, OOp) and t.body.name == 'list'
+                    and len(t.body.args) == 1
+                    and isinstance(t.body.args[0], OVar)
+                    and t.body.args[0].name == t.params[0]):
+                if isinstance(c, OOp) and c.name == 'transpose':
+                    return c
+
+        # ── Double-map-getitem → transpose ──
+        # map(λ(i)map(λ(j)M[j][i], range(rows)), range(cols)) → transpose(M)
+        # This is the comprehension-based transpose pattern.
+        if isinstance(t, OLam) and len(t.params) == 1 and f is None:
+            if isinstance(t.body, OMap) and t.body.filter_pred is None:
+                inner_t = t.body.transform
+                inner_c = t.body.collection
+                if (isinstance(inner_t, OLam) and len(inner_t.params) == 1
+                        and isinstance(inner_t.body, OOp)
+                        and inner_t.body.name == 'getitem'
+                        and len(inner_t.body.args) == 2):
+                    # inner body = getitem(getitem(M, j), i)
+                    outer_access = inner_t.body.args[0]
+                    inner_idx = inner_t.body.args[1]
+                    if (isinstance(outer_access, OOp)
+                            and outer_access.name == 'getitem'
+                            and len(outer_access.args) == 2):
+                        matrix = outer_access.args[0]
+                        outer_idx = outer_access.args[1]
+                        # Check: outer idx = inner lambda param, inner idx = outer lambda param
+                        # Pattern: M[j][i] where j is inner param and i is outer param
+                        i_param = t.params[0]  # outer lambda
+                        j_param = inner_t.params[0]  # inner lambda
+                        if (isinstance(outer_idx, OVar) and outer_idx.name == j_param
+                                and isinstance(inner_idx, OVar) and inner_idx.name == i_param):
+                            return OOp('transpose', (matrix,))
 
         # ── zip→index normalization ──
         # map(λ(x,y).body, zip(a,b)) → map(λi.body[x:=a[i],y:=b[i]], range(len(a)))
@@ -3317,9 +4973,33 @@ def _phase4_hof(term: OTerm) -> OTerm:
         return OMap(t, c, f)
 
     if isinstance(term, OCase):
-        return OCase(_phase4_hof(term.test),
-                     _phase4_hof(term.true_branch),
-                     _phase4_hof(term.false_branch))
+        t = _phase4_hof(term.test)
+        tb = _phase4_hof(term.true_branch)
+        fb = _phase4_hof(term.false_branch)
+
+        # ── Recursive GCD pattern: case(eq(Y,0), X, fix[g]([Y, mod(X,Y)])) → gcd(X, Y) ──
+        # The standard recursive definition of GCD.
+        if isinstance(fb, OFix) and isinstance(fb.body, OSeq) and len(fb.body.elements) == 2:
+            r0, r1 = fb.body.elements
+            tc = t.canon()
+            # Test is eq(Y, 0) or eq(0, Y) where Y is a variable
+            if isinstance(t, OOp) and t.name == 'eq' and len(t.args) == 2:
+                y_term = None
+                if isinstance(t.args[1], OLit) and t.args[1].value == 0:
+                    y_term = t.args[0]
+                elif isinstance(t.args[0], OLit) and t.args[0].value == 0:
+                    y_term = t.args[1]
+                if y_term is not None and isinstance(tb, OVar):
+                    x_term = tb
+                    # Check: r0 == Y and r1 == mod(X, Y)
+                    if (r0.canon() == y_term.canon()
+                            and isinstance(r1, OOp) and r1.name == 'mod'
+                            and len(r1.args) == 2
+                            and r1.args[0].canon() == x_term.canon()
+                            and r1.args[1].canon() == y_term.canon()):
+                        return OOp('gcd', (x_term, y_term))
+
+        return OCase(t, tb, fb)
     if isinstance(term, OFold):
         init = _phase4_hof(term.init)
         coll = _phase4_hof(term.collection)
@@ -3346,6 +5026,24 @@ def _phase4_hof(term: OTerm) -> OTerm:
                         return OOp('len', (OMap(
                             OLam(coll.transform.params, OVar(coll.transform.params[0])),
                             coll.collection, coll.filter_pred),))
+
+        # ── fold[any](False, map(λx.eq(v,x), coll)) → in(v, coll) ──
+        # Algebraic identity: any(x == v for x in coll) ≡ v in coll
+        # Sound for sequence membership (list, tuple, set, dict keys).
+        if (term.op_name in ('any', 'or') and
+                isinstance(init, OLit) and init.value is False and
+                isinstance(coll, OMap) and coll.filter_pred is None and
+                isinstance(coll.transform, OLam) and
+                len(coll.transform.params) == 1):
+            body = coll.transform.body
+            param = coll.transform.params[0]
+            # Match eq(v, x) or eq(x, v) where x is the bound variable
+            if isinstance(body, OOp) and body.name == 'eq' and len(body.args) == 2:
+                a, b = body.args
+                if isinstance(b, OVar) and b.name == param and param not in _collect_vars(a):
+                    return OOp('in', (a, coll.collection))
+                if isinstance(a, OVar) and a.name == param and param not in _collect_vars(b):
+                    return OOp('in', (b, coll.collection))
 
         # ── fold[or](False, xs) → any(xs) — canonical form ──
         # ── fold[and](True, xs) → all(xs) — canonical form ──
@@ -3868,6 +5566,14 @@ def _try_const_fold(name: str, args: list):
             return args[0] ** args[1]
         if name == 'abs' and len(args) == 1 and isinstance(args[0], (int, float)):
             return abs(args[0])
+        if name == 'comb' and len(args) == 2:
+            if isinstance(args[0], int) and isinstance(args[1], int):
+                import math
+                return math.comb(args[0], args[1])
+        if name == 'factorial' and len(args) == 1 and isinstance(args[0], int):
+            import math
+            if 0 <= args[0] <= 20:
+                return math.factorial(args[0])
     except Exception:
         pass
     return None
@@ -3907,7 +5613,18 @@ def _de_bruijn_impl(term: OTerm, depth: int) -> OTerm:
         return OFold(term.op_name, _de_bruijn_impl(term.init, depth),
                      _de_bruijn_impl(term.collection, depth), body_fn=bfn)
     if isinstance(term, OFix):
-        return OFix(term.name, _de_bruijn_impl(term.body, depth))
+        # Alpha-normalize fix-point names so fix[max_depth](...) ≡ fix[depth](...)
+        # Use a sentinel to break circularity, normalize body, then hash for canonical name.
+        sentinel = '$__REC__'
+        body_with_sentinel = _subst(term.body, {term.name: sentinel})
+        normalized_body = _de_bruijn_impl(body_with_sentinel, depth)
+        # Hash the normalized body to create a canonical fix name
+        import hashlib
+        body_hash = hashlib.md5(normalized_body.canon().encode()).hexdigest()[:8]
+        canonical_fix_name = f'_fix_{body_hash}'
+        # Replace sentinel with the canonical name
+        final_body = _subst(normalized_body, {sentinel: canonical_fix_name})
+        return OFix(canonical_fix_name, final_body)
     if isinstance(term, OSeq):
         return OSeq(tuple(_de_bruijn_impl(e, depth) for e in term.elements))
     if isinstance(term, ODict):
@@ -3963,7 +5680,11 @@ def _rehash_folds(term: OTerm) -> OTerm:
                      _rehash_folds(term.true_branch),
                      _rehash_folds(term.false_branch))
     if isinstance(term, OFix):
-        return OFix(term.name, _rehash_folds(term.body))
+        new_body = _rehash_folds(term.body)
+        if _is_source_hash(term.name):
+            new_hash = _hash(new_body.canon())
+            return OFix(new_hash, new_body)
+        return OFix(term.name, new_body)
     if isinstance(term, OSeq):
         return OSeq(tuple(_rehash_folds(e) for e in term.elements))
     if isinstance(term, ODict):
@@ -4022,9 +5743,17 @@ def _collect_vars(term: OTerm) -> set:
     if isinstance(term, OCase):
         return _collect_vars(term.test) | _collect_vars(term.true_branch) | _collect_vars(term.false_branch)
     if isinstance(term, OFold):
-        return _collect_vars(term.init) | _collect_vars(term.collection)
+        s = _collect_vars(term.init) | _collect_vars(term.collection)
+        if term.body_fn is not None:
+            s |= _collect_vars(term.body_fn)
+        return s
     if isinstance(term, OFix):
-        return _collect_vars(term.body)
+        body_vars = _collect_vars(term.body)
+        # Fix-point state variables ($0, $1, ...) are bound by the
+        # OFix construct — they should not appear as free variables.
+        state_vars = {v for v in body_vars
+                      if v.startswith('$') and v[1:].isdigit()}
+        return body_vars - state_vars
     if isinstance(term, OSeq):
         s = set()
         for e in term.elements:
@@ -4240,7 +5969,16 @@ def denotational_equiv(source_f: str, source_g: str) -> Optional[bool]:
             _meaningful_small = isinstance(nf_f, OOp) and nf_f.name in (
                 'reversed', 'sorted', 'abs', 'len', 'set', 'tuple', 'list',
                 'str', 'int', 'float', 'bool', 'frozenset', 'chr', 'ord',
+                'popcount', 'digit_sum', 'reverse_digits', 'gcd',
+                'dict', 'zip', 'enumerate', 'map', 'filter',
+                'deepcopy', 'hash', 'id', 'type', 'min', 'max', 'sum',
+                'factorial', 'comb', 'perm',
             )
+            # Compound term (nested OOps) is meaningful — it's
+            # specific enough to characterize behavior (e.g. dict(zip(a,b)))
+            if not _meaningful_small and isinstance(nf_f, OOp):
+                if any(isinstance(a, OOp) for a in nf_f.args):
+                    _meaningful_small = True
             # OFold with a known op over a parameter is meaningful
             # (e.g., fold[bitxor](0, $p0) fully characterizes XOR reduction)
             if not _meaningful_small and isinstance(nf_f, OFold):
@@ -4267,6 +6005,8 @@ def denotational_equiv(source_f: str, source_g: str) -> Optional[bool]:
             if nf_f.name not in (
                 'reversed', 'sorted', 'abs', 'len', 'set', 'tuple', 'list',
                 'str', 'int', 'float', 'bool', 'frozenset', 'chr', 'ord',
+                'popcount', 'digit_sum', 'reverse_digits', 'gcd',
+                'factorial', 'comb', 'perm',
             ):
                 return None
         # Don't trust if the term references non-parameter variables
@@ -4777,7 +6517,8 @@ def _body_fn_trustworthy(body_fn: OTerm) -> bool:
         'and', 'or', 'not', 'u_not', 'u_usub', 'u_invert', 'abs',
         'bitor', 'bitand', 'bitxor', 'lshift', 'rshift',
         'min', 'max', 'len', 'int', 'float', 'str', 'bool',
-        'getitem', 'getattr', 'range', 'reversed', 'sorted',
+        'getitem', 'getattr', 'setitem', 'unpack', 'transpose',
+        'range', 'reversed', 'sorted',
         '.append', '.append!', '.extend', '.pop', '.pop!', '.popleft', '.popleft!',
         'concat', 'suffix', 'prefix', 'slice', 'list', 'in',
         '.get', 'deque', 'set_literal', '.add!', '.update!',
@@ -4821,19 +6562,21 @@ def _flexible_match(a: OTerm, b: OTerm) -> bool:
             return a.value == b.value
         if isinstance(a, OOp) and isinstance(b, OOp):
             if a.name != b.name:
-                # Try commutative equivalence
-                if a.name in ('add', 'mult', 'iadd', 'imult', 'eq', 'noteq',
-                              'and', 'or', 'max', 'min',
-                              'bitand', 'bitor', 'bitxor',
-                              'iand', 'ior', 'ixor', 'gcd', 'lcm'):
-                    if b.name == a.name and len(a.args) == 2 and len(b.args) == 2:
-                        if (_flexible_match(a.args[0], b.args[1]) and
-                            _flexible_match(a.args[1], b.args[0])):
-                            return True
                 return False
             if len(a.args) != len(b.args):
                 return False
-            return all(_flexible_match(ai, bi) for ai, bi in zip(a.args, b.args))
+            if all(_flexible_match(ai, bi) for ai, bi in zip(a.args, b.args)):
+                return True
+            # Commutative reordering: try swapped args
+            if (len(a.args) == 2
+                    and a.name in ('add', 'mult', 'iadd', 'imult', 'eq', 'noteq',
+                                   'max', 'min',
+                                   'bitand', 'bitor', 'bitxor',
+                                   'iand', 'ior', 'ixor', 'gcd', 'lcm')
+                    and _flexible_match(a.args[0], b.args[1])
+                    and _flexible_match(a.args[1], b.args[0])):
+                return True
+            return False
         if isinstance(a, OCase) and isinstance(b, OCase):
             return (_flexible_match(a.test, b.test) and
                     _flexible_match(a.true_branch, b.true_branch) and

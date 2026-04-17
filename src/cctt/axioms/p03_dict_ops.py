@@ -232,7 +232,7 @@ def apply(term: OTerm, ctx: Optional[FiberCtx] = None) -> List[Tuple[OTerm, str]
                 'P3_setdefault_to_conditional',
             ))
 
-    # ── d.update(other) → d | other (merge operator) ──
+    # ── d.update(other) → merge(d, other) ──
     if isinstance(term, OOp) and term.name == '.update':
         if len(term.args) == 2:
             d, other = term.args
@@ -240,18 +240,16 @@ def apply(term: OTerm, ctx: Optional[FiberCtx] = None) -> List[Tuple[OTerm, str]
                 OOp('merge', (d, other)),
                 'P3_update_to_merge',
             ))
-            results.append((
-                OOp('bitor', (d, other)),
-                'P3_update_to_bitor',
-            ))
+            # NOTE: do NOT rewrite to bitor — bitor is commutative
+            # but dict merge is NOT (overlapping key values differ by order).
 
-    # ── d | other → d.update(other) (inverse) ──
+    # ── d | other → merge(d, other) — preserves ordering semantics ──
     if isinstance(term, OOp) and term.name == 'bitor' and len(term.args) == 2:
         d, other = term.args
         if not _is_counter(d) and not _is_counter(other):
             results.append((
-                OOp('.update', (d, other)),
-                'P3_bitor_to_update',
+                OOp('merge', (d, other)),
+                'P3_bitor_to_merge',
             ))
 
     # ── merge(d, other) → d.update(other) (inverse) ──
@@ -354,7 +352,7 @@ def apply_inverse(term: OTerm, ctx: Optional[FiberCtx] = None) -> List[Tuple[OTe
     results = apply(term, ctx)
     inverse_labels = {
         'P3_conditional_to_get',
-        'P3_bitor_to_update',
+        'P3_bitor_to_merge',
         'P3_merge_to_update',
         'P3_map_to_dict_zip',
         'P3_list_to_keys',
@@ -489,13 +487,12 @@ if __name__ == '__main__':
     upd_term = OOp('.update', (d, other))
     r4 = apply(upd_term, ctx)
     _assert(any(lbl == 'P3_update_to_merge' for _, lbl in r4), "update→merge")
-    _assert(any(lbl == 'P3_update_to_bitor' for _, lbl in r4), "update→bitor")
 
-    # ── bitor → update (inverse) ──
-    print("P3: bitor → update ...")
+    # ── bitor → merge (inverse, preserves ordering) ──
+    print("P3: bitor → merge ...")
     bitor_term = OOp('bitor', (d, other))
     r5 = apply(bitor_term, ctx)
-    _assert(any(lbl == 'P3_bitor_to_update' for _, lbl in r5), "bitor→update")
+    _assert(any(lbl == 'P3_bitor_to_merge' for _, lbl in r5), "bitor→merge")
 
     # ── dict(zip(keys, values)) → map ──
     print("P3: dict(zip) → map ...")

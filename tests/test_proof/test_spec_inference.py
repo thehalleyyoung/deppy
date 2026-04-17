@@ -404,6 +404,156 @@ def classify(x):
                 assert f.decidability == "z3"
 
 
+class TestGlobalPostconditionSynthesis:
+    """Test that global postconditions are derived from fiber analysis.
+
+    A thorough spec uniquely determines the input→output relation.
+    Type-level ensures (isinstance) are necessary but never sufficient.
+    Global postconditions bridge the gap.
+    """
+
+    def setup_method(self):
+        self.analyzer = StaticSpecAnalyzer()
+
+    def test_abs_definitional_spec(self):
+        """abs_val should get: result == (x if x >= 0 else -x)"""
+        src = '''
+def abs_val(x: int) -> int:
+    if x >= 0:
+        return x
+    else:
+        return -x
+'''
+        spec = self.analyzer.infer(src, "abs_val", ["x"])
+        assert any("result == (x if x >= 0 else -x)" in e for e in spec.ensures)
+
+    def test_abs_nonneg(self):
+        """abs_val should get: result >= 0"""
+        src = '''
+def abs_val(x: int) -> int:
+    if x >= 0:
+        return x
+    else:
+        return -x
+'''
+        spec = self.analyzer.infer(src, "abs_val", ["x"])
+        assert "result >= 0" in spec.ensures
+
+    def test_abs_value_disjunction(self):
+        """abs_val should get: result == x or result == -x"""
+        src = '''
+def abs_val(x: int) -> int:
+    if x >= 0:
+        return x
+    else:
+        return -x
+'''
+        spec = self.analyzer.infer(src, "abs_val", ["x"])
+        assert "result == x or result == -x" in spec.ensures
+
+    def test_max_definitional_spec(self):
+        """max(a, b) should get conditional equality."""
+        src = '''
+def my_max(a: int, b: int) -> int:
+    if a >= b:
+        return a
+    else:
+        return b
+'''
+        spec = self.analyzer.infer(src, "my_max", ["a", "b"])
+        assert any("result == (a if a >= b else b)" in e for e in spec.ensures)
+
+    def test_max_value_disjunction(self):
+        """max(a, b) should get: result == a or result == b"""
+        src = '''
+def my_max(a: int, b: int) -> int:
+    if a >= b:
+        return a
+    else:
+        return b
+'''
+        spec = self.analyzer.infer(src, "my_max", ["a", "b"])
+        assert "result == a or result == b" in spec.ensures
+
+    def test_isinstance_dispatch_conditional(self):
+        """isinstance dispatch should get conditional equality."""
+        src = '''
+def f(x):
+    if isinstance(x, int):
+        return x + 1
+    elif isinstance(x, str):
+        return len(x)
+    else:
+        return 0
+'''
+        spec = self.analyzer.infer(src, "f", ["x"])
+        # Should have a conditional expression in ensures
+        cond = [e for e in spec.ensures if "if isinstance" in e]
+        assert len(cond) >= 1, f"Missing conditional ensures, got: {spec.ensures}"
+
+    def test_common_fiber_ensures_lifted(self):
+        """If all fibers share an ensures, it should be global."""
+        spec = C4Spec(
+            fibers=[
+                FiberClause(name="a", guard="x > 0",
+                            ensures=["result > 0", "isinstance(result, int)"],
+                            returns_expr="x"),
+                FiberClause(name="b", guard="x <= 0",
+                            ensures=["result > 0", "isinstance(result, int)"],
+                            returns_expr="-x + 1"),
+            ],
+            source=SpecSource.STATIC,
+        )
+        # Directly test the synthesis method
+        analyzer = StaticSpecAnalyzer()
+        synthesized = analyzer._synthesize_global_postconditions(spec.fibers, [])
+        # "isinstance(result, int)" is common to both fibers
+        assert "isinstance(result, int)" in synthesized
+        # "result > 0" is common to both fibers
+        assert "result > 0" in synthesized
+
+    def test_nonneg_from_abs_and_len(self):
+        """len() and abs() returns are non-negative."""
+        src = '''
+def f(x):
+    if isinstance(x, str):
+        return len(x)
+    else:
+        return abs(x)
+'''
+        spec = self.analyzer.infer(src, "f", ["x"])
+        assert "result >= 0" in spec.ensures
+
+    def test_classify_sign_positive_literal(self):
+        """Fibers returning literals should detect non-negativity."""
+        src = '''
+def classify(x):
+    if x > 0:
+        return 1
+    elif x < 0:
+        return -1
+    else:
+        return 0
+'''
+        spec = self.analyzer.infer(src, "classify", ["x"])
+        # Not all non-negative: -1 is negative
+        assert "result >= 0" not in spec.ensures
+        # But should still get conditional + disjunction
+        assert any("result ==" in e and "if" in e for e in spec.ensures)
+
+    def test_strength_is_formal_with_global_postconditions(self):
+        """Functions with synthesized postconditions should be FORMAL."""
+        src = '''
+def abs_val(x: int) -> int:
+    if x >= 0:
+        return x
+    else:
+        return -x
+'''
+        spec = self.analyzer.infer(src, "abs_val", ["x"])
+        assert spec.classify_strength() == SpecStrength.FORMAL
+
+
 class TestAnnotationIntegration:
     """Test that the orchestrator uses formal specs in annotations."""
 
@@ -484,3 +634,101 @@ class TestAnnotationIntegration:
         # or an unspecified label
         if ann.formal_spec:
             assert ann.formal_spec.get("strength") in ("trivial", "partial")
+
+
+class TestC4CompilerIntegration:
+    """Test that the C4 synergy-aware compiler runs alongside check_proof."""
+
+    def _make_defn(self, name, source, params=None, qualname=None):
+        from cctt.proof_theory.library_proof_orchestrator import Definition, DefKind
+        return Definition(
+            name=name,
+            qualname=qualname or f"test.{name}",
+            kind=DefKind.FUNCTION,
+            lineno=1, end_lineno=source.count("\n") + 1,
+            source=source,
+            params=params or [],
+            docstring="",
+            return_annotation="",
+            decorators=[],
+            class_name=None,
+            module_path="test",
+        )
+
+    def test_c4_verdict_present(self):
+        """Every annotation should now carry a C4 verdict summary."""
+        from cctt.proof_theory.library_proof_orchestrator import baseline_prove
+        defn = self._make_defn("f", "def f(x: int) -> int:\n    return x + 1\n", ["x"])
+        r = baseline_prove(defn, "test")
+        assert r.annotation.c4_verdict_summary is not None
+        cv = r.annotation.c4_verdict_summary
+        assert "valid" in cv
+        assert "n_vcs" in cv
+        assert "verdict_class" in cv
+
+    def test_c4_library_axiom_reports_assumed(self):
+        """LibraryAxiom proofs should report verdict_class='assumed'."""
+        from cctt.proof_theory.library_proof_orchestrator import baseline_prove
+        # Use a function complex enough to fall through to LibraryAxiom (strategy 6)
+        defn = self._make_defn("process",
+            "def process(data, config):\n"
+            "    result = data\n"
+            "    for k in config:\n"
+            "        result = result + config[k]\n"
+            "    return result\n",
+            ["data", "config"])
+        r = baseline_prove(defn, "test")
+        cv = r.annotation.c4_verdict_summary
+        assert cv is not None
+        # Should be 'assumed' — LibraryAxiom produces ASSUMED VCs
+        assert cv["verdict_class"] == "assumed"
+        assert cv["n_assumed"] >= 1
+        assert cv["n_verified"] == 0
+
+    def test_c4_refl_has_binding_true(self):
+        """Refl proofs should pass the F*-style binding check."""
+        from cctt.proof_theory.library_proof_orchestrator import baseline_prove
+        defn = self._make_defn("trivial", "def trivial():\n    pass\n")
+        r = baseline_prove(defn, "test")
+        cv = r.annotation.c4_verdict_summary
+        assert cv is not None
+        # Binding should succeed for trivial functions
+        if "binding" in cv and cv["binding"] is not None:
+            assert cv["binding"] is True
+
+    def test_source_text_and_params_stored(self):
+        """Annotation should store source_text and param_names for reverification."""
+        from cctt.proof_theory.library_proof_orchestrator import baseline_prove
+        defn = self._make_defn("add", "def add(a: int, b: int) -> int:\n    return a + b\n", ["a", "b"])
+        r = baseline_prove(defn, "test")
+        ann = r.annotation
+        assert ann.source_text is not None
+        assert "def add" in ann.source_text
+        assert ann.param_names == ["a", "b"]
+
+    def test_c4_verdict_in_json_roundtrip(self):
+        """C4 verdict should survive JSON serialization."""
+        from cctt.proof_theory.library_proof_orchestrator import (
+            baseline_prove, VerifiedAnnotation,
+        )
+        defn = self._make_defn("inc", "def inc(x: int) -> int:\n    return x + 1\n", ["x"])
+        r = baseline_prove(defn, "test")
+        ann = r.annotation
+        j = ann.to_json()
+        restored = VerifiedAnnotation.from_json(j)
+        assert restored.c4_verdict_summary == ann.c4_verdict_summary
+
+    def test_compile_annotation_uses_c4(self):
+        """compile_annotation runs C4 compiler when source is available."""
+        from cctt.proof_theory.library_proof_orchestrator import (
+            baseline_prove, compile_annotation,
+        )
+        defn = self._make_defn("neg", "def neg(x: int) -> int:\n    return -x\n", ["x"])
+        r = baseline_prove(defn, "test")
+        ann = r.annotation
+        # compile_annotation should run; structural check may fail
+        # (Refl lhs≠rhs mismatch) but C4 compiler should run without crash
+        cr = compile_annotation(ann)
+        # Verify C4 warnings are generated (not errors about missing source)
+        # The important thing: no "C4 compile skipped" in warnings
+        assert not any("C4 compile skipped" in w for w in cr.warnings)

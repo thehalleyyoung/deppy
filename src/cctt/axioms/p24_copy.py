@@ -184,7 +184,8 @@ def apply(term: OTerm, ctx: Any = None) -> List[Tuple[OTerm, str]]:
         ))
 
     # ── sorted(xs) ↔ inplace_sort(copy(xs)) ──
-    if isinstance(term, OOp) and term.name == 'sorted' and len(term.args) >= 1:
+    # Only when sorted has exactly 1 arg; D30 CPS may add continuation args
+    if isinstance(term, OOp) and term.name == 'sorted' and len(term.args) == 1:
         xs = term.args[0]
         results.append((
             OOp('inplace_sort', (OOp('.copy', (xs,)),)),

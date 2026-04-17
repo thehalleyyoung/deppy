@@ -68,6 +68,14 @@ from cctt.proof_theory.spec_inference import (
     C4Spec, SpecSource, SpecStrength, FiberClause as C4FiberClause,
     infer_c4_spec, StaticSpecAnalyzer, build_llm_spec_prompt,
 )
+from cctt.proof_theory.c4_compiler import (
+    C4Compiler as _C4Compiler,
+    C4Verdict,
+    VCStatus,
+    TrustProvenance,
+    RefinementFiber as C4RefinementFiber,
+    RefinementCover as C4RefinementCover,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -703,6 +711,9 @@ class VerifiedAnnotation:
     vhash: str                  # verification hash
     formal_spec: Optional[Dict[str, Any]] = None   # C4Spec as JSON (formal pre/postconditions)
     spec_source: str = "trivial"                    # static|llm|manual|trivial
+    c4_verdict_summary: Optional[Dict[str, Any]] = None  # C4 compiler verdict (VCs, binding, trust)
+    source_text: Optional[str] = None               # original source (for compile_annotation binding check)
+    param_names: Optional[List[str]] = None          # param names (for compile_annotation binding check)
 
     def trust_level(self) -> str:
         """Coarsest TrustLevel string derived from the trust ref list."""
@@ -729,6 +740,8 @@ class VerifiedAnnotation:
         }
         if self.formal_spec:
             d["formal_spec"] = self.formal_spec
+        if self.c4_verdict_summary:
+            d["c4_verdict"] = self.c4_verdict_summary
         return d
 
     @staticmethod
@@ -755,6 +768,9 @@ class VerifiedAnnotation:
             vhash=d.get("vhash", ""),
             formal_spec=d.get("formal_spec"),
             spec_source=d.get("spec_source", "trivial"),
+            c4_verdict_summary=d.get("c4_verdict"),
+            source_text=d.get("source_text"),
+            param_names=d.get("param_names"),
         )
 
 
@@ -808,6 +824,28 @@ def compile_annotation(ann: VerifiedAnnotation) -> CompilationResult:
     except Exception as e:
         errors.append(f"check_proof exception: {e}")
         result = None
+
+    # 4b. C4 compiler verification (if source is available for binding check)
+    c4_warnings: List[str] = []
+    if ann.source_text:
+        try:
+            compiler = _C4Compiler(z3_timeout_ms=2000)
+            func_name = ann.symbol.rsplit(".", 1)[-1]
+            c4_verdict = compiler.compile(
+                proof, lhs, rhs,
+                source_code=ann.source_text,
+                func_name=func_name,
+                spec_params=ann.param_names or [],
+            )
+            if c4_verdict.n_failed > 0:
+                errors.append(f"C4 compiler: {c4_verdict.n_failed} VC(s) failed")
+            if c4_verdict.binding and not c4_verdict.binding.bound:
+                c4_warnings.append(f"C4 binding check failed: {c4_verdict.binding.errors[:2]}")
+            if c4_verdict.n_assumed > 0 and c4_verdict.n_verified == 0:
+                c4_warnings.append(f"C4: all {c4_verdict.n_assumed} VC(s) assumed (no real verification)")
+        except Exception as e:
+            c4_warnings.append(f"C4 compile skipped: {e}")
+    warnings.extend(c4_warnings)
 
     # 5. Strategy-specific semantic validation
     _validate_strategy(ann, errors, warnings)
@@ -1289,6 +1327,76 @@ def _guarantee_from_c4_spec(c4_spec: C4Spec, defn: Definition) -> str:
         return "; ".join(parts)
     # Fallback to docstring-based guarantee for trivial specs
     return _spec_from_docstring(defn)
+
+
+# ═════════════════════════════════════════════════════════════════
+# §6b. C4 Compiler Integration
+# ═════════════════════════════════════════════════════════════════
+
+def _c4_compile(
+    proof: ProofTerm,
+    defn: Definition,
+    c4_spec: Optional[C4Spec] = None,
+) -> Optional[Dict[str, Any]]:
+    """Run the C4 synergy-aware compiler on a proof term.
+
+    Returns a summary dict or None on failure.  The summary includes:
+      - valid:       bool
+      - n_vcs:       total VCs generated
+      - n_verified:  VCs proved by Z3
+      - n_assumed:   VCs assumed (library trust)
+      - n_failed:    VCs that failed
+      - binding:     bool or None (F*-style binding check)
+      - trust_level: str (KERNEL/Z3/LIBRARY)
+      - compile_ms:  float
+      - verdict_class: 'verified'|'assumed'|'mixed'|'failed'
+    """
+    try:
+        compiler = _C4Compiler(z3_timeout_ms=2000)
+
+        lhs = app(var(defn.qualname), var("x"))
+        rhs = var(f"__spec_{defn.name}__")
+
+        params = [p for p in defn.params if p != 'self']
+
+        verdict = compiler.compile(
+            proof, lhs, rhs,
+            source_code=defn.source,
+            func_name=defn.name,
+            spec_params=params,
+        )
+
+        # Classify the verdict quality
+        if verdict.n_failed > 0:
+            verdict_class = "failed"
+        elif verdict.n_verified > 0 and verdict.n_assumed == 0:
+            verdict_class = "verified"
+        elif verdict.n_verified > 0 and verdict.n_assumed > 0:
+            verdict_class = "mixed"
+        elif verdict.n_assumed > 0:
+            verdict_class = "assumed"
+        else:
+            verdict_class = "verified"  # no VCs = trivially valid
+
+        summary: Dict[str, Any] = {
+            "valid": verdict.valid,
+            "n_vcs": len(verdict.vcs),
+            "n_verified": verdict.n_verified,
+            "n_assumed": verdict.n_assumed,
+            "n_failed": verdict.n_failed,
+            "trust_level": verdict.trust.level_name,
+            "compile_ms": round(verdict.compile_time_ms, 1),
+            "verdict_class": verdict_class,
+        }
+        if verdict.binding is not None:
+            summary["binding"] = verdict.binding.bound
+            if not verdict.binding.bound:
+                summary["binding_errors"] = verdict.binding.errors[:3]
+
+        return summary
+    except Exception as e:
+        logger.debug("C4 compile failed for %s: %s", defn.qualname, e)
+        return None
 
 
 def _build_fiber_cover(defn: Definition, library_name: str,
@@ -2114,11 +2222,12 @@ def baseline_prove(defn: Definition, library_name: str) -> ProofResult:
         result = check_proof(proof, lhs, lhs)
         strategy = ProofStrategy.REFL
         trust = TrustLevel.KERNEL
+        c4v = _c4_compile(proof, defn, c4_spec)
         ann = _make_annotation(defn, spec, input_type, output_type, guarantee,
                                 [], strategy, {}, assumes,
                                 ["lean.C4.Reduction.ReducesStar.refl"],
                                 result.valid, [], library_name,
-                                c4_spec=c4_spec)
+                                c4_spec=c4_spec, c4_verdict_summary=c4v)
         return ProofResult(defn, guarantee, assumes, strategy, proof, trust,
                            result.valid, annotation=ann)
 
@@ -2144,11 +2253,12 @@ def baseline_prove(defn: Definition, library_name: str) -> ProofResult:
         result = check_proof(proof, lhs, rhs)
         strategy = ProofStrategy.LIBRARY_AXIOM
         trust = TrustLevel.LIBRARY
+        c4v = _c4_compile(proof, defn, c4_spec)
         ann = _make_annotation(defn, inv_spec, input_type, output_type, guarantee,
                                 [], strategy, inv_details, assumes,
                                 ["z3.Solver.check"],
                                 result.valid, [], library_name,
-                                c4_spec=c4_spec)
+                                c4_spec=c4_spec, c4_verdict_summary=c4v)
         return ProofResult(defn, guarantee, assumes, strategy, proof, trust,
                            result.valid, annotation=ann)
 
@@ -2158,11 +2268,12 @@ def baseline_prove(defn: Definition, library_name: str) -> ProofResult:
         result = check_proof(proof, lhs, lhs)
         strategy = ProofStrategy.REFL
         trust = TrustLevel.KERNEL
+        c4v = _c4_compile(proof, defn, c4_spec)
         ann = _make_annotation(defn, spec, input_type, output_type, guarantee,
                                 [], strategy, {}, assumes,
                                 ["lean.C4.Reduction.ReducesStar.refl"],
                                 result.valid, [], library_name,
-                                c4_spec=c4_spec)
+                                c4_spec=c4_spec, c4_verdict_summary=c4v)
         return ProofResult(defn, guarantee, assumes, strategy, proof, trust,
                            result.valid, annotation=ann)
 
@@ -2196,12 +2307,14 @@ def baseline_prove(defn: Definition, library_name: str) -> ProofResult:
             name=spec.name, spec_kind="path",
         )
         descent_refs = ["lean.C4.Descent.descent_soundness", "z3.Solver.check"]
+        # C4 compiler — real VC generation with synergies
+        c4v = _c4_compile(proof, defn, c4_spec)
         ann = _make_annotation(defn, spec_with_kind, input_type, output_type, guarantee,
                                 fibers, strategy,
                                 {"exhaustiveness": exhaustiveness,
                                  "n_fibers": len(fibers), "h1": h1},
                                 assumes, descent_refs, result.valid, [], library_name, h1=h1,
-                                c4_spec=c4_spec)
+                                c4_spec=c4_spec, c4_verdict_summary=c4v)
         return ProofResult(defn, guarantee, assumes, strategy, proof, trust,
                            result.valid, error="" if result.valid else result.reason,
                            annotation=ann)
@@ -2230,11 +2343,12 @@ def baseline_prove(defn: Definition, library_name: str) -> ProofResult:
             lhs=spec.lhs, rhs=spec.rhs, over=spec.over,
             name=spec.name, spec_kind="composition",
         )
+        c4v = _c4_compile(proof, defn, c4_spec)
         ann = _make_annotation(defn, comp_spec, input_type, output_type, guarantee,
                                 [], strategy,
                                 {"steps": [{"fn": s, "by": "library_axiom"} for s in steps]},
                                 assumes, compose_refs, result.valid, [], library_name,
-                                c4_spec=c4_spec)
+                                c4_spec=c4_spec, c4_verdict_summary=c4v)
         return ProofResult(defn, guarantee, assumes, strategy, proof, trust,
                            result.valid, error="" if result.valid else result.reason,
                            annotation=ann)
@@ -2260,10 +2374,11 @@ def baseline_prove(defn: Definition, library_name: str) -> ProofResult:
         if ext_mods
         else ["z3.Solver.check"]
     )
+    c4v = _c4_compile(proof, defn, c4_spec)
     ann = _make_annotation(defn, spec, input_type, output_type, guarantee,
                             [], strategy, details, assumes, default_refs,
                             result.valid, [], library_name,
-                            c4_spec=c4_spec)
+                            c4_spec=c4_spec, c4_verdict_summary=c4v)
     return ProofResult(defn, guarantee, assumes, strategy, proof, trust,
                        result.valid, error="" if result.valid else result.reason,
                        annotation=ann)
@@ -2351,6 +2466,7 @@ def _make_annotation(
     paths: List[CubicalPathSpec], library_name: str,
     h1: int = 0,
     c4_spec: Optional[C4Spec] = None,
+    c4_verdict_summary: Optional[Dict[str, Any]] = None,
 ) -> VerifiedAnnotation:
     # Enforce no circular trust — refs from the library being proved are forbidden
     ok, bad = _validate_no_circular(trust_refs, library_name)
@@ -2366,6 +2482,7 @@ def _make_annotation(
     if c4_spec is not None:
         spec_source = c4_spec.source.value
         formal_spec_json = c4_spec.to_json()
+    params = [p for p in defn.params if p != 'self']
     return VerifiedAnnotation(
         symbol=defn.qualname, kind=defn.kind.value,
         source_hash=src_hash,
@@ -2378,6 +2495,9 @@ def _make_annotation(
         compiled=compiled, vhash=vhash,
         formal_spec=formal_spec_json,
         spec_source=spec_source,
+        c4_verdict_summary=c4_verdict_summary,
+        source_text=defn.source,
+        param_names=params if params else None,
     )
 
 
@@ -3216,6 +3336,20 @@ def _format_proof_block(r: ProofResult) -> str:
     if len(ann.trust) > 4:
         more = f"  ...and {len(ann.trust) - 4} more"
         lines.append(f"# ║ {more:<{w-2}} ║")
+
+    # C4 Compiler Verdict (if available)
+    if ann.c4_verdict_summary:
+        cv = ann.c4_verdict_summary
+        lines.append(f"# ╠{'═' * w}╣")
+        vc_str = (f"C4: {cv.get('verdict_class', '?')} | "
+                  f"✓{cv.get('n_verified', 0)} ?{cv.get('n_assumed', 0)} ✗{cv.get('n_failed', 0)} VCs | "
+                  f"{cv.get('compile_ms', 0)}ms")
+        if len(vc_str) > w - 4:
+            vc_str = vc_str[:w - 7] + "..."
+        lines.append(f"# ║ {vc_str:<{w-2}} ║")
+        if cv.get("binding") is not None:
+            b = "✓" if cv["binding"] else "✗"
+            lines.append(f"# ║ {'  F* binding: ' + b:<{w-2}} ║")
 
     # Status line
     lines.append(f"# ╠{'═' * w}╣")

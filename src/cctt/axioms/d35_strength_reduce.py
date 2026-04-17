@@ -320,7 +320,9 @@ def apply(term: OTerm, ctx: Optional[FiberCtx] = None) -> List[Tuple[OTerm, str]
             results.append((OOp('pow', (lhs, OLit(2))), 'D35_self_mul_to_pow2'))
 
     # ── Integer division by power of 2 → right shift ──
-    if name in ('floordiv', 'div') and len(args) == 2:
+    # Only floordiv is equivalent to right shift. Float division (div/truediv)
+    # produces fractional results and is NOT equivalent to rshift.
+    if name == 'floordiv' and len(args) == 2:
         lhs, rhs = args
         if isinstance(rhs, OLit) and isinstance(rhs.value, int):
             k = _is_power_of_2(rhs.value)

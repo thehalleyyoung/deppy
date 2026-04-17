@@ -424,8 +424,12 @@ def apply(term: OTerm, ctx: Optional[FiberCtx] = None) -> List[Tuple[OTerm, str]
 
     # ── Popcount equivalences ──
     if _is_popcount(term):
-        free = sorted(_extract_free_vars(term))
-        x_term = OVar(free[0]) if free else OVar('x')
+        # Use actual argument, not free-var extraction (preserve wrappers like abs)
+        if isinstance(term, OOp) and len(term.args) == 1:
+            x_term = term.args[0]
+        else:
+            free = sorted(_extract_free_vars(term))
+            x_term = OVar(free[0]) if free else OVar('x')
         if isinstance(term, OOp) and term.name in ('popcount', 'bit_count', '.bit_count'):
             results.append((
                 OOp('popcount_kernighan', (x_term,)),

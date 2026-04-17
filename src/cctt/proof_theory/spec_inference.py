@@ -142,7 +142,13 @@ class C4Spec:
     strength: SpecStrength = SpecStrength.TRIVIAL
 
     def classify_strength(self) -> SpecStrength:
-        """Compute strength from content."""
+        """Compute strength from content.
+
+        FORMAL: has exact returns_expr, relational ensures (==, >=, <=),
+                or fiber decomposition with per-case returns.
+        PARTIAL: only shape specs (isinstance, type annotations).
+        TRIVIAL: nothing useful extracted.
+        """
         if self.returns_expr:
             return SpecStrength.FORMAL
         # Non-trivial ensures (beyond isinstance/type checks)
@@ -312,6 +318,10 @@ class StaticSpecAnalyzer:
 
         # 10. Purity detection
         purity = self._detect_purity(fn_node)
+
+        # 11. Synthesize global postconditions from fiber analysis
+        fiber_ensures = self._synthesize_global_postconditions(fibers, ensures)
+        ensures.extend(fiber_ensures)
 
         # Deduplicate
         requires = list(dict.fromkeys(requires))
@@ -554,6 +564,155 @@ class StaticSpecAnalyzer:
         if any(op in guard for op in ('>', '<', '>=', '<=', '==', '!=')):
             return "z3"
         return "library"
+
+    # ── Rule 11: Global postcondition synthesis from fibers ───────
+
+    def _synthesize_global_postconditions(
+        self,
+        fibers: List[FiberClause],
+        existing_ensures: List[str],
+    ) -> List[str]:
+        """Derive global postconditions that hold across all fibers.
+
+        A spec is *thorough* only when ensures uniquely determine the
+        input→output relation.  Type-level ensures (isinstance) are
+        necessary but never sufficient.  This method bridges the gap
+        by lifting per-fiber returns_expr / ensures into global
+        relational postconditions.
+
+        Derivation rules:
+        1. VALUE DISJUNCTION: If every fiber has returns_expr,
+           ensures "result in {expr₁, expr₂, ...}" (up to 4 arms).
+           When all arms are param expressions this uniquely pins f.
+
+        2. NON-NEGATIVITY: If every fiber's returns_expr is provably
+           ≥ 0 (literal positive, abs(), len(), negation of a negation,
+           or param under x >= 0 guard), emit "result >= 0".
+
+        3. BOUNDS: If fibers collectively show result in a bounded set
+           (e.g. result ∈ {x, -x}), emit the bound.
+
+        4. CONDITIONAL EQUALITY: Always emit the full conditional:
+           "result == (expr₁ if guard₁ else expr₂ if guard₂ else ...)"
+           This IS the definitional spec.
+
+        5. FIBER-COMMON ENSURES: If every fiber has the same ensures
+           predicate, lift it to global.
+        """
+        synthesized: List[str] = []
+        existing_set = set(existing_ensures)
+
+        if not fibers:
+            return synthesized
+
+        all_have_returns = all(f.returns_expr for f in fibers)
+
+        # Rule 4: Conditional equality (definitional spec)
+        if all_have_returns and 2 <= len(fibers) <= 6:
+            cond = self._build_conditional_expr(fibers)
+            if cond and cond not in existing_set:
+                synthesized.append(f"result == ({cond})")
+
+        # Rule 1: Value disjunction
+        if all_have_returns and 2 <= len(fibers) <= 4:
+            exprs = [f.returns_expr for f in fibers]
+            unique = list(dict.fromkeys(exprs))
+            if len(unique) >= 2:
+                disj = " or ".join(f"result == {e}" for e in unique)
+                if disj not in existing_set:
+                    synthesized.append(disj)
+
+        # Rule 2: Non-negativity
+        if all_have_returns and self._all_nonneg(fibers):
+            pred = "result >= 0"
+            if pred not in existing_set:
+                synthesized.append(pred)
+
+        # Rule 5: Common ensures across all fibers
+        if len(fibers) >= 2:
+            common = self._common_fiber_ensures(fibers)
+            for e in common:
+                if e not in existing_set:
+                    synthesized.append(e)
+
+        return synthesized
+
+    def _build_conditional_expr(self, fibers: List[FiberClause]) -> Optional[str]:
+        """Build a conditional expression from fiber guards + returns.
+
+        Produces: "expr₁ if guard₁ else expr₂ if guard₂ else expr₃"
+        """
+        parts: List[str] = []
+        for i, f in enumerate(fibers):
+            if not f.returns_expr:
+                return None
+            if i < len(fibers) - 1:
+                parts.append(f"{f.returns_expr} if {f.guard}")
+            else:
+                parts.append(f.returns_expr)
+        if not parts:
+            return None
+        result = " else ".join(parts)
+        if len(result) > 300:
+            return None
+        return result
+
+    def _all_nonneg(self, fibers: List[FiberClause]) -> bool:
+        """Check if all fiber returns are provably non-negative."""
+        for f in fibers:
+            if not f.returns_expr:
+                return False
+            if not self._is_nonneg_expr(f.returns_expr, f.guard):
+                return False
+        return True
+
+    def _is_nonneg_expr(self, expr: str, guard: str) -> bool:
+        """Heuristic: is this expression non-negative under the guard?"""
+        e = expr.strip()
+        # Literal non-negative numbers
+        try:
+            val = float(e)
+            return val >= 0
+        except (ValueError, OverflowError):
+            pass
+        # abs(...)
+        if e.startswith("abs("):
+            return True
+        # len(...)
+        if e.startswith("len("):
+            return True
+        # Simple variable under guard that implies var >= 0
+        if re.match(r'^[a-zA-Z_]\w*$', e):
+            if re.search(rf'\b{re.escape(e)}\s*>=?\s*0', guard):
+                return True
+        # -var: non-negative when var <= 0
+        if e.startswith("-") and re.match(r'^[a-zA-Z_]\w*$', e[1:].strip()):
+            inner = e[1:].strip()
+            # Explicit: "inner < 0" or "inner <= 0"
+            if re.search(rf'\b{re.escape(inner)}\s*<=?\s*0', guard):
+                return True
+            if re.search(rf'\b{re.escape(inner)}\s*<\s*0', guard):
+                return True
+            # Negated form: "not (inner >= 0)" means inner < 0
+            if re.search(rf'not\s*\(\s*{re.escape(inner)}\s*>=\s*0\s*\)', guard):
+                return True
+            # Negated form: "not (inner > 0)" means inner <= 0
+            if re.search(rf'not\s*\(\s*{re.escape(inner)}\s*>\s*0\s*\)', guard):
+                return True
+        return False
+
+    def _common_fiber_ensures(self, fibers: List[FiberClause]) -> List[str]:
+        """Find ensures predicates common to ALL fibers."""
+        if not fibers:
+            return []
+        common: Optional[Set[str]] = None
+        for f in fibers:
+            s = set(f.ensures)
+            if common is None:
+                common = s
+            else:
+                common = common & s
+        return sorted(common) if common else []
 
     # ── Rule 6: Single return expression ─────────────────────────
 
