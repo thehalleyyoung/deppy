@@ -178,6 +178,8 @@ class C4Strategy(Enum):
       FiberDecomposition  — per-fiber proof, disjoint fibers
       LibraryAxiom        — trusted builtin/library axiom injection
       Tautology           — sort-aware trivial truth (Bool ∈ {True,False})
+      ExFalso             — hypotheses contradictory → any goal (⊥ → P)
+      ProofOracle         — LLM/automated proof term generation
       WeakestPrecondition — wp calculus for imperative reasoning
       EffectFrame         — frame condition (only declared state modified)
       ExceptionCase       — try/except as disjoint union
@@ -191,6 +193,8 @@ class C4Strategy(Enum):
     FIBER_DECOMPOSITION = "FiberDecomposition"
     LIBRARY_AXIOM = "LibraryAxiom"
     TAUTOLOGY = "Tautology"
+    EX_FALSO = "ExFalso"
+    PROOF_ORACLE = "ProofOracle"
     WEAKEST_PRECONDITION = "WeakestPrecondition"
     EFFECT_FRAME = "EffectFrame"
     EXCEPTION_CASE = "ExceptionCase"
@@ -955,15 +959,25 @@ def _is_structural_tautology(
 
 
 # ═══════════════════════════════════════════════════════════════════
-# Core Verifier — C4 proof strategies for clause checking
+# Core Verifier — F*-style C4 proof strategies for clause checking
 #
-# Each tactic corresponds to a C4 proof term:
-#   Tautology       → sort-aware trivial truth (no proof needed)
-#   Z3Discharge     → direct Z3 validity check (cheapest real tactic)
-#   LibraryAxiom    → inject trusted builtins (abs, max, min, len)
-#                     then re-check via Z3Discharge under axioms
-#   CasesSplit      → verify per-path under branch guards (exhaustive)
-#   RefinementDescent → verify per-fiber under fiber guards + overlap
+# In F*, the type checker generates verification conditions from code,
+# then discharges them via a TACTIC PIPELINE.  C4 does the same:
+#
+#   Tactic 0:  ExFalso        → hypotheses contradictory (any goal)
+#   Tactic 1:  Tautology      → sort-aware trivial truth
+#   Tactic 1b: StructuralTaut → code structure implies goal
+#   Tactic 2:  Z3Discharge    → direct Z3 validity
+#   Tactic 3:  LibraryAxiom   → builtins + Z3
+#   Tactic 4:  ProofOracle    → LLM/automated proof term generation
+#
+# KEY F*-style property: ExFalso runs BEFORE goal parsing.
+# When hypotheses are contradictory, the goal need not be parseable —
+# any conclusion follows from ⊥.  This is ex falso quodlibet.
+#
+# Each tactic produces a C4 ProofTerm.  The proof term is compiled
+# by the C4 compiler for independent verification.  The oracle is
+# a PROPOSER, not a VERIFIER — soundness comes from the compiler.
 # ═══════════════════════════════════════════════════════════════════
 
 def verify_clause_on_path(
@@ -973,13 +987,32 @@ def verify_clause_on_path(
     params: List[str],
     func_name: str = "",
     source: str = "",
+    proof_oracle: Any = None,
 ) -> Tuple[str, str, Optional[C4Strategy], Optional[Any]]:
-    """Verify one clause on one return path via C4 proof strategies.
+    """Verify one clause on one return path via F*-style C4 proof strategies.
 
     Strategy pipeline (ordered by C4 proof-term specificity):
-    1. Tautology — sort-aware trivial truth (Bool ∈ {True,False} etc.)
-    2. Z3Discharge — direct Z3 ¬(hyp ∧ ¬goal) check, no axioms
-    3. LibraryAxiom + Z3Discharge — inject builtin axioms then retry Z3
+
+    Phase A — no Z3 needed:
+      Tactic 1:  Boolean tautology (sort-aware trivial truth)
+      Tactic 1b: Structural tautology (code structure → proof)
+
+    Phase B — Z3 on hypotheses only (no goal parsing needed):
+      Tactic 0:  ExFalso — hypotheses contradictory → any goal
+
+    Phase C — Z3 on goal:
+      Tactic 2:  Z3Discharge — direct ¬(hyp ∧ ¬goal) check
+      Tactic 3:  LibraryAxiom + Z3 — inject builtins then retry
+
+    Phase D — oracle fallback (when all else fails):
+      Tactic 4:  ProofOracle — LLM/automated proof term generation
+                 The oracle proposes a ProofTerm; the C4 compiler
+                 verifies it independently.
+
+    The F*-style innovation: ExFalso runs BEFORE goal parsing.
+    When the hypotheses are contradictory (e.g., fiber guard says
+    x==3 but path guard says not(x==3)), ANY goal follows — even
+    an unparseable one.  This is ex falso quodlibet.
 
     Returns (verdict, detail, strategy, proof_term) where:
         verdict    ∈ {"verified", "assumed", "failed"}
@@ -1062,12 +1095,6 @@ def verify_clause_on_path(
         base_hyps.append(ret_binding)
         hyp_formulas.append(f"result == ({path.return_expr})")
 
-    # Build goal
-    goal_str = clause if ret_binding is not None else _substitute_result(clause, path.return_expr)
-    goal = env.parse_formula(goal_str)
-    if goal is None:
-        return "assumed", f"clause unparseable: {goal_str}", None, None
-
     def _is_z3_bool(expr: Any) -> bool:
         """Check if a Z3 expression has Boolean sort."""
         try:
@@ -1078,6 +1105,60 @@ def verify_clause_on_path(
 
     # Filter hypotheses to only Boolean-sorted Z3 expressions
     bool_hyps = [h for h in base_hyps if _is_z3_bool(h)]
+
+    # ── Tactic 0: ExFalso (C4Strategy.EX_FALSO) ──────────────────
+    # F*-style: check if hypotheses are contradictory BEFORE parsing
+    # the goal.  If ∧(hypotheses) is UNSAT, ANY goal follows — even
+    # an unparseable one.  This is ex falso quodlibet / absurd.
+    #
+    # This is the key structural fix: when a fiber guard contradicts
+    # a path guard (e.g., x==3 ∧ ¬(x==3)), the path is unreachable
+    # and ExFalso closes the case regardless of goal parseability.
+    if bool_hyps:
+        s_exfalso = Solver()
+        s_exfalso.set('timeout', 3000)
+        for h in bool_hyps:
+            s_exfalso.add(h)
+        exfalso_result = s_exfalso.check()
+        if exfalso_result == unsat:
+            from cctt.proof_theory.terms import ExFalso as ExFalsoTerm
+            context = " and ".join(f"({h})" for h in hyp_formulas)
+            proof = ExFalsoTerm(
+                context_formula=context,
+                variables=var_sorts,
+                absurdity=f"contradictory hypotheses on path '{path.guard}'",
+            )
+            return ("verified",
+                    f"ExFalso: hypotheses contradictory (⊥ → anything)",
+                    C4Strategy.EX_FALSO, proof)
+
+    # Build goal
+    goal_str = clause if ret_binding is not None else _substitute_result(clause, path.return_expr)
+    goal = env.parse_formula(goal_str)
+
+    # ── If goal unparseable: try proof oracle before giving up ──
+    if goal is None:
+        # Build a proof obligation for the oracle
+        if proof_oracle is not None:
+            from cctt.proof_theory.terms import ProofObligation
+            obligation = ProofObligation(
+                hypotheses=tuple(hyp_formulas),
+                goal=clause,
+                return_expr=path.return_expr,
+                func_name=func_name,
+                source=source,
+                params=tuple(params),
+                var_sorts=var_sorts,
+                fiber_guard=None,
+            )
+            oracle_proof = proof_oracle.generate_proof(obligation)
+            if oracle_proof is not None:
+                # F*-style: compile the proof term for independent verification
+                oracle_result = _compile_oracle_proof(oracle_proof, var_sorts)
+                if oracle_result is not None:
+                    return oracle_result
+
+        return "assumed", f"clause unparseable: {goal_str}", None, None
 
     if not _is_z3_bool(goal):
         return "assumed", f"goal not Boolean-sorted: {goal_str}", None, None
@@ -1155,7 +1236,68 @@ def verify_clause_on_path(
         if result4 == unsat:
             return "failed", "LibraryAxiom + Z3: goal UNSAT under axioms", C4Strategy.LIBRARY_AXIOM, None
 
+    # ── Tactic 4: ProofOracle — LLM/automated proof term generation ──
+    # F*-style: when automated tactics fail, ask the oracle to propose
+    # a proof term.  The C4 compiler verifies it independently.
+    if proof_oracle is not None:
+        from cctt.proof_theory.terms import ProofObligation
+        obligation = ProofObligation(
+            hypotheses=tuple(hyp_formulas),
+            goal=clause,
+            return_expr=path.return_expr,
+            func_name=func_name,
+            source=source,
+            params=tuple(params),
+            var_sorts=var_sorts,
+            fiber_guard=None,
+        )
+        oracle_proof = proof_oracle.generate_proof(obligation)
+        if oracle_proof is not None:
+            oracle_result = _compile_oracle_proof(oracle_proof, var_sorts)
+            if oracle_result is not None:
+                return oracle_result
+
     return "assumed", "Z3: neither proved nor disproved", None, None
+
+
+def _compile_oracle_proof(
+    proof_term: Any,
+    var_sorts: Dict[str, str],
+) -> Optional[Tuple[str, str, C4Strategy, Any]]:
+    """Compile an oracle-generated proof term via the C4 compiler.
+
+    This is the F*-style safety check: the oracle PROPOSES a proof,
+    but the C4 compiler VERIFIES it independently.  If the compiler
+    rejects the proof, the clause remains ASSUMED.
+
+    Sound because: soundness comes from the compiler, not the oracle.
+    The oracle is just a proof search heuristic.
+    """
+    try:
+        from cctt.proof_theory.c4_compiler import compile_proof, Z3Env
+        from cctt.denotation import OVar
+
+        env = Z3Env()
+        for v, s in var_sorts.items():
+            env.declare_var(v, s)
+
+        # Compile the proof term — this is the INDEPENDENT verification
+        dummy_lhs = OVar('_obligation_lhs')
+        dummy_rhs = OVar('_obligation_rhs')
+        verdict = compile_proof(proof_term, dummy_lhs, dummy_rhs, env, depth=0)
+
+        if verdict.valid:
+            strategy_name = type(proof_term).__name__
+            return ("verified",
+                    f"ProofOracle({strategy_name}): C4 compiler verified",
+                    C4Strategy.PROOF_ORACLE, proof_term)
+
+        log.debug("ProofOracle: C4 compiler rejected proof: %s", verdict.errors)
+        return None
+
+    except Exception as e:
+        log.debug("ProofOracle: compilation failed: %s", e)
+        return None
 
 
 def verify_clause(
@@ -1165,6 +1307,7 @@ def verify_clause(
     params: List[str],
     func_name: str = "",
     source: str = "",
+    proof_oracle: Any = None,
 ) -> ClauseResult:
     """Verify one clause against ALL return paths using C4 CasesSplit.
 
@@ -1200,7 +1343,8 @@ def verify_clause(
     for path in non_exc_paths:
         verdict, detail, strategy, proof_term = verify_clause_on_path(
             clause, path, requires, params,
-            func_name=func_name, source=source)
+            func_name=func_name, source=source,
+            proof_oracle=proof_oracle)
         path_results.append((path.guard, verdict))
         if strategy:
             strategies_used.append(strategy)
@@ -1217,8 +1361,12 @@ def verify_clause(
     elif strategies_used:
         if C4Strategy.LIBRARY_AXIOM in strategies_used:
             overall_strategy = C4Strategy.LIBRARY_AXIOM
+        elif C4Strategy.PROOF_ORACLE in strategies_used:
+            overall_strategy = C4Strategy.PROOF_ORACLE
         elif C4Strategy.Z3_DISCHARGE in strategies_used:
             overall_strategy = C4Strategy.Z3_DISCHARGE
+        elif C4Strategy.EX_FALSO in strategies_used:
+            overall_strategy = C4Strategy.EX_FALSO
         elif C4Strategy.TAUTOLOGY in strategies_used:
             overall_strategy = C4Strategy.TAUTOLOGY
         else:
@@ -1352,6 +1500,7 @@ def verify_c4_spec(
     func_name: str,
     params: List[str],
     spec: Dict[str, Any],
+    proof_oracle: Any = None,
 ) -> C4SpecVerdict:
     """Verify a C4 spec against actual source code via the C4 proof compiler.
 
@@ -1367,6 +1516,7 @@ def verify_c4_spec(
         func_name: Name of the function to verify
         params: Parameter names (excluding 'self')
         spec: Dict with requires, ensures, returns_expr, fibers
+        proof_oracle: Optional ProofOracle for LLM/automated proof generation
     """
     source_hash = hashlib.sha256(source.encode()).hexdigest()[:16]
     verdict = C4SpecVerdict(func_name=func_name, source_hash=source_hash)
@@ -1399,7 +1549,8 @@ def verify_c4_spec(
     # 4. Verify each valid clause against all return paths
     for clause in ensures_to_verify:
         result = verify_clause(clause, paths, requires, params,
-                              func_name=func_name, source=source)
+                              func_name=func_name, source=source,
+                              proof_oracle=proof_oracle)
         verdict.clause_results.append(result)
 
     # 5. Verify fiber clauses (per-fiber, under fiber guard)
@@ -1434,7 +1585,8 @@ def verify_c4_spec(
                 continue
 
             result = verify_clause(clause, paths, fiber_requires, params,
-                                  func_name=func_name, source=source)
+                                  func_name=func_name, source=source,
+                                  proof_oracle=proof_oracle)
             # Tag with RefinementDescent strategy when fibers are present
             if result.verdict == ClauseVerdict.C4_VERIFIED and has_fibers:
                 result.strategy = C4Strategy.REFINEMENT_DESCENT

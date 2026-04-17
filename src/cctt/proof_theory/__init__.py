@@ -59,6 +59,7 @@ from cctt.proof_theory.terms import (
     FiberRestrict, Descent, PathCompose, MathLibAxiom, FiberwiseUnivalence,
     RefinementDescent,
     Transport, HComp, GluePath, LibraryTransport,
+    ExFalso, ProofObligation,
 )
 
 from cctt.proof_theory.checker import (
@@ -178,6 +179,7 @@ __all__ = [
     'FiberRestrict', 'Descent', 'PathCompose', 'MathLibAxiom', 'FiberwiseUnivalence',
     'RefinementDescent',
     'Transport', 'HComp', 'GluePath', 'LibraryTransport',
+    'ExFalso', 'ProofObligation',
     # Checker
     'check_proof', 'VerificationResult', 'ProofContext',
     # Extraction

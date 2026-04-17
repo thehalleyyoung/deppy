@@ -73,6 +73,7 @@ from cctt.proof_theory.terms import (
     Transport, HComp, GluePath, LibraryTransport,
     WeakestPrecondition, EffectFrame, ExceptionCase,
     Normalize, DependentMatch, LemmaApp, Unfold, Assert,
+    ExFalso,
     normalize_term,
 )
 from cctt.proof_theory.library_axioms import (
@@ -971,6 +972,11 @@ def _dispatch_compile(
 
     if isinstance(proof, Assert):
         return _compile_assert(proof, lhs, rhs, env, depth)
+
+    # ── Group 10: Ex falso (contradiction) ──
+
+    if isinstance(proof, ExFalso):
+        return _compile_ex_falso(proof, lhs, rhs, env)
 
     # Fallthrough: unknown proof term type
     return C4Verdict(
@@ -2476,6 +2482,88 @@ def _compile_assert(
 
     valid = v_assert.valid and v_cont.valid
     return C4Verdict(valid=valid, trust=trust, vcs=vcs, errors=errors)
+
+
+# ─────────────────────────────────────────────────────────────────
+# Group 10: Ex falso (contradiction)
+# ─────────────────────────────────────────────────────────────────
+
+def _compile_ex_falso(
+    proof: ExFalso, lhs: OTerm, rhs: OTerm, env: Z3Env,
+) -> C4Verdict:
+    """ExFalso: from contradictory hypotheses, any goal follows.
+
+    Verification: check that ``context_formula`` is UNSAT in Z3.
+    If the hypotheses are genuinely contradictory, any conclusion
+    is vacuously true.  This is the cubical analogue of transport
+    along the path ⊥ → A (which exists for all A).
+
+    Sound because:  ⊥ → P  is a tautology for any P.
+    The compiler verifies ⊥ (the hypothesis contradiction) via Z3,
+    so this is Z3-kernel-checked, not rubber-stamped.
+    """
+    if not _HAS_Z3:
+        return C4Verdict(
+            valid=False,
+            trust=TrustProvenance.kernel(),
+            vcs=[],
+            errors=['ExFalso: Z3 not available for contradiction check'],
+        )
+
+    # Build a local Z3 environment with the proof's variable sorts
+    local_env = Z3Env()
+    for var_name, var_sort in proof.variables.items():
+        local_env.declare_var(var_name, var_sort)
+
+    # Parse the context formula (conjunction of hypotheses)
+    formula = local_env.parse_formula(proof.context_formula)
+    if formula is None:
+        return C4Verdict(
+            valid=False,
+            trust=TrustProvenance.kernel(),
+            vcs=[VC(
+                rule='ExFalso',
+                description='context formula unparseable',
+                formula=proof.context_formula,
+                status=VCStatus.FAILED,
+            )],
+            errors=[f'ExFalso: cannot parse context formula: {proof.context_formula}'],
+        )
+
+    # Check UNSAT — the core soundness check
+    s = Solver()
+    s.set('timeout', 5000)
+    s.add(formula)
+    result = s.check()
+
+    if result == unsat:
+        vc = VC(
+            rule='ExFalso',
+            description=proof.absurdity or 'hypotheses contradictory',
+            formula=proof.context_formula,
+            status=VCStatus.VERIFIED,
+            detail='Z3 confirmed UNSAT: any goal follows from ⊥',
+        )
+        return C4Verdict(
+            valid=True,
+            trust=TrustProvenance.z3(),
+            vcs=[vc],
+        )
+
+    # Hypotheses are satisfiable — NOT a valid ExFalso
+    return C4Verdict(
+        valid=False,
+        trust=TrustProvenance.kernel(),
+        vcs=[VC(
+            rule='ExFalso',
+            description='hypotheses NOT contradictory',
+            formula=proof.context_formula,
+            status=VCStatus.FAILED,
+            detail=f'Z3 result: {result} (expected unsat)',
+        )],
+        errors=['ExFalso: hypotheses are satisfiable — not a genuine contradiction'],
+    )
+
 #
 # The following modules exploit the genuine interaction between
 # the cubical proof structure and the cohomological decomposition.

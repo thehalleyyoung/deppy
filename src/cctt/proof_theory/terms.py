@@ -1346,6 +1346,71 @@ class Assert(ProofTerm):
         return '\n'.join(parts)
 
 
+# ═══════════════════════════════════════════════════════════════════
+# Ex falso quodlibet — from ⊥, derive anything
+# ═══════════════════════════════════════════════════════════════════
+
+@dataclass(frozen=True)
+class ExFalso(ProofTerm):
+    """Ex falso quodlibet — from contradictory hypotheses, derive anything.
+
+    In cubical type theory: a path from ⊥ transports to any type.
+    In F*: ``match (proof_of_false : squash False) with`` has any return type.
+    In classical logic: ⊥ → P  for any P.
+
+    The compiler verifies this by checking that ``context_formula`` is
+    UNSAT in Z3 — i.e., the conjunction of hypotheses in the current
+    proof context is contradictory.  If Z3 confirms UNSAT, the proof
+    is valid for ANY goal (the goal need not even be parseable).
+
+    This is the fundamental proof term for handling contradictory
+    branches: when a fiber guard contradicts a path guard, the path
+    is unreachable and ExFalso closes the case.
+
+    Context fields carry enough information for the C4 compiler to
+    re-verify the contradiction independently.
+    """
+    context_formula: str             # ∧-conjunction of contradictory hypotheses
+    variables: Dict[str, str]        # variable → Z3 sort (Int, Bool, Real)
+    absurdity: str = ""              # human-readable explanation
+
+    def pretty(self, indent: int = 0) -> str:
+        pad = '  ' * indent
+        desc = self.absurdity or self.context_formula
+        return f'{pad}ex_falso({desc})'
+
+
+# ═══════════════════════════════════════════════════════════════════
+# F*-style proof obligation — code-connected verification request
+# ═══════════════════════════════════════════════════════════════════
+
+@dataclass(frozen=True)
+class ProofObligation:
+    """A code-connected proof obligation in the F* sense.
+
+    In F*, the type checker generates verification conditions (VCs)
+    from the code's refinement types.  Each VC is a logical formula
+    that must hold for the code to be type-safe.
+
+    A ProofObligation captures the same concept for C4:
+    - hypotheses: preconditions + branch guards + result binding
+    - goal: the postcondition clause to verify
+    - code context: the actual source code, function name, variables
+
+    The proof oracle (LLM or automated) generates a ProofTerm that
+    witnesses this obligation.  The C4 compiler then verifies the
+    proof term independently.
+    """
+    hypotheses: Tuple[str, ...]     # requires + path guard + result binding
+    goal: str                       # the clause to prove
+    return_expr: str                # the actual return expression
+    func_name: str                  # function being verified
+    source: str                     # source code context
+    params: Tuple[str, ...]         # parameter names
+    var_sorts: Dict[str, str]       # variable → sort
+    fiber_guard: Optional[str] = None  # if this is a fiber clause
+
+
 def subst_in_term(term: OTerm, var: str, replacement: OTerm) -> OTerm:
     """Substitute ``replacement`` for ``var`` in ``term``."""
     if isinstance(term, OVar):
