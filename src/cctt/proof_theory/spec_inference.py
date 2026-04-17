@@ -438,7 +438,7 @@ class StaticSpecAnalyzer:
         body = fn.body
         # Skip docstring
         start = 0
-        if body and isinstance(body[0], ast.Expr) and isinstance(body[0].value, (ast.Constant, ast.Str)):
+        if body and isinstance(body[0], ast.Expr) and isinstance(body[0].value, (ast.Constant,)):
             start = 1
 
         for i, stmt in enumerate(body[start:], start):
@@ -472,7 +472,7 @@ class StaticSpecAnalyzer:
         body = fn.body
         # Skip docstring
         start = 0
-        if body and isinstance(body[0], ast.Expr) and isinstance(body[0].value, (ast.Constant, ast.Str)):
+        if body and isinstance(body[0], ast.Expr) and isinstance(body[0].value, (ast.Constant,)):
             start = 1
 
         for stmt in body[start:]:
@@ -755,7 +755,7 @@ class StaticSpecAnalyzer:
         requires = []
         body = fn.body
         start = 0
-        if body and isinstance(body[0], ast.Expr) and isinstance(body[0].value, (ast.Constant, ast.Str)):
+        if body and isinstance(body[0], ast.Expr) and isinstance(body[0].value, (ast.Constant,)):
             start = 1
 
         for stmt in body[start:start + 5]:  # only first 5 stmts
