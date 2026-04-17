@@ -131,6 +131,13 @@ class C4Spec:
       - `requires` become the refinement predicate on the input type
       - `returns_expr` is the strongest spec: Path(f(x), returns_expr)
       - Invariants become InvariantSpec objects for descent proofs
+
+    EFFECT-AWARE SPECS:
+      For impure functions, the spec becomes a state contract:
+        effects     — FunctionEffect describing what the function does to state
+        state_contract — pre/post state spec with modifies/old() bindings
+      Pure functions have effects=None (equational reasoning is valid).
+      Impure functions need pre/post state reasoning (like Dafny/F*).
     """
     requires: List[str] = field(default_factory=list)
     ensures: List[str] = field(default_factory=list)
@@ -140,6 +147,9 @@ class C4Spec:
     purity: Optional[bool] = None
     source: SpecSource = SpecSource.TRIVIAL
     strength: SpecStrength = SpecStrength.TRIVIAL
+    # Effect model — what does this function DO to state?
+    effects: Optional[Any] = None        # FunctionEffect (avoid circular import at type level)
+    state_contract: Optional[Any] = None  # StateContract (pre/post state specs)
 
     def classify_strength(self) -> SpecStrength:
         """Compute strength from content.
@@ -215,11 +225,23 @@ class C4Spec:
             d["invariants"] = self.invariants
         if self.purity is not None:
             d["pure"] = self.purity
+        if self.effects is not None:
+            d["effects"] = self.effects.to_json()
+        if self.state_contract is not None:
+            d["state_contract"] = self.state_contract.to_json()
         return d
 
     @staticmethod
     def from_json(d: Dict[str, Any]) -> C4Spec:
         src = d.get("source", "trivial")
+        effects = None
+        state_contract = None
+        if "effects" in d:
+            from cctt.proof_theory.effect_model import FunctionEffect
+            effects = FunctionEffect.from_json(d["effects"])
+        if "state_contract" in d:
+            from cctt.proof_theory.effect_model import StateContract
+            state_contract = StateContract.from_json(d["state_contract"])
         return C4Spec(
             requires=d.get("requires", []),
             ensures=d.get("ensures", []),
@@ -228,6 +250,8 @@ class C4Spec:
             invariants=d.get("invariants", []),
             purity=d.get("pure"),
             source=SpecSource(src) if src in [e.value for e in SpecSource] else SpecSource.TRIVIAL,
+            effects=effects,
+            state_contract=state_contract,
         )
 
 
@@ -316,8 +340,28 @@ class StaticSpecAnalyzer:
         attr_requires = self._extract_attr_requires(fn_node, actual_params)
         requires.extend(attr_requires)
 
-        # 10. Purity detection
+        # 10. Purity detection (legacy — now superseded by effect analysis)
         purity = self._detect_purity(fn_node)
+
+        # 10b. Full effect analysis — Python-specific mutation/IO/nondeterminism
+        from cctt.proof_theory.effect_model import (
+            EffectAnalyzer, FunctionEffect, StateContract,
+            synthesize_state_contract,
+        )
+        effect_analyzer = EffectAnalyzer()
+        effects = effect_analyzer.analyze_node(fn_node)
+        state_contract = synthesize_state_contract(effects, name, actual_params)
+
+        # Override purity from effect analysis (more precise)
+        purity = effects.is_pure
+
+        # Merge state contract pre/post into requires/ensures
+        for pre in state_contract.pre_requires:
+            if pre not in requires:
+                requires.append(pre)
+        for post in state_contract.post_ensures:
+            if post not in ensures:
+                ensures.append(post)
 
         # 11. Synthesize global postconditions from fiber analysis
         fiber_ensures = self._synthesize_global_postconditions(fibers, ensures)
@@ -334,6 +378,8 @@ class StaticSpecAnalyzer:
             fibers=fibers,
             purity=purity,
             source=SpecSource.STATIC,
+            effects=effects if not effects.is_pure else None,
+            state_contract=state_contract if not state_contract.is_trivial else None,
         )
         spec.strength = spec.classify_strength()
         return spec

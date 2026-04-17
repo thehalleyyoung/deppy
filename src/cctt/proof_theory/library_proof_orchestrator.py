@@ -76,6 +76,14 @@ from cctt.proof_theory.c4_compiler import (
     RefinementFiber as C4RefinementFiber,
     RefinementCover as C4RefinementCover,
 )
+from cctt.proof_theory.spec_registry import (
+    SpecRegistry, ProvenSpec, SpecRef, ProofStatus,
+    CallObligation, extract_call_obligations, check_all_obligations,
+    compute_proof_order,
+)
+from cctt.proof_theory.spec_oracle import (
+    SpecOracle, TemplateOracle, MockLLMOracle, upgrade_spec,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -714,6 +722,7 @@ class VerifiedAnnotation:
     c4_verdict_summary: Optional[Dict[str, Any]] = None  # C4 compiler verdict (VCs, binding, trust)
     source_text: Optional[str] = None               # original source (for compile_annotation binding check)
     param_names: Optional[List[str]] = None          # param names (for compile_annotation binding check)
+    trust_refs: Optional[List[Dict[str, Any]]] = None  # structured SpecRef trust (replaces bare strings)
 
     def trust_level(self) -> str:
         """Coarsest TrustLevel string derived from the trust ref list."""
@@ -742,6 +751,8 @@ class VerifiedAnnotation:
             d["formal_spec"] = self.formal_spec
         if self.c4_verdict_summary:
             d["c4_verdict"] = self.c4_verdict_summary
+        if self.trust_refs:
+            d["trust_refs"] = self.trust_refs
         return d
 
     @staticmethod
@@ -771,6 +782,7 @@ class VerifiedAnnotation:
             c4_verdict_summary=d.get("c4_verdict"),
             source_text=d.get("source_text"),
             param_names=d.get("param_names"),
+            trust_refs=d.get("trust_refs"),
         )
 
 
@@ -2190,6 +2202,19 @@ def baseline_prove(defn: Definition, library_name: str) -> ProofResult:
         params=[p for p in defn.params if p != 'self'][:5],
         docstring=defn.docstring,
     )
+
+    # ── Oracle upgrade: if static spec is insufficient, try template/LLM oracle ──
+    if not c4_spec.is_formal:
+        oracle = TemplateOracle()
+        c4_spec = upgrade_spec(
+            source=defn.source,
+            name=defn.name,
+            params=[p for p in defn.params if p != 'self'][:5],
+            static_spec=c4_spec,
+            oracle=oracle,
+            qualname=defn.qualname,
+            docstring=defn.docstring,
+        )
     # Build the NL guarantee as a human-readable summary of the formal spec
     guarantee = _guarantee_from_c4_spec(c4_spec, defn)
     input_type = _infer_input_type(defn)
@@ -2467,6 +2492,7 @@ def _make_annotation(
     h1: int = 0,
     c4_spec: Optional[C4Spec] = None,
     c4_verdict_summary: Optional[Dict[str, Any]] = None,
+    registry: Optional[SpecRegistry] = None,
 ) -> VerifiedAnnotation:
     # Enforce no circular trust — refs from the library being proved are forbidden
     ok, bad = _validate_no_circular(trust_refs, library_name)
@@ -2483,6 +2509,13 @@ def _make_annotation(
         spec_source = c4_spec.source.value
         formal_spec_json = c4_spec.to_json()
     params = [p for p in defn.params if p != 'self']
+
+    # Resolve trust refs to structured SpecRefs (if registry available)
+    structured_trust_refs = None
+    if registry is not None:
+        resolved = registry.resolve_trust_refs(trust_refs)
+        structured_trust_refs = [r.to_json() for r in resolved]
+
     return VerifiedAnnotation(
         symbol=defn.qualname, kind=defn.kind.value,
         source_hash=src_hash,
@@ -2498,6 +2531,7 @@ def _make_annotation(
         c4_verdict_summary=c4_verdict_summary,
         source_text=defn.source,
         param_names=params if params else None,
+        trust_refs=structured_trust_refs,
     )
 
 
